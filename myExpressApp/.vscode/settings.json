@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/5f572418-180d-4e67-959c-40b4b248e182/location/centralus/subscriptions/5f572418-180d-4e67-959c-40b4b248e182/resourceGroups/appsvc_linux_centralus/providers/Microsoft.Web/sites/myfirstexpressappazure",
+    "appService.deploySubpath": "."
+}
