@@ -161,7 +161,7 @@ app.post('/createRecipe', async (req, res) => {
             if (recipeFound[0].length===0) {
 
                 // Add the recipe details to the recipes table
-                db.promise().query(`INSERT INTO RECIPES (userID, name, recRef, scrambledRef, vegetarian, vegan, kosher, halal, serving, time, difficulty, reports, steps, summary) VALUES ('${userID}', '${name}', '<a href=${recRef}>Ratatouille reference</a>', '""', '${vegetarian}', '${vegan}', '${kosher}', '${halal}', '${serving}', '${time}', '${difficulty}', 0, '${steps}', '${summary}')`);
+                db.promise().query(`INSERT INTO RECIPES (userID, name, recRef, scrambledRef, vegetarian, vegan, kosher, halal, serving, time, difficulty, reports, steps, summary) VALUES ('${userID}', '${name}', '<a href=${recRef}>${name} reference</a>', '', '${vegetarian}', '${vegan}', '${kosher}', '${halal}', '${serving}', '${time}', '${difficulty}', 0, '${steps}', '${summary}')`);
                 console.log('Added recipe details');
 
                 // Add to recipe_ingredient_quantity
@@ -227,7 +227,6 @@ app.post('/createRecipe', async (req, res) => {
 // FETCH RECIPE SUMMARIES FROM FILTERS
 
 // FETCH RECIPE SUMARIES FROM ACCOUNT
-
 app.get('/:account', async (req, res) => {
 
     // Find email, username and password from queries - won't be needed once userID is saved from log in
@@ -247,8 +246,8 @@ app.get('/:account', async (req, res) => {
         userID = userID[0].map( elm => elm.userID )[0];
         console.log(userID);
 
-        // Find all recipe details with userID
-        let recipes = await db.promise().query(`SELECT name, vegetarian, vegan, kosher, halal, serving, time, difficulty, summary FROM RECIPES WHERE userID='${userID}'`);
+        // Find all recipe details with userID - included recID - wouldn't be displayed but can be used to fetch complete recipe details
+        let recipes = await db.promise().query(`SELECT recID, name, vegetarian, vegan, kosher, halal, serving, time, difficulty, summary FROM RECIPES WHERE userID='${userID}'`);
         
         // Extract recipe details as an array - each recipe record is a separate array item - each recipe value can be separately extracted as with userID
         recipes=recipes[0];
@@ -258,19 +257,40 @@ app.get('/:account', async (req, res) => {
     catch (err) {
         console.log(err);
     }
-
-
-
-    
-    // const user = await db.promise().query(`SELECT userID FROM USERS WHERE email='${email}' AND username='${username}' AND password='${password}'`);
-    // const userID = user[0].map( elm => elm.userID )[0];
-    // console.log(userID);
-    // res.status(200).send(`'${userID}'`);
 });
 
-// FETCH ACCOUNT'S RECIPES
+// FETCH COMPLETE RECIPE DETAILS FROM RECID
+app.get('/recipes/:recipe', async (req, res) => {
 
-// FETCH FULL RECIPE
+    // Use recipe name passed as param to find recID for purposes of development
+    // In reality, would use recID from summary data - name too imprecise
+    let recipe = req.params.recipe;
+    console.log(recipe);
+
+    try {
+
+        // Find recID - would be saved from summary data in real version
+
+        // recID array extracted from db
+        let recID = await db.promise().query(`SELECT recID FROM RECIPES WHERE name='${recipe}'`);
+        console.log(recID);
+
+        // extract integer for recID from recID array
+        recID = recID[0].map( elm => elm.recID )[0];
+        console.log(recID);
+
+        // Find complete recipe details with recID
+        let recipeDetails = await db.promise().query(`SELECT * FROM RECIPES WHERE recID='${recID}'`);
+        
+        // Extract recipe details as an array - each recipe value can be separately extracted as with userID
+        recipeDetails=recipeDetails[0];
+        console.log(recipeDetails);
+        res.status(200).send(recipeDetails)
+    }
+    catch (err) {
+        console.log(err);
+    }
+});
 
 // FETCH ACCOUNT DETAILS FROM DATABASE
 // app.get('/:account', async (req, res) => {
@@ -351,4 +371,3 @@ app.get('/:logIn', async (req, res) => {
 app.listen(3000, () => {
     console.log('Server is running on Port 3000');
 });
-
