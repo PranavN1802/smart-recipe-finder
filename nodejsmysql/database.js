@@ -7,7 +7,7 @@ var config =
     user: 'adminuser',
     password: 'Z6rocks!',
     database: 'TestMySQL',
-    port: 3306,
+    port: 3301,
     ssl: {ca: fs.readFileSync("DigiCertGlobalRootCA.crt.pem")}
 };
 
