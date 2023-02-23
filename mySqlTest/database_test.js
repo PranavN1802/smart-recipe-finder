@@ -226,6 +226,48 @@ app.post('/createRecipe', async (req, res) => {
 
 // FETCH RECIPE SUMMARIES FROM FILTERS
 
+// FETCH RECIPE SUMARIES FROM ACCOUNT
+
+app.get('/:account', async (req, res) => {
+
+    // Find email, username and password from queries - won't be needed once userID is saved from log in
+    let email = req.query.email;
+    let username = req.query.username;
+    let password = req.query.password;
+
+    try {
+
+        // Find userID - would be saved from log in in real version
+
+        // userID array extracted from db
+        let userID = await db.promise().query(`SELECT userID FROM USERS WHERE email='${email}' AND username='${username}' AND password='${password}'`);
+        console.log(userID);
+
+        // extract integer for userID from userID array
+        userID = userID[0].map( elm => elm.userID )[0];
+        console.log(userID);
+
+        // Find all recipe details with userID
+        let recipes = await db.promise().query(`SELECT name, vegetarian, vegan, kosher, halal, serving, time, difficulty, summary FROM RECIPES WHERE userID='${userID}'`);
+        
+        // Extract recipe details as an array - each recipe record is a separate array item - each recipe value can be separately extracted as with userID
+        recipes=recipes[0];
+        console.log(recipes);
+        res.status(200).send(recipes);
+    }
+    catch (err) {
+        console.log(err);
+    }
+
+
+
+    
+    // const user = await db.promise().query(`SELECT userID FROM USERS WHERE email='${email}' AND username='${username}' AND password='${password}'`);
+    // const userID = user[0].map( elm => elm.userID )[0];
+    // console.log(userID);
+    // res.status(200).send(`'${userID}'`);
+});
+
 // FETCH ACCOUNT'S RECIPES
 
 // FETCH FULL RECIPE
