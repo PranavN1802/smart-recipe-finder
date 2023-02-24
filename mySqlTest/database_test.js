@@ -370,12 +370,27 @@ app.post('/:recipe/edit', async (req, res) => {
 
 // DELETE USER
 
+// CHANGE ACCOUNT DETAILS
+
 // TODO: SORT OUT A USER'S RECIPES WHEN ACCOUNT IS DELETED
 app.post('/deleteUser', async (req, res) => {
+
+    // Find userID from query - would be saved somewhere
     let userID = req.query.userID;
 
     try {
+
+        // Delete the record in users with that userID
         db.promise().query(`DELETE FROM USERS WHERE userID=${userID}`);
+        
+        // ONE POSSIBILITY: DELETE ALL OF THE USER'S RECIPES
+        // db.promise().query(`DELETE FROM RECIPE_INGREDIENT_QUANTITY WHERE userID=${userID}`);
+        // db.promise().query(`DELETE FROM RECIPES WHERE userID=${userID}`);
+
+        // ALTERNATIVE: REPLACE userID IN ALL OF THE USER'S RECIPES WITH AN ORPHAN ACCOUNT
+        // orphanUserID = 0; //TODO: CREATE AN ORPHAN ACCOUNT? - 0 AS PLACEHOLDER
+        // db.promise().query(`UPDATE RECIPES SET userID=${orphanUserID} WHERE userID=${userID}`);
+
         res.status(200).send({msg: 'User deleted'});
     }
     catch (err) {
