@@ -77,6 +77,7 @@ app.post('/createRecipe', async (req, res) => {
     let username = req.query.username;
     let password = req.query.password;
     let { name, recRef, vegetarian, vegan, kosher, halal, serving, time, difficulty, ingredients, quantities, steps, summary } = req.body;
+    // name = name.charAt(0).toUpperCase()+name.slice(1);
 
     try {
 
@@ -224,7 +225,99 @@ app.post('/createRecipe', async (req, res) => {
 
 // CREATE SCRAMBLED RECIPE
 
+// EDIT RECIPE
+
+// CHANGE REPORTS
+
+// DELETE RECIPE
+
 // FETCH RECIPE SUMMARIES FROM FILTERS
+app.post('/recipes', async (req, res) => {
+
+    // Extract values from request body
+    let { search, ingredients, vegetarian, vegan, kosher, halal, serving, time, difficulty } = req.body;
+    console.log(search, ingredients, vegetarian, vegan, kosher, halal, serving, time, difficulty);
+
+    // Replace null values with wildcards that will match any value for that attribute in the db
+    // % => any number of characters
+    // _  => 1 character (used for the integer values here)
+    if (search===null) search=["%"];
+    else search = "%"+search+"%";
+
+    // Replace booleans with 1 or 0 for mysql
+    if (vegetarian===null) vegetarian="_";
+    else if (vegetarian===true) vegetarian=1;
+    else if (vegetarian===false) vegetarian=0;
+
+    if (vegan===null) vegan="_";
+    else if (vegan===true) vegan=1;
+    else if (vegan===true) vegan=0;
+
+    if (kosher===null) kosher="_";
+    else if (kosher===true) kosher=1;
+    else if (kosher===true) kosher=0;
+
+    if (halal===null) halal="_";
+    else if (halal===true) halal=1;
+    else if (halal===true) halal=0;
+
+    if (serving===null) serving="_";
+    else if (serving===true) serving=1;
+    else if (serving===true) serving=0;
+
+    if (time===null) time="_";
+    else if (time===true) time=1;
+    else if (time===true) time=0;
+
+    if (difficulty===null) difficulty="_";
+    else if (difficulty===true) difficulty=1;
+    else if (difficulty===true) difficulty=0;
+
+    try {
+
+        // Find summary recipe details with filters - included recID - wouldn't be displayed but can be used to fetch complete recipe details
+        
+        // If ingredients is null, replace it with every ingredient in the ingredients table (any are possible)
+        if (ingredients===null) {
+            ingredients = await db.promise().query(`SELECT name FROM INGREDIENTS`);
+            ingredients = ingredients[0].map( elm => elm.name );
+        }
+
+        console.log(search, ingredients, vegetarian, vegan, kosher, halal, serving, time, difficulty);
+
+        // Use ingredients to find an array of recIDs
+        let recIDs=[];
+
+        for (let k=0; k<ingredients.length; k++) {
+
+            // Find an ingID matching a name containing that ingredient (wildcards)
+            let ingredient = "%"+ingredients[k]+"%";
+            let ingID = await db.promise().query(`SELECT ingID FROM INGREDIENTS WHERE name LIKE '${ingredient}'`);
+            ingID = ingID[0].map( elm => elm.ingID )[0];
+
+            // Find the recIDs that match that ingID in recipe_ingredient_quantity
+            let recID = await db.promise().query(`SELECT recID FROM RECIPE_INGREDIENT_QUANTITY WHERE ingID=${ingID}`);
+
+            // Add recIDs to an array
+            for (let r=0; r<recID[0].length; r++) {
+                recIDCurrent = recID[0].map( elm => elm.recID )[r];
+                if (recIDs.includes(recIDCurrent)===false) recIDs.push(recIDCurrent);
+
+            }
+            console.log(recIDs);
+        }
+        
+        // Find summary recipe details from filters
+        let recipes = await db.promise().query(`SELECT recID, name, vegetarian, vegan, kosher, halal, serving, time, difficulty, summary FROM RECIPES WHERE (name LIKE '${search}' OR summary LIKE '${search}') AND vegetarian LIKE '${vegetarian}' AND vegan LIKE '${vegan}' AND kosher LIKE '${kosher}' AND halal LIKE '${halal}' AND serving LIKE '${serving}' AND time LIKE '${time}' AND difficulty LIKE '${difficulty}' AND recID IN (${recIDs})`);
+        recipes = recipes[0];
+        console.log(recipes);
+
+        res.status(200).send(recipes);
+    }
+    catch (err) {
+        console.log(err);
+    }
+});
 
 // FETCH RECIPE SUMARIES FROM ACCOUNT
 app.get('/:account', async (req, res) => {
@@ -246,7 +339,7 @@ app.get('/:account', async (req, res) => {
         userID = userID[0].map( elm => elm.userID )[0];
         console.log(userID);
 
-        // Find all recipe details with userID - included recID - wouldn't be displayed but can be used to fetch complete recipe details
+        // Find summary recipe details with userID - included recID - wouldn't be displayed but can be used to fetch complete recipe details
         let recipes = await db.promise().query(`SELECT recID, name, vegetarian, vegan, kosher, halal, serving, time, difficulty, summary FROM RECIPES WHERE userID='${userID}'`);
         
         // Extract recipe details as an array - each recipe record is a separate array item - each recipe value can be separately extracted as with userID
