@@ -375,10 +375,23 @@ app.get('/recipes/:recipe', async (req, res) => {
         // Find complete recipe details with recID
         let recipeDetails = await db.promise().query(`SELECT * FROM RECIPES WHERE recID='${recID}'`);
         
+        // Find recipe ingredients
+        let ingredients = await db.promise().query(`SELECT name FROM INGREDIENTS WHERE ingID IN (SELECT ingID FROM RECIPE_INGREDIENT_QUANTITY WHERE recID=${recID})`);
+        
+        // Find recipe quantities
+        let quantities = await db.promise().query(`SELECT name FROM QUANTITIES WHERE quantityID IN (SELECT quantityID FROM RECIPE_INGREDIENT_QUANTITY WHERE recID=${recID})`);
+
         // Extract recipe details as an array - each recipe value can be separately extracted as with userID
         recipeDetails=recipeDetails[0];
+
+        // Add ingredients to recipe details
+        recipeDetails[0].ingredients=ingredients[0].map( elm => elm.name );
+        
+        // Add quantities to recipe details
+        recipeDetails[0].quantities=quantities[0].map( elm => elm.name );
+        
         console.log(recipeDetails);
-        res.status(200).send(recipeDetails)
+        res.status(200).send(recipeDetails);
     }
     catch (err) {
         console.log(err);
