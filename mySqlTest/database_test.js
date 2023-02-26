@@ -365,6 +365,26 @@ app.post('/:recipe/edit', async (req, res) => {
 });
 
 // CHANGE REPORTS
+app.post("/:recipe/report", async (req,res)=>{
+
+    let recID = req.query.recID; // Would come from complete recipe details
+
+    try{
+        // Find current reports value for the recipe
+        let reports = await db.promise().query(`SELECT reports FROM RECIPES WHERE recID=${recID}`);
+        
+        // Extract reports value form array
+        reports = reports[0].map( elm => elm.reports )[0];
+
+        // Increment the number of reports by 1
+        db.promise().query(`UPDATE RECIPES SET reports=${reports} + 1 WHERE recID= ${recID}`);
+        console.log('reported');
+        res.status(200).send({msg: "reported"});
+    }
+    catch (err){
+        console.log(err);
+    }
+});
 
 // DELETE RECIPE
 
