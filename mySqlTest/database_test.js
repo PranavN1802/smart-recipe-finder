@@ -162,7 +162,7 @@ app.post('/createRecipe', async (req, res) => {
             if (recipeFound[0].length===0) {
 
                 // Add the recipe details to the recipes table
-                db.promise().query(`INSERT INTO RECIPES (userID, name, recRef, scrambledRef, vegetarian, vegan, kosher, halal, serving, time, difficulty, reports, steps, summary) VALUES ('${userID}', '${name}', '<a href=${recRef}>${name} reference</a>', '', '${vegetarian}', '${vegan}', '${kosher}', '${halal}', '${serving}', '${time}', '${difficulty}', 0, '${steps}', '${summary}')`);
+                db.promise().query(`INSERT INTO RECIPES (userID, name, recRef, scrambledRef, vegetarian, vegan, kosher, halal, serving, time, difficulty, reports, steps, summary) VALUES ('${userID}', '${name}', '<a href=${recRef}>${name} reference</a>', NULL, '${vegetarian}', '${vegan}', '${kosher}', '${halal}', '${serving}', '${time}', '${difficulty}', 0, '${steps}', '${summary}')`);
                 console.log('Added recipe details');
 
                 // Add to recipe_ingredient_quantity
@@ -221,7 +221,6 @@ app.post('/createRecipe', async (req, res) => {
         console.log(err);
     }
 });
-
 
 // CREATE SCRAMBLED RECIPE
 
@@ -365,7 +364,7 @@ app.post('/:recipe/edit', async (req, res) => {
 });
 
 // CHANGE REPORTS
-app.post("/:recipe/report", async (req,res)=>{
+app.post("/:recipe/report", async (req,res) => {
 
     let recID = req.query.recID; // Would come from complete recipe details
 
@@ -386,12 +385,72 @@ app.post("/:recipe/report", async (req,res)=>{
     }
 });
 
-// DELETE RECIPE
-
-// DELETE USER
+// FETCH REPORTED RECIPES
+// app.get("/reportedRecipes", async (req, res) => {
+    
+// });
 
 // CHANGE ACCOUNT DETAILS
 
+// CHANGE USERNAME DETAILS
+app.post('/:userID/changeUsername', async (req,res) => {
+    let userID = req.params.userID;
+    let {username} = req.body;
+
+    try{
+        // Find all the usernames in use
+        let usernames = await db.promise().query(`SELECT username FROM USERS`);
+        usernames = usernames[0].map( elm => elm.username);
+
+        // Check the new username isn't already in use
+        if (username in usernames) {
+            res.send({msg: "Username taken"});
+        }
+        else {
+            // Change the username
+            db.promise().query(`UPDATE USERS SET username='${username}' WHERE userID= ${userID}`);
+            console.log('username changed');
+            res.status(200).send({msg: "username changed"});
+        }
+    }
+    catch(err){
+        console.log(err);
+    }
+});
+
+// CHANGE PASSWORD DETAILS
+app.post('/:userID/changePassword', async(req,res)=>{
+    let userID = req.params.userID;
+    let {email, password, newPassword} = req.body;
+
+    try{
+
+        // Find the email and password for this user
+        let details = await db.promise().query(`SELECT email, password FROM USERS WHERE userID=${userID}`);
+        let userEmail = details[0].map(elm => elm.email)[0];
+        let userPassword= details[0].map(elm => elm.password)[0];
+
+        // If the email and password entered are correct, change the password
+        if (email == userEmail && password == userPassword){
+            db.promise().query(`UPDATE USERS SET password='${newPassword}' WHERE userID=${userID}`);
+            console.log('password changed');
+            res.status(200).send({msg: "password changed"});
+        }
+        else{
+            res.send({msg: 'Incorrect password or email'});
+        }
+
+    }
+    catch(err){
+        console.log(err);
+    }
+
+
+});
+
+// DELETE RECIPE
+
+// DELETE USER
 // TODO: SORT OUT A USER'S RECIPES WHEN ACCOUNT IS DELETED
 app.post('/deleteUser', async (req, res) => {
 
@@ -420,6 +479,8 @@ app.post('/deleteUser', async (req, res) => {
 
 // FETCH RECIPE SUMMARIES FROM FILTERS
 app.post('/recipes', async (req, res) => {
+
+    let recipes = null;
 
     // Extract values from request body
     let { search, ingredients, vegetarian, vegan, kosher, halal, serving, time, difficulty } = req.body;
@@ -495,7 +556,7 @@ app.post('/recipes', async (req, res) => {
         }
         
         // Find summary recipe details from filters
-        let recipes = await db.promise().query(`SELECT recID, name, vegetarian, vegan, kosher, halal, serving, time, difficulty, summary FROM RECIPES WHERE (name LIKE '${search}' OR summary LIKE '${search}') AND vegetarian LIKE '${vegetarian}' AND vegan LIKE '${vegan}' AND kosher LIKE '${kosher}' AND halal LIKE '${halal}' AND serving LIKE '${serving}' AND time LIKE '${time}' AND difficulty LIKE '${difficulty}' AND recID IN (${recIDs})`);
+        recipes = await db.promise().query(`SELECT recID, name, vegetarian, vegan, kosher, halal, serving, time, difficulty, summary FROM RECIPES WHERE (name LIKE '${search}' OR summary LIKE '${search}') AND vegetarian LIKE '${vegetarian}' AND vegan LIKE '${vegan}' AND kosher LIKE '${kosher}' AND halal LIKE '${halal}' AND serving LIKE '${serving}' AND time LIKE '${time}' AND difficulty LIKE '${difficulty}' AND recID IN (${recIDs})`);
         recipes = recipes[0];
         console.log(recipes);
 
@@ -504,6 +565,20 @@ app.post('/recipes', async (req, res) => {
     catch (err) {
         console.log(err);
     }
+
+    // console.log("sorting");
+
+    // for (r=0; r<recipes.length; r++) {
+    //     console.log(r);
+
+    //     let count=0;
+
+    //     if (recipes[r]==
+
+
+    //     console.log(recipes[r]);
+    // }
+
 });
 
 // FETCH RECIPE SUMARIES FROM ACCOUNT
@@ -571,6 +646,30 @@ app.get('/recipes/:recipe', async (req, res) => {
         // Extract recipe details as an array - each recipe value can be separately extracted as with userID
         recipeDetails=recipeDetails[0];
 
+        console.log("scrambledRef");
+        console.log(recipeDetails[0].scrambledRef);
+
+        // If there is no scrambledRef, change it to an empty string
+        if (recipeDetails[0].scrambledRef==null) {
+            recipeDetails[0].scrambledRef="";
+        }
+        // If the scrambledRef is linked to the orphan recipe, change to "Deleted recipe"
+        else if (recipeDetails[0].scrambledRef==0) { // create orphan recipe
+            recipeDetails[0].scrambledRef="Deleted recipe";
+        }
+        // Otherwise, change scrambledRef to the recipe name and user
+        else {
+            scrambledRefRecipe = await db.promise().query(`SELECT name FROM RECIPES WHERE recID=${recipeDetails[0].scrambledRef}`);
+            scrambledRefRecipe = scrambledRefRecipe[0].map( elm => elm.name )[0];
+            console.log(scrambledRefRecipe)
+
+            scrambledRefUser = await db.promise().query(`SELECT username FROM USERS WHERE userID = (SELECT userID FROM RECIPES WHERE recID=${recipeDetails[0].scrambledRef})`);
+            scrambledRefUser = scrambledRefUser[0].map( elm => elm.username )[0];
+            console.log(scrambledRefUser)
+
+            recipeDetails[0].scrambledRef=scrambledRefRecipe+" by "+scrambledRefUser;
+        }
+
         // Add ingredients to recipe details
         recipeDetails[0].ingredients=ingredients[0].map( elm => elm.name );
         
@@ -594,14 +693,19 @@ app.get('/recipes/:recipe', async (req, res) => {
 // });
 
 // Find userID FROM DATABASE
-app.get('/:logIn', async (req, res) => {
-    let email=req.query.email;
-    let username=req.query.username;
-    let password=req.query.password;
-    const user = await db.promise().query(`SELECT userID FROM USERS WHERE email='${email}' AND username='${username}' AND password='${password}'`);
-    const userID = user[0].map( elm => elm.userID )[0];
-    console.log(userID);
-    res.status(200).send(`'${userID}'`);
+app.get('/test/:userID', async (req, res) => {
+    // let email=req.query.email;
+    // let username=req.query.username;
+    // let password=req.query.password;
+    let userID = req.params.userID;
+
+    const details = await db.promise().query(`SELECT email, password FROM USERS WHERE userID=${userID}`);
+    console.log(details);
+
+    // const user = await db.promise().query(`SELECT userID FROM USERS WHERE email='${email}' AND username='${username}' AND password='${password}'`);
+    // const userID = user[0].map( elm => elm.userID )[0];
+    // console.log(userID);
+    // res.status(200).send(`'${userID}'`);
 });
 
 // when run, can't do anything else until finished - app. blocks entire shell so it's running and ready to handle requests
