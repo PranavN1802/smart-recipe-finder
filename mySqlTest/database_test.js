@@ -385,10 +385,13 @@ app.post("/:recipe/report", async (req,res) => {
     }
 });
 
-// FETCH REPORTED RECIPES
-// app.get("/reportedRecipes", async (req, res) => {
-    
-// });
+// FETCH REPORTED RECIPES - can be used by monitoring team to adddress users' concerns
+app.get("/reportedRecipes", async (req, res) => {
+    let reportedRecipes = await db.promise().query(`SELECT recID FROM RECIPES WHERE reports>0`);
+    reportedRecipes = reportedRecipes[0].map( elm => elm.recID );
+    console.log(reportedRecipes);
+    res.send(reportedRecipes);
+});
 
 // CHANGE ACCOUNT DETAILS
 
@@ -448,7 +451,7 @@ app.post('/:userID/changePassword', async(req,res)=>{
 
 });
 
-// DELETE RECIPE
+// DELETE RECIPE - Ritika
 
 // DELETE USER
 // TODO: SORT OUT A USER'S RECIPES WHEN ACCOUNT IS DELETED
