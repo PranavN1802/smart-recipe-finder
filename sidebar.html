@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+body {
+  font-family: "Lato", sans-serif;
+  background-color: navajowhite;
+}
+
+
+/* Fixed sidenav, full height */
+.sidenav {
+  height: 100%;
+  width: 200px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: black;
+  overflow-x: hidden;
+  padding-top: 20px;
+}
+
+
+/* Style the sidenav links and the dropdown button */
+.sidenav a, .dropdown-btn {
+  padding: 6px 8px 8px 16px;
+  text-decoration: none;
+  font-size: 20px;
+  color: #818181;
+  display: block;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  outline: none;
+  border-bottom: 1px solid green;
+  transition: all 0.2s ease-in-out
+}
+
+
+/* On mouse-over */
+.sidenav a:hover, .dropdown-btn:hover {
+  color: orange;
+  transition: all 0.2s ease-in-out
+}
+
+
+/* Main content */
+.main {
+  margin-left: 200px; /* Same as the width of the sidenav */
+  font-size: 20px; /* Increased text to enable scrolling */
+  padding: 0px 10px;
+}
+
+
+/* Add an active class to the active dropdown button */
+.active {
+  background-color: darkgreen;
+  color: white;
+  transition: background-color .05s ease;
+  transition: all 0.2s ease-in-out
+}
+
+
+/* Dropdown container (hidden by default). Optional: add a lighter background color and some left padding to change the design of the dropdown content */
+.dropdown-container {
+  display: none;
+  background-color: #262626;
+  padding-left: 8px;
+  transition: all 0.2s ease-in-out
+ 
+}
+
+
+/* Optional: Style the caret down icon */
+.fa-caret-down {
+  float: right;
+  padding-right: 8px;
+  transition: all 0.2s ease-in-out
+}
+
+
+/* Some media queries for responsiveness */
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+
+
+.checkbox-menu li label {
+  display: block;
+  padding: 3px 10px;
+  clear: both;
+  font-weight: normal;
+  line-height: 1.42857143;
+  color: grey;
+  white-space: nowrap;
+  margin:0;
+  transition: background-color .4s ease;
+}
+.checkbox-menu li input {
+  margin: 0px 5px;
+  top: 2px;
+  position: relative;
+}
+
+
+.checkbox-menu li.active label {
+  background-color: #cbcbff;
+  font-weight:bold;
+}
+
+
+.checkbox-menu li label:hover,
+.checkbox-menu li label:focus {
+  background-color: #f5f5f5;
+}
+
+
+.checkbox-menu li.active label:hover,
+.checkbox-menu li.active label:focus {
+  background-color: #b8b8ff;
+}
+</style>
+</head>
+<body>
+
+
+<div class="sidenav">
+  <a href="#about">Search</a>
+  <a href="#services">Filter</a>
+  <a href="#contact">Ingredients</a>
+  <button class="dropdown-btn">Dietary requirements
+    <i class="fa fa-caret-down"></i>
+  </button>
+  <div class="dropdown-container">
+    <a href="#">Vegan</a>
+    <a href="#">Vegetarian</a>
+    <a href="#">Lactose intolerance</a>
+    <a href="#">Gluten intolerance</a>
+    <a href="#">Peanut allergies</a>
+  </div>
+  <button class="dropdown-btn">Difficulty
+    <i class="fa fa-caret-down"></i>
+  </button>
+  <div class="dropdown-container">
+    <li><a href="#" class="small" data-value="Easy" tabIndex="-1"><input type="checkbox"/>&nbsp;Option 1</a></li>
+  <li><a href="#" class="small" data-value="Medium" tabIndex="-1"><input type="checkbox"/>&nbsp;Option 2</a></li>
+  <li><a href="#" class="small" data-value="Hard" tabIndex="-1"><input type="checkbox"/>&nbsp;Option 3</a></li>
+
+
+
+
+  </div>
+  <ul class="dropdown-menu checkbox-menu allow-focus">
+    <li >
+      <label>
+        <input type="checkbox"> Cheese
+      </label>
+    </li>
+  </ul>
+ 
+</div>
+
+
+<div class="main">
+
+
+</div>
+
+
+<script>
+/* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
+var dropdown = document.getElementsByClassName("dropdown-btn");
+var i;
+
+
+for (i = 0; i < dropdown.length; i++) {
+  dropdown[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var dropdownContent = this.nextElementSibling;
+    if (dropdownContent.style.display === "block") {
+      dropdownContent.style.display = "none";
+    } else {
+      dropdownContent.style.display = "block";
+    }
+  });
+}
+var options = [];
+
+
+$( '.dropdown-menu a' ).on( 'click', function( event ) {
+
+
+   var $target = $( event.currentTarget ),
+       val = $target.attr( 'data-value' ),
+       $inp = $target.find( 'input' ),
+       idx;
+
+
+   if ( ( idx = options.indexOf( val ) ) > -1 ) {
+      options.splice( idx, 1 );
+      setTimeout( function() { $inp.prop( 'checked', false ) }, 0);
+   } else {
+      options.push( val );
+      setTimeout( function() { $inp.prop( 'checked', true ) }, 0);
+   }
+
+
+   $( event.target ).blur();
+
+
+   console.log( options );
+   return false;
+});
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <form>
+            <!--The class form group splits the different sections up-->
+            <div class="form-group">
+              <label for="recipeName">Recipe Name</label>
+              <br>
+              <input type="text" class="form-control" id="recipeName" placeholder="Recipe name goes here">
+            </div>
+            
+            <div class="form-group">
+                <label for="recipeDescription">Description</label>
+                <br>
+                <input type="text" class="form-control" id="recipeDescription" placeholder="Recipe information goes here"></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="servingSize">Serving size:</label>
+                <select name="Serving Size" id="servingSize">
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                </select>
+            </div>
+            <br>
+            <input type="checkbox" id="vege" name="vege" value="Vegetarian">
+            <label for="vege">Vegetarian</label><br>
+            <input type="checkbox" id="halal" name="halal" value="Halal">
+            <label for="halal">Halal</label><br>
+            <input type="checkbox" id="dairyFree" name="dairyFree" value="Dairy Free">
+            <label for="dairyFree">Dairy Free</label><br>
+            <input type="checkbox" id="vegan" name="vegan" value="Vegan">
+            <label for="vegan">Vegan</label><br>
+            
+            <input type="checkbox" id="glutenFree" name="glutenFree" value="Gluten Free">
+            <label for="glutenFree">Gluten free</label><br><br>
+            <!-- discuss how to format ingredient entries-->
+          </form>
+    </body>
+</html>
