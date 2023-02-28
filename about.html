@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="" />
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <title>BUBBLE&SQUEAK</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Slabo+27px%26display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      html,
+      body {
+        max-width: 100%;
+        overflow-x: hidden;
+      }
+
+      .navbar-custom {
+        background-color: #ec8e22;
+      }
+      /* Modify brand and text color */
+
+      .navbar-custom .navbar-brand,
+      .navbar-custom .navbar-text {
+        color: black;
+      }
+      .nav-item .nav-link {
+        font-size: 20px;
+        color: #ffffff;
+        transition: all 0.3s ease;
+        text-transform: capitalize;
+        font-weight: 500;
+        margin-right: 20px;
+        justify-content: left;
+      }
+      .navbar-nav {
+        margin-left: auto;
+      }
+      .navbar-nav > li {
+        padding-left: 5px;
+        padding-right: 5px;
+      }
+      .container {
+        position: relative;
+        width: 50%;
+      }
+
+      .custom-toggler.navbar-toggler {
+        border-color: black;
+      }
+
+      .custom-toggler .navbar-toggler-icon {
+        background-color: black;
+        display: block;
+      }
+
+      img {
+        opacity: 1;
+        display: block;
+        width: 100%;
+        height: auto;
+        transition: 0.5s ease;
+        backface-visibility: hidden;
+        margin-top: 20px;
+        margin-bottom: 10px;
+      }
+      .middle {
+        transition: 0.5s ease;
+        opacity: 0;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+      }
+
+      .container:hover .image {
+        opacity: 0.3;
+      }
+
+      .container:hover .middle {
+        opacity: 1;
+      }
+
+      .text {
+        background-color: #4caf50;
+        color: #ffffff;
+        font-size: 16px;
+        padding: 16px 32px;
+      }
+      h1 {
+        color: #af0caf;
+        font-family: "freight-text-pro", "FreightText Pro", "Garamond", serif;
+        font-weight: 600;
+        line-height: 1;
+        letter-spacing: 0;
+      }
+      .column {
+        float: left;
+        width: 33.33%;
+        padding: 15px;
+      }
+      .row:after {
+        content: "";
+        display: table;
+        clear: both;
+      }
+      h2 {
+        font-family: "freight-text-pro", "FreightText Pro", "Garamond", serif;
+        font-weight: 600;
+        line-height: 1;
+        letter-spacing: 0;
+      }
+      h3 {
+        font-size: 25px;
+        font-family: "freight-text-pro", "FreightText Pro", "Garamond", serif;
+        font-weight: 600;
+        line-height: 1;
+        letter-spacing: 0;
+      }
+      p {
+        font-family: "freight-text-pro", "FreightText Pro", "Garamond", serif;
+        line-height: 1.6;
+        color: #373737;
+        font-size: 20px;
+        text-align: left;
+      }
+      img {
+        opacity: 1;
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+      .container1 {
+        margin-left: 120px;
+        margin-right: 120px;
+        margin-bottom: 30px;
+        margin-top: 10px;
+        padding: 0;
+      }
+      .pagination {
+        display: inline-block;
+        display: flex;
+        padding-left: 0px;
+        list-style: none;
+        justify-content: center;
+      }
+      .pagination a {
+        color: black;
+        float: left;
+        padding: 8px 16px;
+        margin-bottom: 20px;
+        text-decoration: none;
+      }
+      .pagination a:hover {
+        background-color: #ddd;
+        border-radius: 5px;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      .container-fluid {
+        max-width: 1170px;
+        margin: auto;
+      }
+      .row {
+        display: flex;
+        flex-wrap: wrap;
+      }
+      ul {
+        list-style: none;
+      }
+      .footer {
+        background-color: #24262b;
+        padding: 70px 0;
+      }
+      .footer-col {
+        width: 25%;
+        padding: 0 15px;
+      }
+      .footer-col h4 {
+        font-size: 18px;
+        color: #ffffff;
+        text-transform: capitalize;
+        margin-bottom: 35px;
+        font-weight: 500;
+        position: relative;
+      }
+      .footer-col h4::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -10px;
+        background-color: purple;
+        height: 2px;
+        box-sizing: border-box;
+        width: 50px;
+      }
+      .footer-col ul li:not(:last-child) {
+        margin-bottom: 10px;
+      }
+      .footer-col ul li a {
+        font-size: 16px;
+        text-transform: capitalize;
+        color: #ffffff;
+        text-decoration: none;
+        font-weight: 300;
+        color: #bbbbbb;
+        display: block;
+        transition: all 0.3s ease;
+      }
+      .footer-col ul li a:hover {
+        color: #ffffff;
+        padding-left: 8px;
+      }
+      .footer-col .social-links a {
+        display: inline-block;
+        height: 40px;
+        width: 40px;
+        background-color: rgba(255, 255, 255, 0.2);
+        margin: 0 10px 10px 0;
+        text-align: center;
+        line-height: 40px;
+        border-radius: 50%;
+        color: #ffffff;
+        transition: all 0.5s ease;
+      }
+      .footer-col .social-links a:hover {
+        color: #24262b;
+        background-color: #ffffff;
+      }
+      /*responsive*/
+      @media (max-width: 767px) {
+        .footer-col {
+          width: 50%;
+          margin-bottom: 30px;
+        }
+      }
+      @media (max-width: 574px) {
+        .footer-col {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-custom">
+      <!-- Brand/logo -->
+      <a class="navbar-brand" href="about.html">
+        <img
+          src="logo.png"
+          alt="bubblensqueak"
+          style="width: 200px"
+        />
+      </a>
+      <button
+        class="navbar-toggler ml-auto custom-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#collapsibleNavbar"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="collapsibleNavbar">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="About.html">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="Social_Aspects.html">Aspects</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="What_to_expect.html">Expect</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="References.html">Report</a>
+          </li>
+        </ul>
+        <div class = "btn-group">
+          
+            <button type="button" class = "btn btn-default dropdown-toggle" data-toggle = "dropdown"></button>
+              <img src="user_pic.png" onclick="" alt="contact" style="width: 40px" />
+              <span class = "caret"></span>
+            </button>
+            <ul class = "dropdown-menu" role = "menu">
+              <li><a href = "register2.html">Register</a></li>
+              <li><a href = "login2.html">Log In</a></li>
+            </ul>
+          
+        </div>
+      </div>
+    </nav>
+  </body>
+</html>
