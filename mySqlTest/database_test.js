@@ -387,7 +387,7 @@ app.post("/:recipe/report", async (req,res) => {
 
 // FETCH REPORTED RECIPES - can be used by monitoring team to adddress users' concerns
 app.get("/reportedRecipes", async (req, res) => {
-    let reportedRecipes = await db.promise().query(`SELECT recID FROM RECIPES WHERE reports>0`);
+    let reportedRecipes = await db.promise().query(`SELECT recID FROM RECIPES WHERE reports>0 ORDER BY reports DESC`);
     reportedRecipes = reportedRecipes[0].map( elm => elm.recID );
     console.log(reportedRecipes);
     res.send(reportedRecipes);
