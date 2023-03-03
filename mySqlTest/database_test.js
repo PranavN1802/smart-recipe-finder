@@ -1,17 +1,6 @@
 // use http://postman.com to make http requests and other requests
 // https://www.youtube.com/watch?v=7iQLkJ3rEQo
 
-// CREATE DB TABLES
-app.post('/createDatabaseTables', (req, res) => {
-    db.promise().query(`CREATE TABLE users (userID INT AUTO_INCREMENT PRIMARY KEY, email VARCHAR(250), username VARCHAR(250), password VARCHAR(250))`);
-    db.promise().query(`CREATE TABLE recipes (recID INT AUTO_INCREMENT PRIMARY KEY, userID INT, FOREIGN KEY(userID) REFERENCES users(userID), name VARCHAR(150), recRef VARCHAR(300), scrambledRef INT, vegetarian TINYINT(1), vegan TINYINT(1), kosher TINYINT(1), halal TINYINT(1), serving INT, time INT, difficulty INT, reports INT, steps MEDIUMTEXT, summary TINYTEXT)`);
-    db.promise().query(`CREATE TABLE ingredients (ingID INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(50))`);
-    db.promise().query(`CREATE TABLE quantities (quantityID INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(20))`);
-    db.promise().query(`CREATE TABLE recipe_ingredient_quantity (recID INT, FOREIGN KEY(recID) REFERENCES recipes(recID), ingID INT, FOREIGN KEY(ingID) REFERENCES ingredients(ingID), quantityID INT, FOREIGN KEY(quantityID) REFERENCES quantities(quantityID))`);
-    console.log("Tables created");
-    res.send({msg: "Tables created"});
-});
-
 // {
 //     "name": "Ratatouille",
 //     "recRef":"https://beatthebudget.com/recipe/2019-9-28-ratatouille/",
@@ -102,6 +91,23 @@ app.use(bodyParser.raw());
 //     {title: 'My favourite foods'},
 //     {title: 'My favourite games'}
 // ]
+
+app.get('/', async(req, res) => {
+    response = await db.promise().query(`SHOW TABLES`);
+    console.log(response[0]);
+    res.send(response);
+})
+
+// CREATE DB TABLES
+app.post('/createDatabaseTables', (req, res) => {
+    db.promise().query(`CREATE TABLE users (userID INT AUTO_INCREMENT PRIMARY KEY, email VARCHAR(250), username VARCHAR(20), password VARCHAR(50))`);
+    db.promise().query(`CREATE TABLE recipes (recID INT AUTO_INCREMENT PRIMARY KEY, userID INT, FOREIGN KEY(userID) REFERENCES users(userID), name VARCHAR(150), recRef VARCHAR(300), scrambledRef INT, vegetarian TINYINT(1), vegan TINYINT(1), kosher TINYINT(1), halal TINYINT(1), serving INT, time INT, difficulty INT, reports INT, steps MEDIUMTEXT, summary TINYTEXT)`);
+    db.promise().query(`CREATE TABLE ingredients (ingID INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(50))`);
+    db.promise().query(`CREATE TABLE quantities (quantityID INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(20))`);
+    db.promise().query(`CREATE TABLE recipe_ingredient_quantity (recID INT, FOREIGN KEY(recID) REFERENCES recipes(recID), ingID INT, FOREIGN KEY(ingID) REFERENCES ingredients(ingID), quantityID INT, FOREIGN KEY(quantityID) REFERENCES quantities(quantityID))`);
+    console.log("Tables created");
+    res.send({msg: "Tables created"});
+});
 
 
 // ADD ACCOUNT DETAILS TO DATABASE
