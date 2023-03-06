@@ -99,15 +99,15 @@ app.get('/', async(req, res) => {
 })
 
 // CREATE DB TABLES
-app.post('/createDatabaseTables', (req, res) => {
-    db.promise().query(`CREATE TABLE users (userID INT AUTO_INCREMENT PRIMARY KEY, email VARCHAR(250), username VARCHAR(20), password VARCHAR(50))`);
-    db.promise().query(`CREATE TABLE recipes (recID INT AUTO_INCREMENT PRIMARY KEY, userID INT, FOREIGN KEY(userID) REFERENCES users(userID), name VARCHAR(150), recRef VARCHAR(300), scrambledRef INT, vegetarian TINYINT(1), vegan TINYINT(1), kosher TINYINT(1), halal TINYINT(1), serving INT, time INT, difficulty INT, reports INT, steps MEDIUMTEXT, summary TINYTEXT)`);
-    db.promise().query(`CREATE TABLE ingredients (ingID INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(50))`);
-    db.promise().query(`CREATE TABLE quantities (quantityID INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(20))`);
-    db.promise().query(`CREATE TABLE recipe_ingredient_quantity (recID INT, FOREIGN KEY(recID) REFERENCES recipes(recID), ingID INT, FOREIGN KEY(ingID) REFERENCES ingredients(ingID), quantityID INT, FOREIGN KEY(quantityID) REFERENCES quantities(quantityID))`);
-    console.log("Tables created");
-    res.send({msg: "Tables created"});
-});
+// app.post('/createDatabaseTables', (req, res) => {
+//     db.promise().query(`CREATE TABLE users (userID INT AUTO_INCREMENT PRIMARY KEY, email VARCHAR(250), username VARCHAR(20), password VARCHAR(50))`);
+//     db.promise().query(`CREATE TABLE recipes (recID INT AUTO_INCREMENT PRIMARY KEY, userID INT, FOREIGN KEY(userID) REFERENCES users(userID), name VARCHAR(150), recRef VARCHAR(300), scrambledRef INT, vegetarian TINYINT(1), vegan TINYINT(1), kosher TINYINT(1), halal TINYINT(1), serving INT, time INT, difficulty INT, reports INT, steps MEDIUMTEXT, summary TINYTEXT)`);
+//     db.promise().query(`CREATE TABLE ingredients (ingID INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(50))`);
+//     db.promise().query(`CREATE TABLE quantities (quantityID INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(20))`);
+//     db.promise().query(`CREATE TABLE recipe_ingredient_quantity (recID INT, FOREIGN KEY(recID) REFERENCES recipes(recID), ingID INT, FOREIGN KEY(ingID) REFERENCES ingredients(ingID), quantityID INT, FOREIGN KEY(quantityID) REFERENCES quantities(quantityID))`);
+//     console.log("Tables created");
+//     res.send({msg: "Tables created"});
+// });
 
 
 // ADD ACCOUNT DETAILS TO DATABASE
