@@ -51,6 +51,10 @@ app.use(bodyParser.raw());
 // no conflict btw using the same endpoint for a post and get - dif. methods for same endpoint
 app.post('/createUser', async (req, res) => {
     const { email, username, password } = req.body;
+
+    // For password recovery
+    // const { email, username, password, question, answer } = req.body;
+
     if (email && username && password) {
         try {
 
@@ -71,6 +75,10 @@ app.post('/createUser', async (req, res) => {
             else {
                 // Only create user if the email and username are unique
                 db.promise().query(`INSERT INTO USERS (email, username, password) VALUES ('${email}','${username}', '${password}')`);
+                
+                // // For password recovery
+                // db.promise().query(`INSERT INTO USERS (email, username, password, question, answer) VALUES ('${email}','${username}', '${password}', ${question}, '${answer}')`);
+
                 res.status(201).send({msg: 'Created user'});
                 console.log(req.body);
             }
@@ -429,7 +437,7 @@ app.post('/:userID/changeUsername', async (req,res) => {
 });
 
 // CHANGE PASSWORD DETAILS
-app.post('/:userID/changePassword', async(req,res)=>{
+app.post('/:userID/changePassword', async (req,res) => {
     let userID = req.params.userID;
     let {email, password, newPassword} = req.body;
 
@@ -457,6 +465,68 @@ app.post('/:userID/changePassword', async(req,res)=>{
 
 
 });
+
+// // ASK SECURITY QUESTION
+// app.get('/forgotPassword', async (req, res) => {
+//     let email = req.query.email;
+
+//     try {
+
+//         let emails = await db.promise().query(`SELECT email FROM USERS`);
+//         emails = emails[0].map( elm => elm.email );
+
+//         if (email in emails) {
+//             let question = await db.promise().query(`SELECT question FROM USERS WHERE email='${email}'`);
+//             question = question[0].map( elm => elm.question )[0];
+
+//             if (question===0) {
+//                 question = "What was the name of your first pet?";
+//                 res.status(200).send(question);
+//                 console.log(question);
+//             }
+//             else if (question===1) {
+//                 question = "What age were you when you lost your first tooth?";
+//                 res.status(200).send(question);
+//                 console.log(question);
+//             }
+//             else if (question===2) {
+//                 question = "What is your favourite book?";
+//                 res.status(200).send(question);
+//                 console.log(question);
+//             }
+//         }
+//         else {
+//             res.status(200).send({msg: "Email not found"});
+//             console.log("Email not found");
+//         }            
+//     }
+//     catch(err) {
+//         console.log(err);
+//     }
+// });
+
+// // RECOVER PASSWORD
+// app.post('/forgotPassowrd', async (req, res) => {
+//     let email = req.query.email;
+//     let answer = req.body.answer;
+
+//     try {
+//         let dbAnswer = await db.promise().query(`SELECT answer FROM USERS WHERE email='${email}'`);
+
+//         if (answer===dbAnswer) {
+//             let password = await db.promise().query(`SELECT password FROM USERS WHERE email='${email}'`);
+//             res.status(200).send(password);
+//             console.log(password);
+//         }
+//         else {
+//             res.status(200).send({msg: "Incorrect response"});
+//             console.log("Incorrect response");
+//         }
+//     }
+//     catch (err) {
+//         console.log(err);
+//     }
+// });
 
 // DELETE RECIPE
 
