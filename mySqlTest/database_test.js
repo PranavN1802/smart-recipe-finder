@@ -49,13 +49,31 @@ app.use(bodyParser.raw());
 // allows web server to handle post requests
 // can specify endpoint to send the post request to
 // no conflict btw using the same endpoint for a post and get - dif. methods for same endpoint
-app.post('/createUser', (req, res) => {
+app.post('/createUser', async (req, res) => {
     const { email, username, password } = req.body;
     if (email && username && password) {
         try {
-            db.promise().query(`INSERT INTO USERS (email, username, password) VALUES ('${email}','${username}', '${password}')`);
-            res.status(201).send({msg: 'Created user'});
-            console.log(req.body);
+
+            // Extract all usernames and email already in the dbss
+            let details = await db.promise().query(`SELECT email, username FROM USERS`);
+            let usernames = details[0].map( elm => elm.username );
+            let emails = details[0].map( elm => elm.email );
+
+            // Check email and username are unique
+            if (email in emails) {
+                res.send({msg: "Email taken"});
+                console.log("Email taken");
+            }
+            else if (username in usernames) {
+                res.send({msg: "Username taken"});
+                console.log("Username taken");
+            }
+            else {
+                // Only create user if the email and username are unique
+                db.promise().query(`INSERT INTO USERS (email, username, password) VALUES ('${email}','${username}', '${password}')`);
+                res.status(201).send({msg: 'Created user'});
+                console.log(req.body);
+            }
         }
         catch (err) {
             console.log(err);
@@ -68,28 +86,16 @@ app.post('/createUser', (req, res) => {
 // issues: how to find userID (account details stored at log in?); find pks another way?; how will data be received from html form? 
 // Currently, if the same ingredient is typed slightly differently, it will be counted as a separate thing - might not be able to fix this before project over
 // ingredients should be in singular - thinging format of ingredient: quantity to ensure that makes sense
-app.post('/createRecipe', async (req, res) => {
+app.post('/:userID/createRecipe', async (req, res) => {
 
     console.log(req.body);
 
     // Find email, username and password from queries - won't be needed once userID is saved from log in
-    let email = req.query.email;
-    let username = req.query.username;
-    let password = req.query.password;
+    let userID = req.params.userID;
     let { name, recRef, vegetarian, vegan, kosher, halal, serving, time, difficulty, ingredients, quantities, steps, summary } = req.body;
     // name = name.charAt(0).toUpperCase()+name.slice(1);
 
     try {
-
-        // Find userID - would be saved from log in in real version
-
-        // userID array extracted from db
-        const user = await db.promise().query(`SELECT userID FROM USERS WHERE email='${email}' AND username='${username}' AND password='${password}'`);
-        console.log(user);
-
-        // extract integer for userID from userID array
-        const userID = user[0].map( elm => elm.userID )[0];
-        console.log(userID);
 
         // Ensure a value is present in request body for every variable
         if ( name, recRef, vegetarian, vegan, kosher, halal, serving, time, difficulty, ingredients, quantities, steps, summary ) {
@@ -225,12 +231,12 @@ app.post('/createRecipe', async (req, res) => {
 // CREATE SCRAMBLED RECIPE
 
 // EDIT RECIPE
-app.post('/:recipe/edit', async (req, res) => {
+app.post('/:userID/:recID/edit', async (req, res) => {
     console.log(req.body);
 
     // Find userID and recID from queries - won't be needed once userID is saved from log in
-    let userID = req.query.userID;
-    let recID = req.query.recID;
+    let userID = req.params.userID;
+    let recID = req.params.recID;
 
     // Can't change scrambledRef
     let { name, recRef, scrambledRef, vegetarian, vegan, kosher, halal, serving, time, difficulty, ingredients, quantities, steps, summary } = req.body;
@@ -364,9 +370,9 @@ app.post('/:recipe/edit', async (req, res) => {
 });
 
 // CHANGE REPORTS
-app.post("/:recipe/report", async (req,res) => {
+app.post("/:userID/recipes/:recID/report", async (req,res) => {
 
-    let recID = req.query.recID; // Would come from complete recipe details
+    let recID = req.params.recID; // Would come from complete recipe details
 
     try{
         // Find current reports value for the recipe
@@ -386,9 +392,13 @@ app.post("/:recipe/report", async (req,res) => {
 });
 
 // FETCH REPORTED RECIPES
-// app.get("/reportedRecipes", async (req, res) => {
-    
-// });
+app.get("/reportedRecipes", async (req, res) => {
+    // Select recIDs of recipes with more than 0 reports, ordered in descending order by the number of reports
+    let recIDs = await db.promise().query(`SELECT recID FROM RECIPES WHERE reports>0 ORDER BY reports DESC`);
+    recIDs = recIDs[0].map( elm => elm.recID );
+    res.status(200).send(recIDs);
+    console.log(recIDs);
+});
 
 // CHANGE ACCOUNT DETAILS
 
@@ -452,10 +462,10 @@ app.post('/:userID/changePassword', async(req,res)=>{
 
 // DELETE USER
 // TODO: SORT OUT A USER'S RECIPES WHEN ACCOUNT IS DELETED
-app.post('/deleteUser', async (req, res) => {
+app.post('/:userID/deleteUser', async (req, res) => {
 
     // Find userID from query - would be saved somewhere
-    let userID = req.query.userID;
+    let userID = req.params.userID;
 
     try {
 
@@ -478,13 +488,13 @@ app.post('/deleteUser', async (req, res) => {
 });
 
 // FETCH RECIPE SUMMARIES FROM FILTERS
-app.post('/recipes', async (req, res) => {
+app.post('/:userID/recipes', async (req, res) => {
 
     let recipes = null;
 
     // Extract values from request body
-    let { search, ingredients, vegetarian, vegan, kosher, halal, serving, time, difficulty } = req.body;
-    console.log(search, ingredients, vegetarian, vegan, kosher, halal, serving, time, difficulty);
+    let { search, ingredients, vegetarian, vegan, kosher, halal, serving, time, difficulty, sortBy } = req.body;
+    console.log(search, ingredients, vegetarian, vegan, kosher, halal, serving, time, difficulty, sortBy);
 
     // Replace null values with wildcards that will match any value for that attribute in the db
     // % => any number of characters
@@ -557,7 +567,18 @@ app.post('/recipes', async (req, res) => {
         
         // Find summary recipe details from filters
         recipes = await db.promise().query(`SELECT recID, name, vegetarian, vegan, kosher, halal, serving, time, difficulty, summary FROM RECIPES WHERE (name LIKE '${search}' OR summary LIKE '${search}') AND vegetarian LIKE '${vegetarian}' AND vegan LIKE '${vegan}' AND kosher LIKE '${kosher}' AND halal LIKE '${halal}' AND serving LIKE '${serving}' AND time LIKE '${time}' AND difficulty LIKE '${difficulty}' AND recID IN (${recIDs})`);
-        recipes = recipes[0];
+        
+        // Sort the recipes in ascending order by either serving, time or difficulty
+        if (sortBy===0) {
+            recipes = recipes[0].sort((a, b) => a.serving - b.serving);
+        }
+        else if (sortBy===1) {
+            recipes = recipes[0].sort((a, b) => a.time - b.time);
+        }
+        else if (sortBy===2) {
+            recipes = recipes[0].sort((a, b) => a.difficulty - b.difficulty);
+        }
+        
         console.log(recipes);
 
         res.status(200).send(recipes);
@@ -582,24 +603,11 @@ app.post('/recipes', async (req, res) => {
 });
 
 // FETCH RECIPE SUMARIES FROM ACCOUNT
-app.get('/:account', async (req, res) => {
+app.get('/:userID', async (req, res) => {
 
-    // Find email, username and password from queries - won't be needed once userID is saved from log in
-    let email = req.query.email;
-    let username = req.query.username;
-    let password = req.query.password;
+    let userID = req.params.userID;
 
     try {
-
-        // Find userID - would be saved from log in in real version
-
-        // userID array extracted from db
-        let userID = await db.promise().query(`SELECT userID FROM USERS WHERE email='${email}' AND username='${username}' AND password='${password}'`);
-        console.log(userID);
-
-        // extract integer for userID from userID array
-        userID = userID[0].map( elm => elm.userID )[0];
-        console.log(userID);
 
         // Find summary recipe details with userID - included recID - wouldn't be displayed but can be used to fetch complete recipe details
         let recipes = await db.promise().query(`SELECT recID, name, vegetarian, vegan, kosher, halal, serving, time, difficulty, summary FROM RECIPES WHERE userID='${userID}'`);
@@ -614,25 +622,75 @@ app.get('/:account', async (req, res) => {
     }
 });
 
-// FETCH COMPLETE RECIPE DETAILS FROM RECID
-app.get('/recipes/:recipe', async (req, res) => {
+// FETCH COMPLETE RECIPE DETAILS FROM RECID FROM FILTERS
+app.get('/:userID/recipes/:recID', async (req, res) => {
 
     // Use recipe name passed as param to find recID for purposes of development
     // In reality, would use recID from summary data - name too imprecise
-    let recipe = req.params.recipe;
+    let recID = req.params.recID;
     console.log(recipe);
 
     try {
 
-        // Find recID - would be saved from summary data in real version
+        // Find complete recipe details with recID
+        let recipeDetails = await db.promise().query(`SELECT * FROM RECIPES WHERE recID='${recID}'`);
+        
+        // Find recipe ingredients
+        let ingredients = await db.promise().query(`SELECT name FROM INGREDIENTS WHERE ingID IN (SELECT ingID FROM RECIPE_INGREDIENT_QUANTITY WHERE recID=${recID})`);
+        
+        // Find recipe quantities
+        let quantities = await db.promise().query(`SELECT name FROM QUANTITIES WHERE quantityID IN (SELECT quantityID FROM RECIPE_INGREDIENT_QUANTITY WHERE recID=${recID})`);
 
-        // recID array extracted from db
-        let recID = await db.promise().query(`SELECT recID FROM RECIPES WHERE name='${recipe}'`);
-        console.log(recID);
+        // Extract recipe details as an array - each recipe value can be separately extracted as with userID
+        recipeDetails=recipeDetails[0];
 
-        // extract integer for recID from recID array
-        recID = recID[0].map( elm => elm.recID )[0];
-        console.log(recID);
+        console.log("scrambledRef");
+        console.log(recipeDetails[0].scrambledRef);
+
+        // If there is no scrambledRef, change it to an empty string
+        if (recipeDetails[0].scrambledRef==null) {
+            recipeDetails[0].scrambledRef="";
+        }
+        // If the scrambledRef is linked to the orphan recipe, change to "Deleted recipe"
+        else if (recipeDetails[0].scrambledRef==0) { // create orphan recipe
+            recipeDetails[0].scrambledRef="Deleted recipe";
+        }
+        // Otherwise, change scrambledRef to the recipe name and user
+        else {
+            scrambledRefRecipe = await db.promise().query(`SELECT name FROM RECIPES WHERE recID=${recipeDetails[0].scrambledRef}`);
+            scrambledRefRecipe = scrambledRefRecipe[0].map( elm => elm.name )[0];
+            console.log(scrambledRefRecipe)
+
+            scrambledRefUser = await db.promise().query(`SELECT username FROM USERS WHERE userID = (SELECT userID FROM RECIPES WHERE recID=${recipeDetails[0].scrambledRef})`);
+            scrambledRefUser = scrambledRefUser[0].map( elm => elm.username )[0];
+            console.log(scrambledRefUser)
+
+            recipeDetails[0].scrambledRef=scrambledRefRecipe+" by "+scrambledRefUser;
+        }
+
+        // Add ingredients to recipe details
+        recipeDetails[0].ingredients=ingredients[0].map( elm => elm.name );
+        
+        // Add quantities to recipe details
+        recipeDetails[0].quantities=quantities[0].map( elm => elm.name );
+        
+        console.log(recipeDetails);
+        res.status(200).send(recipeDetails);
+    }
+    catch (err) {
+        console.log(err);
+    }
+});
+
+// FETCH COMPLETE RECIPE DETAILS FROM RECID FROM ACCOUNT
+app.get('/:userID/:recID', async (req, res) => {
+
+    // Use recipe name passed as param to find recID for purposes of development
+    // In reality, would use recID from summary data - name too imprecise
+    let recID = req.params.recID;
+    console.log(recipe);
+
+    try {
 
         // Find complete recipe details with recID
         let recipeDetails = await db.promise().query(`SELECT * FROM RECIPES WHERE recID='${recID}'`);
@@ -685,27 +743,48 @@ app.get('/recipes/:recipe', async (req, res) => {
 });
 
 // FETCH ACCOUNT DETAILS FROM DATABASE
-// app.get('/:account', async (req, res) => {
-//     const { account } = req.params;
-//     const accountDetails = await db.promise().query(`SELECT * FROM USERS WHERE username='${account}'`);
-//     console.log(accountDetails[0]);
-//     res.status(200).send(accountDetails[0]);
-// });
-
-// Find userID FROM DATABASE
-app.get('/test/:userID', async (req, res) => {
-    // let email=req.query.email;
-    // let username=req.query.username;
-    // let password=req.query.password;
+app.get('/:userID', async (req, res) => {
     let userID = req.params.userID;
 
-    const details = await db.promise().query(`SELECT email, password FROM USERS WHERE userID=${userID}`);
-    console.log(details);
+    // Find username for the userID
+    let username = await db.promise().query(`SELECT username FROM USERS WHERE userID=${userID}`);
+    username = username[0].map( elm => elm.userID )[0];
+    console.log(userID[0]);
+    res.status(200).send(userID[0]);
+});
 
-    // const user = await db.promise().query(`SELECT userID FROM USERS WHERE email='${email}' AND username='${username}' AND password='${password}'`);
-    // const userID = user[0].map( elm => elm.userID )[0];
-    // console.log(userID);
-    // res.status(200).send(`'${userID}'`);
+// Find userID FROM DATABASE
+app.post('/logIn', async (req, res) => {
+    // User enters email and password
+    let { email, password } = req.body;
+
+
+    // Find all emails in db
+    let emails = await db.promise().query(`SELECT email FROM USERS`);
+    emails = emails[0].map( elm => elm.email );
+
+    // Check entered email is in db
+    if (email in emails) {
+        // Find password for email
+        dbPassword = await db.promise().query(`SELECT password FROM USERS WHERE email='${email}'`);
+        dbPassword = dbPassword[0].map( elm => elm.password )[0];
+    
+        // Check if the password is correct
+        if (password === dbPassword) {
+            let userID = await db.promise().query(`SELECT userID FROM USERS WHERE email='${email}' AND password='${password}'`);
+            userID=userID[0].map(elm => elm.userID)[0];
+            res.status(200).send(userID);
+            console.log(userID);
+        }
+        else {
+            res.status(200).send({msg: "Incorrect email or password"});
+            console.log("Incorrect email or username");
+        }
+    }
+    else {
+        res.status(200).send({msg: "Incorrect email or password"});
+        console.log("Incorrect email or username");
+    }
 });
 
 // when run, can't do anything else until finished - app. blocks entire shell so it's running and ready to handle requests
