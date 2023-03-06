@@ -2,7 +2,8 @@ html,
 body {
   max-width: 100%;
   overflow-x: hidden;
-  background-color: #fde4cd;
+  background-color: #f2b883;
+  
 }
 .navbar-custom {
   background-color: #ec8e22;
@@ -221,6 +222,7 @@ ul {
 .footer {
   background-color: #ec8e22;
   padding: 70px 0;
+  margin-top: 266.5px;
 }
 .footer-col {
   width: 25%;
@@ -298,16 +300,19 @@ body {
 .sidenav {
   height: 100%;
   width: 230px;
-  position: sticky;
+  position: absolute;
   top: 0;
   align-self: flex-start;
   z-index: 1;
   top: 0;
   left: 0;
+  margin-top: 157.5px;
   background-color: #efab5d;
   overflow-x: hidden;
   padding-top: 20px;
   padding-bottom: 20px ;
+  min-height: 750px;
+  
   
 }
 
@@ -368,4 +373,39 @@ body {
   .sidenav a {font-size: 18px;}
 }
 
+input[type=submit] {
+	display: inline;
+  color: #ffffff;
+  background: #c46e0c;
+  border: 1px solid #ec8e22;
+  margin: 20px auto;
+  padding: 18px 25px;
+  transition: all 200ms ease-in-out;
+  border-radius: 50px;
+  box-shadow: 0px 3px 3px #c6c3cd;
+  font-size: 16px;
+  text-align: center;
+  margin:0 auto;
+  display:block;
+}
 
+input[type=text]{
+  background-color: navajowhite;
+  padding-left: 10px;
+  width: 140px;
+  height: 35px;
+  
+}
+.main_content {
+  overflow: hidden;
+  margin-left: 250px;
+  margin-top: 20px;
+}
+#rcorners1 {
+  border-radius: 25px;
+  background: orange;
+  padding: 20px; 
+  width:98%;
+  height: 100px; 
+  position: relative;
+}
