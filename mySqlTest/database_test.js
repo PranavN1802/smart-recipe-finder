@@ -736,77 +736,12 @@ app.post('/:userID/changePassword', async (req,res) => {
 //     }
 // });
 
-// // ASK SECURITY QUESTION
-// app.get('/forgotPassword', async (req, res) => {
-//     let email = req.query.email;
-
-//     try {
-
-//         let emails = await db.promise().query(`SELECT email FROM USERS`);
-//         emails = emails[0].map( elm => elm.email );
-
-//         if (email in emails) {
-//             let question = await db.promise().query(`SELECT question FROM USERS WHERE email='${email}'`);
-//             question = question[0].map( elm => elm.question )[0];
-
-//             if (question===0) {
-//                 question = "What was the name of your first pet?";
-//                 res.status(200).send(question);
-//                 console.log(question);
-//             }
-//             else if (question===1) {
-//                 question = "What age were you when you lost your first tooth?";
-//                 res.status(200).send(question);
-//                 console.log(question);
-//             }
-//             else if (question===2) {
-//                 question = "What is your favourite book?";
-//                 res.status(200).send(question);
-//                 console.log(question);
-//             }
-//         }
-//         else {
-//             res.status(200).send({msg: "Email not found"});
-//             console.log("Email not found");
-//         }            
-//     }
-//     catch(err) {
-//         console.log(err);
-//     }
-// });
-
-// // RECOVER PASSWORD
-// app.post('/forgotPassowrd', async (req, res) => {
-//     let email = req.query.email;
-//     let answer = req.body.answer;
-
-//     try {
-//         let dbAnswer = await db.promise().query(`SELECT answer FROM USERS WHERE email='${email}'`);
-
-//         if (answer===dbAnswer) {
-//             let password = await db.promise().query(`SELECT password FROM USERS WHERE email='${email}'`);
-//             res.status(200).send(password);
-//             console.log(password);
-//         }
-//         else {
-//             res.status(200).send({msg: "Incorrect response"});
-//             console.log("Incorrect response");
-//         }
-//     }
-//     catch (err) {
-//         console.log(err);
-//     }
-// });
-
-
 // DELETE RECIPE - Ritika
-
 app.post('/:recID/deleteRecipe', async (req, res) => {
 
     let recID = req.params.recID;
 
     try {
-
         // Change scrambledRefs
         console.log("change scrambledRef");
         db.promise().query(`UPDATE RECIPES SET scrambledRef=0 WHERE scrambledRef=${recID}`);
@@ -825,31 +760,6 @@ app.post('/:recID/deleteRecipe', async (req, res) => {
 
 });
 
-
-
-app.post('/:recID/deleteRecipe', async (req, res) => {
-
-    let recID = req.params.recID;
-
-    try {
-
-        // Change scrambledRefs
-        console.log("change scrambledRef");
-        db.promise().query(`UPDATE RECIPES SET scrambledRef=0 WHERE scrambledRef=${recID}`);
-
-        console.log("delete recipe");
-        // Delete the record in recicpes with that recID
-        db.promise().query(`DELETE FROM RECIPE_INGREDIENT_QUANTITY WHERE recID=${recID}`);
-        db.promise().query(`DELETE FROM RECIPES WHERE recID=${recID}`);
-
-        res.status(200).send({msg:'Recipe deleted'});
-
-    }
-    catch (err) {
-        console.log(err);
-    }
-
-});
 
 // DELETE USER
 // TODO: SORT OUT A USER'S RECIPES WHEN ACCOUNT IS DELETED
@@ -868,8 +778,8 @@ app.post('/:userID/deleteUser', async (req, res) => {
         // db.promise().query(`DELETE FROM RECIPES WHERE userID=${userID}`);
 
         // ALTERNATIVE: REPLACE userID IN ALL OF THE USER'S RECIPES WITH AN ORPHAN ACCOUNT
-        // orphanUserID = 0; //TODO: CREATE AN ORPHAN ACCOUNT? - 0 AS PLACEHOLDER
-        // db.promise().query(`UPDATE RECIPES SET userID=${orphanUserID} WHERE userID=${userID}`);
+        orphanUserID = 0; //TODO: CREATE AN ORPHAN ACCOUNT? - 0 AS PLACEHOLDER
+        db.promise().query(`UPDATE RECIPES SET userID=${orphanUserID} WHERE userID=${userID}`);
 
         res.status(200).send({msg: 'User deleted'});
     }
