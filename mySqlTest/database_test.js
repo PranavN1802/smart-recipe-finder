@@ -408,6 +408,28 @@ app.get("/reportedRecipes", async (req, res) => {
     console.log(recIDs);
 });
 
+// CHANGE UPVOTES
+// app.post("/:userID/recipes/:recID/upvote", async (req,res) => {
+
+//     let recID = req.params.recID; // Would come from complete recipe details
+
+//     try{
+//         // Find current upvotes value for the recipe
+//         let upvotes = await db.promise().query(`SELECT upvotes FROM RECIPES WHERE recID=${recID}`);
+        
+//         // Extract upvotes value form array
+//         upvotes = upvotes[0].map( elm => elm.upvotes )[0];
+
+//         // Increment the number of upvotes by 1
+//         db.promise().query(`UPDATE RECIPES SET upvotes=${upvotes} + 1 WHERE recID= ${recID}`);
+//         console.log('upvoted');
+//         res.status(200).send({msg: "upvoted"});
+//     }
+//     catch (err){
+//         console.log(err);
+//     }
+// });
+
 // CHANGE ACCOUNT DETAILS
 
 // CHANGE USERNAME DETAILS
@@ -566,6 +588,10 @@ app.post('/:userID/recipes', async (req, res) => {
     let { search, ingredients, vegetarian, vegan, kosher, halal, serving, time, difficulty, sortBy } = req.body;
     console.log(search, ingredients, vegetarian, vegan, kosher, halal, serving, time, difficulty, sortBy);
 
+    // For allergies
+    // let { search, ingredients, allergies, vegetarian, vegan, kosher, halal, serving, time, difficulty, sortBy } = req.body;
+    // console.log(search, ingredients, allergies, vegetarian, vegan, kosher, halal, serving, time, difficulty, sortBy);
+
     // Replace null values with wildcards that will match any value for that attribute in the db
     // % => any number of characters
     // _  => 1 character (used for the integer values here)
@@ -611,10 +637,41 @@ app.post('/:userID/recipes', async (req, res) => {
             ingredients = ingredients[0].map( elm => elm.name );
         }
 
-        console.log(search, ingredients, vegetarian, vegan, kosher, halal, serving, time, difficulty);
+        // For allergies
+        if (allergies===null) {
+            allergies=[];
+        }
+
+        console.log(search, ingredients, vegetarian, vegan, kosher, halal, serving, time, difficulty, sortBy);
+
+        //For allergies
+        // console.log(search, ingredients, allergies, vegetarian, vegan, kosher, halal, serving, time, difficulty, sortBy);
 
         // Use ingredients to find an array of recIDs
         let recIDs=[];
+
+        // For allergies
+        // let recIDsAllergies = [];
+
+        // For allergies
+        // for (let a=0; a<allergies.length; a++) {
+
+        //     // Find an ingID matching a name containing that ingredient (wildcards)
+        //     let allergy = "%"+allergies[k]+"%";
+        //     let ingID = await db.promise().query(`SELECT ingID FROM INGREDIENTS WHERE name LIKE '${allergy}'`);
+        //     ingID = ingID[0].map( elm => elm.ingID )[0];
+
+        //     // Find the recIDs that match that ingID in recipe_ingredient_quantity
+        //     let recID = await db.promise().query(`SELECT recID FROM RECIPE_INGREDIENT_QUANTITY WHERE ingID=${ingID}`);
+
+        //     // Add recIDs to an array
+        //     for (let r=0; r<recID[0].length; r++) {
+        //         recIDCurrent = recID[0].map( elm => elm.recID )[r];
+        //         if (recIDsAllergies.includes(recIDCurrent)===false) recIDsAllergies.push(recIDCurrent);
+
+        //     }
+        //     console.log(recIDsAllergies);
+        // }
 
         for (let k=0; k<ingredients.length; k++) {
 
@@ -630,6 +687,9 @@ app.post('/:userID/recipes', async (req, res) => {
             for (let r=0; r<recID[0].length; r++) {
                 recIDCurrent = recID[0].map( elm => elm.recID )[r];
                 if (recIDs.includes(recIDCurrent)===false) recIDs.push(recIDCurrent);
+
+                // For allegies
+                // if (recIDs.includes(recIDCurrent)===false && recIDsAllergies.includes(recIDCurrent)===false) recIDs.push(recIDCurrent);
 
             }
             console.log(recIDs);
@@ -656,20 +716,6 @@ app.post('/:userID/recipes', async (req, res) => {
     catch (err) {
         console.log(err);
     }
-
-    // console.log("sorting");
-
-    // for (r=0; r<recipes.length; r++) {
-    //     console.log(r);
-
-    //     let count=0;
-
-    //     if (recipes[r]==
-
-
-    //     console.log(recipes[r]);
-    // }
-
 });
 
 // FETCH RECIPE SUMARIES FROM ACCOUNT
