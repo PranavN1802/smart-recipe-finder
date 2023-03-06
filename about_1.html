@@ -35,7 +35,7 @@
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet"
     />
-    <link rel="stylesheet" type="text/css" href="about.css" />
+    <link rel="stylesheet" type="text/css" href="about_1.css" />
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-custom">
@@ -97,27 +97,25 @@
 
     
     <div class="sidenav">
-      <a href="#" class="search"><i class="fa fa-search"></i> Search</a>
-      <a href="#services">Filter</a>
-      <a href="#contact">Ingredients</a>
+      <form>
+        <div class="search-container">
+          <form action="/action_page.php">
+            <input type="text" placeholder="Search.." name="search">
+            <button type="submit"><i class="fa fa-search"></i></button>
+          </form>
+        </div>
+        <div class="search-container">
+          <form action="/action_page.php">
+            <input type="text" placeholder="Add ingredient.." name="ingredient">
+            <button type="submit"><i class="fa fa-search"></i></button>
+          </form>
+        </div>
+    
       <button class="dropdown-btn">Dietary requirements 
         <i class="fa fa-caret-down"></i>
       </button>
       <div class="dropdown-container">
-
-      <input type="radio" id="child" name="time" value="easy">
-      <label for="child">Easy</label><br>
-      <input type="radio" id="adult" name="time" value="medium">
-      <label for="adult">Medium</label><br>
-      <input type="radio" id="senior" name="time" value="hard">
-      <label for="senior">Hard</label>
-
-      </div>
-      <button class="dropdown-btn">Difficulty 
-        <i class="fa fa-caret-down"></i>
-      </button>
-      <div class="dropdown-container">
-      <li><a href="#" class="small" data-value="Easy" tabIndex="-1"><input type="checkbox"/><&nbsp;Vegan</a></li>
+      <li><a href="#" class="small" data-value="Easy" tabIndex="-1"><input type="checkbox"/>&nbsp;Vegan</a></li>
       <li><a href="#" class="small" data-value="Medium" tabIndex="-1"><input type="checkbox"/>&nbsp;Vegetarian</a></li>
       <li><a href="#" class="small" data-value="Hard" tabIndex="-1"><input type="checkbox"/>&nbsp;Lactose intolerance</a></li>
       <li><a href="#" class="small" data-value="Easy" tabIndex="-1"><input type="checkbox"/>&nbsp;Gluten intolerance</a></li>
@@ -126,9 +124,74 @@
     
     
       </div>
-      
+      <button class="dropdown-btn">Difficulty 
+        <i class="fa fa-caret-down"></i>
+      </button>
+      <div class="dropdown-container">
+
+      <input type="radio" id="child" name="Difficulty" value="easy">
+      <label for="child">Easy</label><br>
+      <input type="radio" id="adult" name="Difficulty" value="medium">
+      <label for="adult">Medium</label><br>
+      <input type="radio" id="senior" name="Difficulty" value="hard">
+      <label for="senior">Hard</label>
+
+      </div>
+
+      <button class="dropdown-btn">Time 
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-container">
+
+    <input type="radio" id="child" name="time" value="10m">
+    <label for="child">10 minutes</label><br>
+    <input type="radio" id="adult" name="time" value="20m">
+    <label for="adult">20 minutes</label><br>
+    <input type="radio" id="adult" name="time" value="30m">
+    <label for="senior">30 minutes</label><br>
+    <input type="radio" id="45m" name="time" value="45m">
+    <label for="45m">45 minutes</label><br>
+    <input type="radio" id="1h" name="time" value="1h">
+    <label for="1h">> 1 hour</label>
+
     </div>
 
+    <button class="dropdown-btn">Serving size 
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-container">
+
+    <input type="radio" id="child" name="Serving size" value="easy">
+    <label for="child">serves 1</label><br>
+    <input type="radio" id="adult" name="Serving size" value="medium">
+    <label for="adult">serves 2</label><br>
+    <input type="radio" id="senior" name="Serving size" value="hard">
+    <label for="senior">serves 3</label><br>
+    <input type="radio" id="senior" name="Serving size" value="hard">
+    <label for="senior">serves 4</label><br>
+    <input type="radio" id="senior" name="Serving size" value="hard">
+    <label for="senior">serves 5 or more</label>
+
+    </div>
+     
+    <input type="submit" value="Filter">
+    </div>
+  </nav>
+  <div>
+
+    <div class="main_content">
+      <p id="rcorners1">Recipe 1</p>
+      <p id="rcorners1">Recipe 2</p>
+      <p id="rcorners1">Recipe 3</p>
+      <p id="rcorners1">Recipe 4</p>
+      
+    </div>
+    
+    </div>
+    </body>
+  </form>
+    
+    </body>
     <script>
       /* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
       var dropdown = document.getElementsByClassName("dropdown-btn");
