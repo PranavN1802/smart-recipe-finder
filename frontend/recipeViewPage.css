@@ -167,6 +167,7 @@ button:not(.menu_button, .drop-down_list):hover {
 
 #back_buttton {
   border-radius: 50%;
+  padding: 2px 17px;
 }
 .material-icons {
   font-size: 36px;
