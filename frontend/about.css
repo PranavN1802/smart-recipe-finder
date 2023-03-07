@@ -16,14 +16,14 @@ body {
 .nav-item .nav-link {
   font-size: 20px;
   color: #ffffff;
-  transition: all 0.2s ease;
+  transition: all 0.4s ease;
   font-weight: 500;
   margin-right: 20px;
   justify-content: left;
   border: 20px;
 }
 .nav-link:hover {
-  font-weight: 900;
+  font-weight: bold;
   color: black;
 }
 .dropdown-toggle::after {
@@ -160,10 +160,14 @@ button:not(.menu_button, .drop-down_list):hover {
   cursor: pointer;
   background: #ffffff;
 }
-.button1 {
-  transition: all 200ms ease-in-out;
+
+#scramble_button {
+  border-radius: 100%;
 }
 
+#back_buttton {
+  border-radius: 50%;
+}
 .material-icons {
   font-size: 36px;
   color: white;
