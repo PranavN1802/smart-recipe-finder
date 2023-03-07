@@ -149,25 +149,17 @@ button:not(.menu_button, .drop-down_list) {
   background: #ec8e22;
   border: 1px solid #ec8e22;
   margin: 20px auto;
-  padding: 2px 17px;
+  padding: 0px 17px;
   transition: all 200ms ease-in-out;
   border-radius: 50px;
   box-shadow: 0px 3px 3px #c6c3cd;
   font-size: 16px;
+  line-height: 20px;
 }
 button:not(.menu_button, .drop-down_list):hover {
   color: #ec8e22;
   cursor: pointer;
   background: #ffffff;
-}
-
-#scramble_button {
-  border-radius: 100%;
-}
-
-#back_buttton {
-  border-radius: 50%;
-  padding: 2px 17px;
 }
 .material-icons {
   font-size: 36px;
@@ -182,6 +174,12 @@ button:not(.menu_button, .drop-down_list):hover {
   background: #ffffff;
 }
 
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin-right: 0;
+}
 .container1 {
   margin-left: 120px;
   margin-right: 120px;
@@ -212,20 +210,13 @@ button:not(.menu_button, .drop-down_list):hover {
   padding: 0;
   box-sizing: border-box;
 }
-.container-fluid {
-  max-width: 1170px;
-  margin: auto;
-}
-.row {
-  display: flex;
-  flex-wrap: wrap;
-}
 ul {
   list-style: none;
 }
 .footer {
   background-color: #ec8e22;
   padding: 70px 0;
+  margin: 0 auto;
 }
 .footer-col {
   width: 25%;
