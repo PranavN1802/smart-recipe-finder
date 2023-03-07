@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="" />
     <link rel="shortcut icon" href="pot.ico.png" type="image/x-icon" />
-    <title>BUBBLE&SQUEAK</title>
+    <title>Recipe | BUBBLE&SQUEAK</title>
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
@@ -35,7 +35,7 @@
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet"
     />
-    <link rel="stylesheet" type="text/css" href="template.css" />
+    <link rel="stylesheet" type="text/css" href="recipe_creation_page.css" />
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-custom">
@@ -61,16 +61,16 @@
       <div class="collapse navbar-collapse" id="collapsibleNavbar">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link" href="ABOUTPAGE">About</a>
+            <a class="nav-link" href="About_page">About</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="RECIPESLIST">Recipes</a>
+            <a class="nav-link" href="Recipes_page">Recipes</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="ETHICS">Ethics</a>
+            <a class="nav-link" href="Ethics_page">Ethics</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="SUGGEST">Suggest</a>
+            <a class="nav-link" href="Suggestion_page">Suggest</a>
           </li>
         </ul>
         <div class="dropdown">
@@ -87,36 +87,20 @@
             </a>
           </button>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" href="register2.html">Register</a>
-            <a class="dropdown-item" href="">Login</a>
-            <!-- <a class="dropdown-item" href="#">Something else here</a> -->
+            <a class="dropdown-item" href="Register_page">Sign in</a>
+            <a class="dropdown-item" href="Register_page">Sign up</a>
+            <a class="dropdown-item" href="Register_page">Log out</a>
           </div>
         </div>
       </div>
     </nav>
-    <!-- <button>Report</button>
-    <button>Upvote</button>
     <button>Report</button>
-    <button>Report</button> -->
-    <div class="textareas">
-        <form>
-            <!--The class form group splits the different sections up-->
-            <div class="form-group">
-            <label for="userEmail">Email</label>
-            <br>
-            <input type="text" class="form-control" id="userEmail" placeholder="Enter your email">
-            </div>
-            
-            <div class="form-group">
-                <label for="userPassword">Password:</label>
-                <br>
-                <input type="password" class="form-control" id="userPassword" placeholder="Enter your password"></textarea>
-            </div>
+    <button>Upvote</button>
+    <button id="scramble_button">S</button>
+    <button id="back_buttton">
+      <img src="left_arrow.png" alt="back" />
+    </button>
 
-            <button id="button1" type="submit" class="btn btn-primary">Log in</button>
-            <button id ="button2" class="btn btn-primary">Sign Up</button>
-        </form>
-    </div>
     <footer class="footer">
       <div class="container-fluid">
         <div class="row">
@@ -125,40 +109,19 @@
             <ul>
               <li>
                 <a href="https://www.manchester.ac.uk/connect/contact-us/faq/"
-                  >FAQ</a
-                >
-              </li>
-              <li>
-                <a href="https://www.studentsupport.manchester.ac.uk/"
-                  >Student support</a
+                  >How your data is handled?</a
                 >
               </li>
               <li>
                 <a
                   href="https://www.manchester.ac.uk/connect/contact-us/support-services/"
-                  >Support services</a
+                  >Wondering what's on our website?</a
                 >
               </li>
               <li>
                 <a
                   href="https://www.manchester.ac.uk/study/chat-with-our-students/?popcardRedirectData=P2RlZ3JlZT02MGVkNjFjZjRmZTQ0NDJmYjhkY2U5NTEmbGFiZWw9Q29tcHV0ZXIlMjBTY2llbmNlJTIwTUVuZw%3D%3D%26ub_medium=product%26ub_source=University%26Popcard%26ub_campaign=%26ub_content="
-                  >Chat with other students</a
-                >
-              </li>
-            </ul>
-          </div>
-          <div class="footer-col">
-            <h4>Find us</h4>
-            <ul>
-              <li>
-                <a
-                  href="https://www.cs.manchester.ac.uk/study/careers-and-employability/"
-                  >The University of Manchester<br />
-                  Kilburn Building<br />
-                  Oxford Rd<br />
-                  Manchester<br />
-                  M13 9PL<br />
-                  UK</a
+                  >Any suggestions?</a
                 >
               </li>
             </ul>
@@ -166,15 +129,19 @@
           <div class="footer-col">
             <h4>Contact us</h4>
             <ul>
-              <li><a href="tel:+441613069280">+44 (0) 161 306 9280</a></li>
+              <li>
+                <a
+                  href="https://www.cs.manchester.ac.uk/study/careers-and-employability/"
+                ></a>
+              </li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Contact us</h4>
+            <ul>
               <li>
                 <a href="mailto:ug-compsci@manchester.ac.uk"
-                  >ug-compsci@manchester.ac.uk</a
-                >
-              </li>
-              <li>
-                <a href="https://www.cs.manchester.ac.uk/connect/contact/"
-                  >Contact details</a
+                  >bubble_and_squeak@hotmail.com</a
                 >
               </li>
             </ul>
