@@ -149,7 +149,7 @@ button:not(.menu_button, .drop-down_list) {
   background: #ec8e22;
   border: 1px solid #ec8e22;
   margin: 20px auto;
-  padding: 18px 25px;
+  padding: 2px 17px;
   transition: all 200ms ease-in-out;
   border-radius: 50px;
   box-shadow: 0px 3px 3px #c6c3cd;
