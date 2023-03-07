@@ -6,10 +6,6 @@ router.get('/', function(req, res, next) {
   res.render('about', { title: 'About | Bubble\'N\'Sqeak' });
 });
 
-router.get('/recipes', function(req, res, next) {
-  res.render('recipeList', { title: 'Recipes | Bubble\'N\'Sqeak' });
-});
-
 router.get('/register', function(req, res, next) {
   res.render('register', { title: 'Register | Bubble\'N\'Sqeak' });
 });
