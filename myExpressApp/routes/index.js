@@ -3,11 +3,19 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('about_1', { title: 'Bubble\'N\'Sqeak | Recipe List' });
+  res.render('about', { title: 'About | Bubble\'N\'Sqeak' });
+});
+
+router.get('/register', function(req, res, next) {
+  res.render('register', { title: 'Register | Bubble\'N\'Sqeak' });
+});
+
+router.get('/suggest', function(req, res, next) {
+  res.render('suggestPage', { title: 'Suggest | Bubble\'N\'Sqeak' });
 });
 
 router.get('/login', function(req, res, next) {
-  res.render('login', { title: 'Bubble\'N\'Sqeak | Sign In' });
+  res.render('login', { title: 'Login | Bubble\'N\'Sqeak' });
 });
 
 module.exports = router;

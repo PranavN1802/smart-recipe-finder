@@ -2,8 +2,7 @@ html,
 body {
   max-width: 100%;
   overflow-x: hidden;
-  background-color: #f2b883;
-  
+  background-color: #fde4cd;
 }
 .navbar-custom {
   background-color: #ec8e22;
@@ -17,14 +16,14 @@ body {
 .nav-item .nav-link {
   font-size: 20px;
   color: #ffffff;
-  transition: all 0.2s ease;
+  transition: all 0.4s ease;
   font-weight: 500;
   margin-right: 20px;
   justify-content: left;
   border: 20px;
 }
 .nav-link:hover {
-  font-weight: 900;
+  font-weight: bold;
   color: black;
 }
 .dropdown-toggle::after {
@@ -150,7 +149,7 @@ button:not(.menu_button, .drop-down_list) {
   background: #ec8e22;
   border: 1px solid #ec8e22;
   margin: 20px auto;
-  padding: 18px 25px;
+  padding: 2px 17px;
   transition: all 200ms ease-in-out;
   border-radius: 50px;
   box-shadow: 0px 3px 3px #c6c3cd;
@@ -161,10 +160,15 @@ button:not(.menu_button, .drop-down_list):hover {
   cursor: pointer;
   background: #ffffff;
 }
-.button1 {
-  transition: all 200ms ease-in-out;
+
+#scramble_button {
+  border-radius: 100%;
 }
 
+#back_buttton {
+  border-radius: 50%;
+  padding: 2px 17px;
+}
 .material-icons {
   font-size: 36px;
   color: white;
@@ -222,7 +226,6 @@ ul {
 .footer {
   background-color: #ec8e22;
   padding: 70px 0;
-  margin-top: 266.5px;
 }
 .footer-col {
   width: 25%;
@@ -290,122 +293,4 @@ ul {
   .footer-col {
     width: 100%;
   }
-}
-body {
-  font-family: "Lato", sans-serif;
-  background-color: navajowhite;
-}
-
-/* Fixed sidenav, full height */
-.sidenav {
-  height: 100%;
-  width: 230px;
-  position: absolute;
-  top: 0;
-  align-self: flex-start;
-  z-index: 1;
-  top: 0;
-  left: 0;
-  margin-top: 157.5px;
-  background-color: #efab5d;
-  overflow-x: hidden;
-  padding-top: 20px;
-  padding-bottom: 20px ;
-  min-height: 750px;
-  
-  
-}
-
-/* Style the sidenav links and the dropdown button */
-.sidenav a, .dropdown-btn {
-  padding: 6px 8px 8px 16px;
-  font-family: "freight-text-pro", "FreightText Pro", "Garamond", serif;
-  font-weight: 600;
-  line-height: 1;
-  letter-spacing: 0;
-  color: white;
-  display: block;
-  border: none;
-  background: none;
-  width: 100%;
-  text-align: left;
-  cursor: pointer;
-  outline: none;
-  border-bottom: 1px solid white;
-  transition: all 0.2s ease-in-out
-}
-
-/* On mouse-over */
-.sidenav a:hover, .dropdown-btn:hover {
-  color: black;
-  font-weight: bolder;
-  transition: all 0.2s ease-in-out
-}
-
-
-/* Add an active class to the active dropdown button */
-.active {
-  background-color: darkgreen;
-  color: white;
-  transition: background-color .05s ease;
-  transition: all 0.2s ease-in-out
-}
-
-/* Dropdown container (hidden by default). Optional: add a lighter background color and some left padding to change the design of the dropdown content */
-.dropdown-container {
-  display: none;
-  background-color: #ec8e22;
-  padding-left: 8px;
-  transition: all 0.2s ease-in-out
-  
-}
-
-/* Optional: Style the caret down icon */
-.fa-caret-down {
-  float: right;
-  padding-right: 8px;
-  transition: all 0.2s ease-in-out
-}
-
-/* Some media queries for responsiveness */
-@media screen and (max-height: 450px) {
-  .sidenav {padding-top: 15px;}
-  .sidenav a {font-size: 18px;}
-}
-
-input[type=submit] {
-	display: inline;
-  color: #ffffff;
-  background: #c46e0c;
-  border: 1px solid #ec8e22;
-  margin: 20px auto;
-  padding: 18px 25px;
-  transition: all 200ms ease-in-out;
-  border-radius: 50px;
-  box-shadow: 0px 3px 3px #c6c3cd;
-  font-size: 16px;
-  text-align: center;
-  margin:0 auto;
-  display:block;
-}
-
-input[type=text]{
-  background-color: navajowhite;
-  padding-left: 10px;
-  width: 140px;
-  height: 35px;
-  
-}
-.main_content {
-  overflow: hidden;
-  margin-left: 250px;
-  margin-top: 20px;
-}
-#rcorners1 {
-  border-radius: 25px;
-  background: orange;
-  padding: 20px; 
-  width:98%;
-  height: 150px; 
-  position: relative;
 }

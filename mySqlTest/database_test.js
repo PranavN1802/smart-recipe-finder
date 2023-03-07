@@ -1112,6 +1112,256 @@ app.post('/logIn', async (req, res) => {
     }
 });
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ADD DUMMY DATA (RECIPES) TO DATABASE (UNTESTED)
+// app.post('/addRecipes', async (req, res) => {
+//     let recipes = [{
+//         name: "Ratatouille",
+//         recRef:"https://beatthebudget.com/recipe/2019-9-28-ratatouille/",
+//         vegetarian:true,
+//         vegan:true,
+//         kosher:false,
+//         halal:false,
+//         serving:4,
+//         time:5,
+//         difficulty:0,
+//         ingredients:["Aubergine","Courgette","Salad Tomato","Mixed Pepper","Passata","Fresh Basil","Fresh Thyme","Olive Oil","Salt"],
+//         quantities:["1","2","6","5","500g",null,null,"3 tbsp",null],
+//         steps:"1: Chop and grill peppers\n2: Chop the other veg\n3: Blend peppers with 100g passata; combine with remaining passata; place in dish; season with salt and thyme.\n4: Place chopped veg in layers in dish\n5: Chop some basil; stir in to 2tbsp olive oil; coat vegetables in mix; season with salt\n6: Cook at 180° for 25 mins\n7: Sprinkle fresh basil on top and serve.",
+//         summary:"Healthy and easy vegan ratatouille!",
+//         userID:3
+//         },
+//         {
+//         name: "Vegan Mushroom Stroganoff",
+//         recRef:"https://beatthebudget.com/recipe/vegan-mushroom-stroganoff/",
+//         vegetarian:true,
+//         vegan:true,
+//         kosher:false,
+//         halal:false,
+//         serving:4,
+//         time:3,
+//         difficulty:0,
+//         ingredients:["Chestnut Mushroom","Cashew","Pasta Shell", "Fresh Thyme", "Aubergine", "Small Onion", "Veggie Stock Cube", "Olive Oil", "Soy Sauce", "Garlic Granule"],
+//         quantities:["500g","150g","500g", null, "1", "2-3", "1", "1 tbsp", "1 tbsp", "1 tsp"],
+//         steps:"1: Soak cashews for an hour before cooking. Chop the mushrooms, aubergine and onions into small to medium-sized pieces\n2: Brown the mushrooms and aubergine in a pan on a high heat, with the oil\n3: Reduce the heat and add the onions and fresh thyme. Continue to fry gently for another 5 minutes. Add the pasta to salted water\n4: When the pasta is nearly ready, drain it and reserve the pasta water for the sauce\n5: Blend the soaked cashews, soy sauce, garlic granules, veggie stock cube and a few ladles of pasta water to make the creamy cashew sauce\n6: Combine the mushroom mix with the pasta, sauce, and 200ml of pasta water. Stir the mix on a low heat until the pasta is al dente. Keep adding pasta water if the sauce seems too thick\n7: Serve with lots of black pepper and a pinch of salt.",
+//         summary:"Creamy and nutritious, vegan mushroom stroganoff made with blended cashews.",
+//         userID:3,
+//         },
+//         {
+//         name: "Purple Porridge",
+//         recRef:"https://beatthebudget.com/recipe/purple-porridge/",
+//         vegetarian:true,
+//         vegan:true,
+//         kosher:false,
+//         halal:false,
+//         serving:4,
+//         time:1,
+//         difficulty:0,
+//         ingredients:["Frozen Mixed Berry","Oat","Honey"],
+//         quantities:["A handful","250g","1 tbsp"],
+//         steps:"1: Add a handful of berries into a medium saucepan with around 200ml of water. Cook on a medium heat for 5 minutes\n2: Stir and smash the berries a bit into a berry sauce\n3: Add the honey and oats to the sauce with around 50-200ml of water depending on how thick you like your porridge\n4: Stirring continuously, heat the porridge for 3 minutes\n5: Serve up with any additional toppings you want.",
+//         summary:"Sweet and sour, deliciously creamy, purple berry porridge.",
+//         userID:2,
+//         }];
+
+//     for (i=0; i<recipes.length; i++) {
+
+//         let name = recipes[i].name;
+//         let recRef = recipes[i].recRef;
+//         let vegetarian = recipes[i].vegetarian;
+//         let vegan = recipes[i].vegan;
+//         let kosher = recipes[i].kosher;
+//         let halal = recipes[i].halal;
+//         let serving = recipes[i].serving;
+//         let time = recipes[i].time;
+//         let difficulty = recipes[i].difficulty;
+//         let ingredients = recipes[i].ingredients;
+//         let quantities = recipes[i].quantities;
+//         let steps = recipes[i].steps;
+//         let summary = recipes[i].summary;
+//         let userID = recipes[i].userID;
+
+//         try {
+
+//             // Add ingredients
+//             for (let i=0; i<ingredients.length; i++) {
+    
+//                 // Find current ingredient
+//                 var ingredient = ingredients[i];
+//                 console.log(ingredient);
+    
+//                 // Find ingID for current ingredient (empty array if ingredient not present in db)
+//                 ingredientFound = await db.promise().query(`SELECT ingID FROM INGREDIENTS WHERE name='${ingredient}'`);
+//                 console.log(ingredientFound[0]);
+    
+//                 // Check if ingredient is already present in db
+//                 if (ingredientFound[0].length===0) {
+    
+//                     // If not in db, add current ingredient to db
+//                     db.promise().query(`INSERT INTO INGREDIENTS (name) VALUES ('${ingredients[i]}')`);
+//                     console.log('Added ingredient');
+//                 }
+//                 else {
+//                     console.log('Ingredient found in db');
+//                 }
+//             }
+    
+//             // Add quantities
+//             for (let q=0; q<quantities.length; q++) {
+
+//                 // Find current quantity
+//                 var quantity = quantities[q];
+//                 console.log(quantity);
+
+//                 // Find quantityID for current quantity (emtpy array if quantity not present in db)
+//                 quantityFound = await db.promise().query(`SELECT quantityID FROM QUANTITIES WHERE name='${quantity}'`);
+
+//                 // Check if quantity is already present in db
+//                 if (quantityFound[0].length===0) {
+
+//                     // If not in db, add current quantity to db
+//                     db.promise().query(`INSERT INTO QUANTITIES (name) VALUES ('${quantity}')`);
+//                     console.log('Added quantity');
+//                 }
+//                 else {
+//                     console.log('Quantity found in db');
+//                 }
+//             }
+
+//             // Add recipe details
+
+//             // Convert booleans values to 1 and 0 for storage in mysql db
+//             if (vegetarian===true) vegetarian=1;
+//             else vegetarian=0;
+
+//             if (vegan===true) vegan=1;
+//             else vegan=0;
+
+//             if (kosher===true) kosher=1;
+//             else kosher=0;
+
+//             if (halal===true) halal=1;
+//             else halal=0;
+            
+//             // Find recID for recipe (empty array if recipe not present in db)
+//             recipeFound = await db.promise().query(`SELECT recID FROM RECIPES WHERE name='${name}' AND userID='${userID}'`);
+//             console.log(recipeFound);
+
+//             // Check if recipe is already in db - prevents users from creating two recipes of the same name
+//             if (recipeFound[0].length===0) {
+
+//                 // Add the recipe details to the recipes table
+//                 db.promise().query(`INSERT INTO RECIPES (userID, name, recRef, scrambledRef, vegetarian, vegan, kosher, halal, serving, time, difficulty, reports, steps, summary) VALUES ('${userID}', '${name}', '<a href=${recRef}>${name} reference</a>', NULL, '${vegetarian}', '${vegan}', '${kosher}', '${halal}', '${serving}', '${time}', '${difficulty}', 0, '${steps}', '${summary}')`);
+//                 console.log('Added recipe details');
+
+//                 // Add to recipe_ingredient_quantity
+
+//                 // Find recID
+
+//                 // Extract recID array
+//                 let recipeDetail = await db.promise().query(`SELECT recID FROM RECIPES WHERE name='${name}' AND userID='${userID}'`);
+//                 console.log(recipeDetail);
+
+//                 // Extract recID integer from recID array
+//                 let recID = recipeDetail[0].map( elm => elm.recID )[0];
+//                 console.log(recID);
+                
+//                 // Check each ingredient in the ingredients array has a corresponding quantity in the quantities array
+//                 if (ingredients.length==quantities.length) {
+
+//                     // Iterate through both arrays
+//                     for (let j=0; j<ingredients.length; j++) {
+
+//                         // Extract ingID array for current ingredient
+//                         let ingredientDetail = await db.promise().query(`SELECT ingID FROM INGREDIENTS WHERE name='${ingredients[j]}'`);
+//                         console.log(ingredientDetail);
+
+//                         // Extract ingID integer for current ingredient
+//                         let ingID = ingredientDetail[0].map( elm => elm.ingID )[0];
+//                         console.log(ingID);
+
+//                         // Extract quantityID array for current quantity
+//                         let quantityDetail = await db.promise().query(`SELECT quantityID FROM QUANTITIES WHERE name='${quantities[j]}'`);
+//                         console.log(quantityDetail);
+
+//                         // Extract quantityID array for current quantity
+//                         let quantityID = quantityDetail[0].map( elm => elm.quantityID )[0];
+//                         console.log(quantityID);                    
+                        
+//                         // Use recID, ingID and quantityID to create a new record in recipe_ingredient_quantity
+//                         db.promise().query(`INSERT INTO RECIPE_INGREDIENT_QUANTITY (recID, ingID, quantityID) VALUES ('${recID}', '${ingID}', '${quantityID}')`);
+//                         console.log('Added recipe_ingredient_quantity');
+//                     }
+//                 }
+//                 else {
+//                     console.log('Different number of ingredients and quantities');
+//                 }
+//             }
+//             else {
+//                 console.log('Recipe found in db');
+//             }
+//             res.status(201).send({msg: 'Recipe Created!'});
+//         }
+//         catch (err) {
+//             console.log(err);
+//         }
+//     }    
+// });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // when run, can't do anything else until finished - app. blocks entire shell so it's running and ready to handle requests
 // need to interact w/ and access app. - type localhost:3000 in browser - cannot get - no endpoints or routes handled yet
 // handling a simple route
