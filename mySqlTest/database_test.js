@@ -670,8 +670,6 @@ app.post('/:userID/changePassword', async (req,res) => {
     catch(err){
         console.log(err);
     }
-
-
 });
 
 // // ASK SECURITY QUESTION
@@ -693,7 +691,7 @@ app.post('/:userID/changePassword', async (req,res) => {
 //                 console.log(question);
 //             }
 //             else if (question===1) {
-//                 question = "What age were you when you lost your first tooth?";
+//                 question = "What is your favourite film?";
 //                 res.status(200).send(question);
 //                 console.log(question);
 //             }
@@ -713,18 +711,20 @@ app.post('/:userID/changePassword', async (req,res) => {
 //     }
 // });
 
-// // RECOVER PASSWORD
-// app.post('/forgotPassowrd', async (req, res) => {
+// // CHANGE PASSWORD FOR RECOVERY
+// app.post('/forgotPassword', async (req, res) => {
 //     let email = req.query.email;
 //     let answer = req.body.answer;
+//     let newPassword = req.body.answer;
 
 //     try {
 //         let dbAnswer = await db.promise().query(`SELECT answer FROM USERS WHERE email='${email}'`);
 
+//         // Change password if answer correct
 //         if (answer===dbAnswer) {
-//             let password = await db.promise().query(`SELECT password FROM USERS WHERE email='${email}'`);
-//             res.status(200).send(password);
-//             console.log(password);
+//             db.promise().query(`UPDATE USERS SET password='${newPassword}' WHERE email=${email}`);
+//             console.log('password changed');
+//             res.status(200).send({msg: "password changed"});
 //         }
 //         else {
 //             res.status(200).send({msg: "Incorrect response"});
