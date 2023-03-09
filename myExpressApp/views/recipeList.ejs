@@ -99,17 +99,15 @@
       <form onsubmit="return false;" method="post" name="filters">
         <!-- Search box -->
         <div class="search-container">
-          <form action="/action_page.php">
-            <input type="text" placeholder="Search.." name="search">
-            <button type="submit"><i class="fa fa-search"></i></button>
-          </form>
+          <input type="text" id="search" placeholder="Search.." name="search">
         </div>
         <!-- Ingredients box -->
         <div class="search-container">
-          <form action="/action_page.php">
-            <input type="text" placeholder="Add ingredient.." name="ingredient">
-            <button type="submit"><i class="fa fa-search"></i></button>
-          </form>
+          <input type="text" id="ingredients" placeholder="Add ingredient.." name="ingredient">
+        </div>
+        <!-- Allergies box -->
+        <div class="search-container">
+          <input type="text" id="allergies" placeholder="Add allergy.." name="allergies">
         </div>
 
         <!-- Dietary requirements dropdown -->
@@ -194,7 +192,7 @@
         </div>
 
         <!-- Filter submit button -->
-        <input type="submit" name="filter" onclick="filterRecipes()">
+        <input type="submit" name="filter" value="Filter" onclick="filterRecipes()">
       </form>
     </div>
   <div>

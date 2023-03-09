@@ -6,10 +6,16 @@ initialSearch = function() {
         .then(response => response.json())
         .then(data => {
             data.forEach(article => {
-                summary = '<p id="rcorners1"><b>' + article.name + '</b> - ' + article.summary;
-                summary += '<br>Vg: ' + article.vegetarian + ', Ve: ' + article.vegan + ', Ko: ' + article.kosher + ', Ha: ' + article.halal;
-                summary += '<br>Serves: ' + article.serving + ', Time: ' + article.time + ', Difficulty: ' + article.difficulty + '</p>';
-                iconDisplay.insertAdjacentHTML("beforeend", summary);
+                if (article.alert != undefined) {
+                    if (article.alert == true) {
+                        alert(article.text);
+                    } 
+                } else {
+                    summary = '<p id="rcorners1"><b>' + article.name + '</b> - ' + article.summary;
+                    summary += '<br>Vg: ' + article.vegetarian + ', Ve: ' + article.vegan + ', Ko: ' + article.kosher + ', Ha: ' + article.halal;
+                    summary += '<br>Serves: ' + article.serving + ', Time: ' + article.time + ', Difficulty: ' + article.difficulty + '</p>';
+                    iconDisplay.insertAdjacentHTML("beforeend", summary);
+                }
             });
         })
         .catch(err => console.log(err));
@@ -19,6 +25,31 @@ initialSearch = function() {
 // sends post request to the search route using the JSON,
 // then adds the returned recipes to the display
 filterRecipes = function() {
+    // Capitalises first letter of each word
+    search = document.getElementById('search').value;
+    if(search == "") search = null;
+    else {
+        search = search.split(" ");
+        for(let i = 0; i<search.length; i++) {
+            search[i] = search[i][0].toUpperCase() + search[i].substring(1);
+        }
+        search = search.join(" ");
+    }
+
+    ingredients = document.getElementById('ingredients').value;
+    if(ingredients == "") ingredients = null;
+    else {
+        ingredients = ingredients.split(",");
+        for(let j = 0; j<ingredients.length; j++) {
+            ingredients[j] = ingredients[j].split(" ");
+            console.log(ingredients[j]);
+            for(let i = 0; i<ingredients[j].length; i++) {
+                ingredients[j][i] = ingredients[j][i][0].toUpperCase() + ingredients[j][i].substring(1);
+            }
+            ingredients[j] = ingredients[j].join(" ");
+        }
+    }
+
     difficulty = null;
     serving = null;
     time = null;
@@ -46,9 +77,9 @@ filterRecipes = function() {
     if(document.getElementById('halal').checked) halal = true;
     else halal = null;
 
-    //alert("Serving: " + serving+ ", Time: " + time + ", Diffuclty: " + difficulty + ", Vegetarian: " + vegetarian + ", Vegan: " + vegan + ", Kosher: " + kosher + ", Halal: " + halal);
+    //alert("Search: " + search + ", Ingredients:" + ingredients + "Serving: " + serving+ ", Time: " + time + ", Diffuclty: " + difficulty + ", Vegetarian: " + vegetarian + ", Vegan: " + vegan + ", Kosher: " + kosher + ", Halal: " + halal);
 
-    iconDisplay.innerHTML = "<p>Loading recipes...</p>";
+    iconDisplay.innerHTML = "<p id='rcorners1'>Loading recipes...</p>";
 
     fetch("http://localhost:3000/recipes/search", {
         method: "POST",
@@ -56,8 +87,8 @@ filterRecipes = function() {
             "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            search: null,
-            ingredients: null,
+            search: search,
+            ingredients: ingredients,
             vegetarian: vegetarian,
             vegan: vegan,
             kosher: kosher,
@@ -72,10 +103,16 @@ filterRecipes = function() {
     .then(data => {
         iconDisplay.innerHTML = "";
         data.forEach(article => {
-            summary = '<p id="rcorners1"><b>' + article.name + '</b> - ' + article.summary;
-            summary += '<br>Vg: ' + article.vegetarian + ', Ve: ' + article.vegan + ', Ko: ' + article.kosher + ', Ha: ' + article.halal;
-            summary += '<br>Serves: ' + article.serving + ', Time: ' + article.time + ', Difficulty: ' + article.difficulty + '</p>';
-            iconDisplay.insertAdjacentHTML("beforeend", summary);
+            if (article.alert != undefined) {
+                if (article.alert == true) {
+                    alert(article.text);
+                }
+            } else {
+                summary = '<p id="rcorners1"><b>' + article.name + '</b> - ' + article.summary;
+                summary += '<br>Vg: ' + article.vegetarian + ', Ve: ' + article.vegan + ', Ko: ' + article.kosher + ', Ha: ' + article.halal;
+                summary += '<br>Serves: ' + article.serving + ', Time: ' + article.time + ', Difficulty: ' + article.difficulty + '</p>';
+                iconDisplay.insertAdjacentHTML("beforeend", summary);
+            }
         })
     })
     .catch(err => console.log(err));

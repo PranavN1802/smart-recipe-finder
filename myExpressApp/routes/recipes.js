@@ -23,6 +23,8 @@ router.get('/search', async(req, res, next) => {
 
 router.post('/search', async(req, res, next) => {
     let recipes = null;
+    let alertText = "";
+    let alert = false;
 
     console.log("Input body: ", req.body);
     // Extract values from request body
@@ -121,6 +123,13 @@ router.post('/search', async(req, res, next) => {
             let ingID = await db.promise().query(`SELECT ingID FROM INGREDIENTS WHERE name LIKE '${ingredient}'`);
             ingID = ingID[0].map( elm => elm.ingID )[0];
 
+            // Checks if ingredient was found
+            if (ingID == undefined) {
+                alert = true;
+                alertText += "Ingredient '" + ingredients[k] + "' was not found in any recipe!\n";
+                continue;
+            }
+
             // Find the recIDs that match that ingID in recipe_ingredient_quantity
             let recID = await db.promise().query(`SELECT recID FROM RECIPE_INGREDIENT_QUANTITY WHERE ingID=${ingID}`);
 
@@ -133,26 +142,40 @@ router.post('/search', async(req, res, next) => {
                 // if (recIDs.includes(recIDCurrent)===false && recIDsAllergies.includes(recIDCurrent)===false) recIDs.push(recIDCurrent);
 
             }
-            //console.log(recIDs);
         }
-        
-        // Find summary recipe details from filters
-        recipes = await db.promise().query(`SELECT recID, name, vegetarian, vegan, kosher, halal, serving, time, difficulty, summary FROM RECIPES WHERE (name LIKE '${search}' OR summary LIKE '${search}') AND vegetarian LIKE '${vegetarian}' AND vegan LIKE '${vegan}' AND kosher LIKE '${kosher}' AND halal LIKE '${halal}' AND serving LIKE '${serving}' AND time LIKE '${time}' AND difficulty LIKE '${difficulty}' AND recID IN (${recIDs})`);
-        
-        // Sort the recipes in ascending order by either serving, time or difficulty
-        if (sortBy===0) {
-            recipes = recipes[0].sort((a, b) => a.serving - b.serving);
-        }
-        else if (sortBy===1) {
-            recipes = recipes[0].sort((a, b) => a.time - b.time);
-        }
-        else if (sortBy===2) {
-            recipes = recipes[0].sort((a, b) => a.difficulty - b.difficulty);
-        }
-        
-        console.log(recipes[0]);
 
-        res.status(200).send(recipes[0]);
+        // Creates potential alert 
+        if (alert) {
+            alertJSON = ({
+                alert: alert,
+                text: alertText
+            });
+        }
+
+        if (recIDs.length > 0) {
+            // Find summary recipe details from filters
+            recipes = await db.promise().query(`SELECT recID, name, vegetarian, vegan, kosher, halal, serving, time, difficulty, summary FROM RECIPES WHERE (name LIKE '${search}' OR summary LIKE '${search}') AND vegetarian LIKE '${vegetarian}' AND vegan LIKE '${vegan}' AND kosher LIKE '${kosher}' AND halal LIKE '${halal}' AND serving LIKE '${serving}' AND time LIKE '${time}' AND difficulty LIKE '${difficulty}' AND recID IN (${recIDs})`);
+            
+            // Sort the recipes in ascending order by either serving, time or difficulty
+            if (sortBy===0) {
+                recipes = recipes[0].sort((a, b) => a.serving - b.serving);
+            }
+            else if (sortBy===1) {
+                recipes = recipes[0].sort((a, b) => a.time - b.time);
+            }
+            else if (sortBy===2) {
+                recipes = recipes[0].sort((a, b) => a.difficulty - b.difficulty);
+            }
+
+            // Appends potential alert message to the response
+            if (alert) recipes[0].push(alertJSON);
+            console.log(recipes[0]);
+            res.status(200).send(recipes[0]);
+        } else {
+            let recipes = [alertJSON];
+            console.log(recipes);
+            res.status(200).send(recipes);
+        }
     }
     catch (err) {
         console.log(err);
