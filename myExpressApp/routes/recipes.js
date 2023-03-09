@@ -8,30 +8,25 @@ router.get('/', async(req, res, next) => {
     res.render('recipeList', { title: 'Recipes | Bubble\'N\'Sqeak' });
 
     //response = await db.promise().query(`SHOW TABLES`);
+});
 
-    /*
+router.get('/search', async(req, res, next) => {
     request.post('http://localhost:3000/recipes/search',
         { json: { search: null, ingredients: null, vegetarian: null, vegan: null, kosher: null, halal: null, serving: null, time: null, difficulty: null, sortBy: null }},
         function (error, response, body) {
             if (!error && response.statusCode == 200) {
-                console.log(body);
+                res.status(200).send(body);
             }
         }
     );
-    */
-});
-
-router.get('/search', async(req, res, next) => {
-    recipes = await db.promise().query(`SELECT recID, name, vegetarian, vegan, kosher, halal, serving, time, difficulty, summary FROM RECIPES`);
-    console.log(recipes[0]);
-    res.status(200).send(recipes[0]);
 });
 
 router.post('/search', async(req, res, next) => {
     let recipes = null;
 
+    console.log("Input body: ", req.body);
     // Extract values from request body
-    let { type, search, ingredients, vegetarian, vegan, kosher, halal, serving, time, difficulty, sortBy } = req.body;
+    let { search, ingredients, vegetarian, vegan, kosher, halal, serving, time, difficulty, sortBy } = req.body;
     console.log("Request to recipes/search:", search, ingredients, vegetarian, vegan, kosher, halal, serving, time, difficulty, sortBy);
 
     // For allergies
@@ -41,35 +36,35 @@ router.post('/search', async(req, res, next) => {
     // Replace null values with wildcards that will match any value for that attribute in the db
     // % => any number of characters
     // _  => 1 character (used for the integer values here)
-    if (search===null || type == "initial") search=["%"];
+    if (search===null ) search=["%"];
     else search = "%"+search+"%";
 
     // Replace booleans with 1 or 0 for mysql
-    if (vegetarian===null || type == "initial") vegetarian="_";
+    if (vegetarian===null) vegetarian="_";
     else if (vegetarian===true) vegetarian=1;
     else if (vegetarian===false) vegetarian=0;
 
-    if (vegan===null || type == "initial") vegan="_";
+    if (vegan===null) vegan="_";
     else if (vegan===true) vegan=1;
     else if (vegan===true) vegan=0;
 
-    if (kosher===null || type == "initial") kosher="_";
+    if (kosher===null) kosher="_";
     else if (kosher===true) kosher=1;
     else if (kosher===true) kosher=0;
 
-    if (halal===null || type == "initial") halal="_";
+    if (halal===null) halal="_";
     else if (halal===true) halal=1;
     else if (halal===true) halal=0;
 
-    if (serving===null || type == "initial") serving="_";
+    if (serving===null) serving="_";
     else if (serving===true) serving=1;
     else if (serving===true) serving=0;
 
-    if (time===null || type == "initial") time="_";
+    if (time===null) time="_";
     else if (time===true) time=1;
     else if (time===true) time=0;
 
-    if (difficulty===null || type == "initial") difficulty="_";
+    if (difficulty===null) difficulty="_";
     else if (difficulty===true) difficulty=1;
     else if (difficulty===true) difficulty=0;
 
@@ -78,7 +73,7 @@ router.post('/search', async(req, res, next) => {
         // Find summary recipe details with filters - included recID - wouldn't be displayed but can be used to fetch complete recipe details
         
         // If ingredients is null, replace it with every ingredient in the ingredients table (any are possible)
-        if (ingredients===null || type == "initial") {
+        if (ingredients===null) {
             ingredients = await db.promise().query(`SELECT name FROM INGREDIENTS`);
             ingredients = ingredients[0].map( elm => elm.name );
         }

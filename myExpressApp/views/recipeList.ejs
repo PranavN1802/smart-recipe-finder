@@ -94,96 +94,118 @@
       </div>
     </nav>
 
-    
+    <!-- Filter sidebar -->
     <div class="sidenav">
-      <form>
+      <form onsubmit="return false;" method="post" name="filters">
+        <!-- Search box -->
         <div class="search-container">
           <form action="/action_page.php">
             <input type="text" placeholder="Search.." name="search">
             <button type="submit"><i class="fa fa-search"></i></button>
           </form>
         </div>
+        <!-- Ingredients box -->
         <div class="search-container">
           <form action="/action_page.php">
             <input type="text" placeholder="Add ingredient.." name="ingredient">
             <button type="submit"><i class="fa fa-search"></i></button>
           </form>
         </div>
-    
-      <button class="dropdown-btn">Dietary requirements 
-        <i class="fa fa-caret-down"></i>
-      </button>
-      <div class="dropdown-container">
-      <li><a href="#" class="small" data-value="vegetarian" tabIndex="-1"><input type="checkbox"/>&nbsp;Vegetarian</a></li>
-      <li><a href="#" class="small" data-value="vegan" tabIndex="-1"><input type="checkbox"/>&nbsp;Vegan</a></li>
-      <li><a href="#" class="small" data-value="kosher" tabIndex="-1"><input type="checkbox"/>&nbsp;Kosher</a></li>
-      <li><a href="#" class="small" data-value="halal" tabIndex="-1"><input type="checkbox"/>&nbsp;Halal</a></li>      
-    
-    
-      </div>
-      <button class="dropdown-btn">Difficulty 
-        <i class="fa fa-caret-down"></i>
-      </button>
-      <div class="dropdown-container">
 
-      <input type="radio" id="child" name="Difficulty" value="easy">
-      <label for="child">Easy</label><br>
-      <input type="radio" id="adult" name="Difficulty" value="medium">
-      <label for="adult">Medium</label><br>
-      <input type="radio" id="senior" name="Difficulty" value="hard">
-      <label for="senior">Hard</label>
+        <!-- Dietary requirements dropdown -->
+        <button class="dropdown-btn">Dietary requirements 
+          <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-container">
+          <li><a href="#" class="small" data-value="vegetarian" tabIndex="-1"><input type="checkbox" id="vegetarian"/>Vegetarian</a></li>
+          <li><a href="#" class="small" data-value="vegan" tabIndex="-1"><input type="checkbox" id="vegan"/>Vegan</a></li>
+          <li><a href="#" class="small" data-value="kosher" tabIndex="-1"><input type="checkbox" id="kosher"/>Kosher</a></li>
+          <li><a href="#" class="small" data-value="halal" tabIndex="-1"><input type="checkbox" id="halal"/>Halal</a></li>
+        </div>
 
-      </div>
+        <!-- Difficulty dropdown -->
+        <button class="dropdown-btn">Difficulty 
+          <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-container" id="difficulty">
+          <input type="radio" id="difficulty0" name="Difficulty" value="0">
+          <label for="difficulty">Easy</label><br>
+          <input type="radio" id="difficulty1" name="Difficulty" value="1">
+          <label for="difficulty">Medium</label><br>
+          <input type="radio" id="difficulty2" name="Difficulty" value="2">
+          <label for="difficulty">Hard</label>
+        </div>
 
-      <button class="dropdown-btn">Time 
-      <i class="fa fa-caret-down"></i>
-    </button>
-    <div class="dropdown-container">
+        <!-- Time dropdown -->
+        <button class="dropdown-btn">Time 
+          <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-container" id="time">
+          <input type="radio" id="time0" name="time" value="0">
+          <label for="time">Less than 5 minutes</label><br>
+          <input type="radio" id="time1" name="time" value="1">
+          <label for="time">5-10 minutes</label><br>
+          <input type="radio" id="time2" name="time" value="2">
+          <label for="time">10-20 minutes</label><br>
+          <input type="radio" id="time3" name="time" value="3">
+          <label for="time">20-30 minutes</label><br>
+          <input type="radio" id="time4" name="time" value="4">
+          <label for="time">30-40 minutes</label><br>
+          <input type="radio" id="time5" name="time" value="5">
+          <label for="time">40-50 minutes</label><br>
+          <input type="radio" id="time6" name="time" value="6">
+          <label for="time">50-60 minutes</label><br>
+          <input type="radio" id="time7" name="time" value="7">
+          <label for="time">60-90 minutes</label><br>
+          <input type="radio" id="time8" name="time" value="8">
+          <label for="time">90-120 minutes</label><br>
+          <input type="radio" id="time9" name="time" value="9">
+          <label for="time">120-180 minutes</label><br>
+          <input type="radio" id="time10" name="time" value="10">
+          <label for="time">More than 180 minutes</label>
+        </div>
+        <!-- Serving size dropdown -->
+        <button class="dropdown-btn">Serving size 
+          <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-container" id="serving">
+          <input type="radio" id="serving0" name="Serving size" value="0">
+          <label for="serving">serves 1</label><br>
+          <input type="radio" id="serving1" name="Serving size" value="1">
+          <label for="serving">serves 2</label><br>
+          <input type="radio" id="serving2" name="Serving size" value="2">
+          <label for="serving">serves 3</label><br>
+          <input type="radio" id="serving3" name="Serving size" value="3">
+          <label for="serving">serves 4</label><br>
+          <input type="radio" id="serving4" name="Serving size" value="4">
+          <label for="serving">serves 5</label><br>
+          <input type="radio" id="serving5" name="Serving size" value="5">
+          <label for="serving">serves 6</label><br>
+          <input type="radio" id="serving6" name="Serving size" value="6">
+          <label for="serving">serves 7</label><br>
+          <input type="radio" id="serving7" name="Serving size" value="7">
+          <label for="serving">serves 8</label><br>
+          <input type="radio" id="serving8" name="Serving size" value="8">
+          <label for="serving">serves 9</label><br>
+          <input type="radio" id="serving9" name="Serving size" value="9">
+          <label for="serving">serves 10</label><br>
+          <input type="radio" id="serving10" name="Serving size" value="10">
+          <label for="serving">serves more than 10</label>
+        </div>
 
-    <input type="radio" id="child" name="time" value="10m">
-    <label for="child">10 minutes</label><br>
-    <input type="radio" id="adult" name="time" value="20m">
-    <label for="adult">20 minutes</label><br>
-    <input type="radio" id="adult" name="time" value="30m">
-    <label for="senior">30 minutes</label><br>
-    <input type="radio" id="45m" name="time" value="45m">
-    <label for="45m">45 minutes</label><br>
-    <input type="radio" id="1h" name="time" value="1h">
-    <label for="1h">1 hour</label>
-
+        <!-- Filter submit button -->
+        <input type="submit" name="filter" onclick="filterRecipes()">
+      </form>
     </div>
-
-    <button class="dropdown-btn">Serving size 
-      <i class="fa fa-caret-down"></i>
-    </button>
-    <div class="dropdown-container">
-
-    <input type="radio" id="child" name="Serving size" value=1>
-    <label for="child">serves 1</label><br>
-    <input type="radio" id="adult" name="Serving size" value=2>
-    <label for="adult">serves 2</label><br>
-    <input type="radio" id="senior" name="Serving size" value=3>
-    <label for="senior">serves 3</label><br>
-    <input type="radio" id="senior" name="Serving size" value=4>
-    <label for="senior">serves 4</label><br>
-    <input type="radio" id="senior" name="Serving size" value=5>
-    <label for="senior">serves 5 or more</label>
-
-    </div>
-     
-    <input type="submit" value="Filter">
-    </div>
-  </nav>
   <div>
 
     <div class="main_content">
       <!-- Recipe Icons inserted here -->
     </div>
-    
+  
   </div>
   <script src="functions/recipeIcons.js"></script>
   </body>
-  </form>
     
     </body>
     <script>
