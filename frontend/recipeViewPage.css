@@ -23,7 +23,7 @@ body {
   border: 20px;
 }
 .nav-link:hover {
-  font-weight: bold;
+  font-weight: light;
   color: black;
 }
 .dropdown-toggle::after {
@@ -94,29 +94,6 @@ img {
   opacity: 1;
 }
 
-.text {
-  background-color: #4caf50;
-  color: #ffffff;
-  font-size: 16px;
-  padding: 16px 32px;
-}
-h1 {
-  color: #af0caf;
-  font-family: "freight-text-pro", "FreightText Pro", "Garamond", serif;
-  font-weight: 600;
-  line-height: 1;
-  letter-spacing: 0;
-}
-.column {
-  float: left;
-  width: 33.33%;
-  padding: 15px;
-}
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
-}
 h2 {
   font-family: "freight-text-pro", "FreightText Pro", "Garamond", serif;
   font-weight: 600;
@@ -136,12 +113,6 @@ p {
   color: #373737;
   font-size: 20px;
   text-align: left;
-}
-img {
-  opacity: 1;
-  display: block;
-  width: 100%;
-  height: auto;
 }
 button:not(.menu_button, .drop-down_list) {
   display: inline;
@@ -179,31 +150,6 @@ button:not(.menu_button, .drop-down_list):hover {
   flex-direction: row;
   justify-content: flex-end;
   margin-right: 0;
-}
-.container1 {
-  margin-left: 120px;
-  margin-right: 120px;
-  margin-bottom: 30px;
-  margin-top: 10px;
-  padding: 0;
-}
-.pagination {
-  display: inline-block;
-  display: flex;
-  padding-left: 0px;
-  list-style: none;
-  justify-content: center;
-}
-.pagination a {
-  color: black;
-  float: left;
-  padding: 8px 16px;
-  margin-bottom: 20px;
-  text-decoration: none;
-}
-.pagination a:hover {
-  background-color: #ddd;
-  border-radius: 5px;
 }
 * {
   margin: 0;
