@@ -392,15 +392,21 @@ input[type=submit] {
 input[type=text]{
   background-color: navajowhite;
   padding-left: 10px;
-  width: 140px;
+  width: 200px;
   height: 35px;
-  
 }
+
+.search-container{
+  padding-left: 15px;
+  padding-bottom: 10px;
+}
+
 .main_content {
   overflow: hidden;
   margin-left: 250px;
   margin-top: 20px;
 }
+
 #rcorners1 {
   border-radius: 25px;
   background: orange;
@@ -409,3 +415,4 @@ input[type=text]{
   height: 150px; 
   position: relative;
 }
+
