@@ -1,8 +1,8 @@
-loginCheck = function(){
+loginCheck = function() {
     var valid = true;
 
-    const $userEmail = $('#userEmail');
-    const $userPassword = $('#userPassword');
+    const $userEmail = $('#emailResult');
+    const $userPassword = $('#passwordResult');
 
     // Checks the email is of the required format
     var email = document.getElementById("userEmail").value;
@@ -10,8 +10,10 @@ loginCheck = function(){
     if(emailCheck.test(email) == false) {
         valid = false;
         $userEmail.text('Email must be valid!');
+        $userEmail.css('color', 'red');
     } else {
         $userEmail.text('Email is valid');
+        $userEmail.css('color', 'green');
     }
 
     // Checks if password is of the required format
@@ -19,9 +21,11 @@ loginCheck = function(){
     const passwordCheck = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[A-Z])[a-zA-Z0-9!@#$%^&*]{8,50}$/;
     if(passwordCheck.test(password) == false) {
         valid = false;
-        $userPassword.text('Password must be valid');
+        $userPassword.text('Password must be valid!');
+        $userPassword.css('color', 'red');
     } else {
         $userPassword.text('Password is valid');
+        $userPassword.css('color', 'green');
     }
 
     // Send post request to /users/login with information given
