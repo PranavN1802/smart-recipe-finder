@@ -11,6 +11,45 @@ router.post('/login', async(req, res, next) => {
 
     // Jay - your serverside code goes here!
 
+    const { email, password } = req.body;
+
+    // Used to check details on the serverside (in case user has javascript disabled like a cheeky hacker)
+    const emailCheck = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+    const passwordCheck = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[A-Z])[a-zA-Z0-9!@#$%^&*]{8,50}$/;
+
+    if(!emailCheck.test(email)||!passwordCheck.test(password)){
+        console.log("Error validating email or password.");
+        res.status(500).send({ text: "Error validating email or password." });
+    }else{
+        let emails = await db.promise().query(`SELECT email FROM USERS`);
+        emails = emails[0].map( elm => elm.email );
+    
+        // Check entered email is in db
+        if (email in emails) {
+            // Find password for email
+            dbPassword = await db.promise().query(`SELECT password FROM USERS WHERE email='${email}'`);
+            dbPassword = dbPassword[0].map( elm => elm.password )[0];
+        
+            // Check if the password is correct
+            if (password === dbPassword) {
+                let userID = await db.promise().query(`SELECT userID FROM USERS WHERE email='${email}' AND password='${password}'`);
+                userID=userID[0].map(elm => elm.userID)[0];
+                res.status(200).send(userID);
+                console.log(userID);
+            }
+            else {
+                res.status(200).send({msg: "Incorrect email or password"});
+                console.log("Incorrect email or username");
+            }
+        }
+        else {
+            res.status(200).send({msg: "Incorrect email or password"});
+            console.log("Incorrect email or username");
+        }           
+    }
+
+
+
 });
 
 router.post('/register', async(req, res, next) => {
