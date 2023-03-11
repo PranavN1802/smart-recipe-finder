@@ -23,7 +23,7 @@ body {
   border: 20px;
 }
 .nav-link:hover {
-  font-weight: light;
+  font-weight: li;
   color: black;
 }
 .dropdown-toggle::after {
@@ -65,7 +65,7 @@ body {
   border-radius: 12px;
 }
 
-img {
+img:not(.recipe_image) {
   opacity: 1;
   display: block;
   width: 100%;
@@ -76,7 +76,16 @@ img {
   margin-bottom: 10px;
 }
 
-.middle {
+.recipe_image {
+  opacity: 1;
+  display: block;
+  transition: 0.5s ease;
+  backface-visibility: hidden;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+*/ .middle {
   transition: 0.5s ease;
   opacity: 0;
   position: absolute;
@@ -84,14 +93,6 @@ img {
   left: 50%;
   transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
-}
-
-.container:hover .image {
-  opacity: 0.3;
-}
-
-.container:hover .middle {
-  opacity: 1;
 }
 
 h2 {
@@ -108,6 +109,7 @@ h3 {
   letter-spacing: 0;
 }
 p {
+  display: block;
   font-family: "freight-text-pro", "FreightText Pro", "Garamond", serif;
   line-height: 1.6;
   color: #373737;
@@ -140,16 +142,14 @@ button:not(.menu_button, .drop-down_list):hover {
 .material-icons:hover {
   color: #ec8e22;
 }
-.button1:hover {
-  cursor: pointer;
-  background: #ffffff;
-}
-
 .container {
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
   margin-right: 0;
+}
+.jumbotron {
+  margin-bottom: 100px;
 }
 * {
   margin: 0;
@@ -229,5 +229,12 @@ ul {
 @media (max-width: 574px) {
   .footer-col {
     width: 100%;
+  }
+}
+
+@media screen and (max-width: 574px) {
+  .recipe_image {
+    margin-right: 15px;
+    margin-bottom: 45px;
   }
 }
