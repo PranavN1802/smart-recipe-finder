@@ -88,49 +88,50 @@
           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
             <a class="dropdown-item" href="/register">Register</a>
             <a class="dropdown-item" href="/login">Login</a>
-            <!-- <a class="dropdown-item" href="#">Something else here</a> -->
           </div>
         </div>
       </div>
     </nav>
-    <!-- <button>Report</button>
-    <button>Upvote</button>
-    <button>Report</button>
-    <button>Report</button> -->
     <div class="textareas">
-        <h3>Register Here </h3>
-        <form>
+      <h3>Register Here </h3>
+      <form>
         <!--username max 20 characters-->
         <!--The class form group splits the different sections up-->
         <div class="form-group">
-            <label for="userName">Username:</label>
-            <br>
-            <input type="text" class="form-control" id="userName" placeholder="Enter your name">
-            <label for="userName"><small>Max. 20 characters</small></label>
-            </div>
-        <!-- password should be at least 8 characters, include special case characters-->
-        <div class="form-group">
-            <label for="userEmail">Email:</label>
-            <br>
-            <input type="text" class="form-control" id="userEmail" placeholder="Enter your email">
-        </div>
-        
-        <div class="form-group">
-            <label for="userPassword">Password:</label>
-            <br>
-            <input type="password" class="form-control" id="userPassword" placeholder="Enter your password"></textarea>
-            <label for="userEmail"><small>Make sure you include at least 8 characters, including a capital, a symbol and numbers</small></label>
-        </div>
-        
-        <div class="form-group">
-            <label for="userRepeatPassword">Repeat Password:</label>
-            <br>
-            <input type="password" class="form-control" id="userRepeatPassword" placeholder="Enter your password again"></textarea>
+          <label for="userName">Username:</label>
+          <br>
+          <input type="text" class="form-control" id="userName" placeholder="Enter your name">
+          <label for="userName" id="nameResult"><small>Between 6 to 20 characters</small></label>
         </div>
 
-        <button type="submit" class="btn btn-primary">Sign Up</button>
-        </form>
+        <div class="form-group">
+          <label for="userEmail">Email:</label>
+          <br>
+          <input type="text" class="form-control" id="userEmail" placeholder="Enter your email">
+          <label id="emailResult"><small></small></label>
+        </div>
+
+        <!-- password should be at least 8 characters, include capital, symbol and number -->
+        <div class="form-group">
+          <label for="userPassword">Password:</label>
+          <br>
+          <input type="password" class="form-control" id="userPassword" placeholder="Enter your password"></textarea>
+          <label for="userEmail" id="passwordResult"><small>Make sure you include at least 8 characters, including a capital, a symbol and a number</small></label>
+        </div>
+        <!-- passwords must match -->
+        <div class="form-group">
+          <label for="userRepeatPassword">Repeat Password:</label>
+          <br>
+          <input type="password" class="form-control" id="userRepeatPassword" placeholder="Enter your password again"></textarea>
+          <label id="passwordRepeatResult"><small></small></label>
+        </div>
+
+        <button type="submit" class="btn btn-primary" id="registerButton" onclick="registerCheck();return false">Sign Up</button>
+      </form>
     </div>
+
+    <script src="functions/register.js"></script>
+
     <footer class="footer">
       <div class="container-fluid">
         <div class="row">
