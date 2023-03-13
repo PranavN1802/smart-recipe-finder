@@ -116,6 +116,10 @@ app.get('/', async(req, res) => {
 // no conflict btw using the same endpoint for a post and get - dif. methods for same endpoint
 app.post('/createUser', async (req, res) => {
     const { email, username, password } = req.body;
+    console.log(email);
+    console.log(typeof(email));
+    console.log(username);
+    console.log(password);
 
     // For password recovery
     // const { email, username, password, question, answer } = req.body;
@@ -129,11 +133,11 @@ app.post('/createUser', async (req, res) => {
             let emails = details[0].map( elm => elm.email );
 
             // Check email and username are unique
-            if (email in emails) {
+            if (emails.includes(email)) {
                 res.send({msg: "Email taken"});
                 console.log("Email taken");
             }
-            else if (username in usernames) {
+            else if (usernames.includes(username)) {
                 res.send({msg: "Username taken"});
                 console.log("Username taken");
             }
@@ -145,7 +149,7 @@ app.post('/createUser', async (req, res) => {
                 // db.promise().query(`INSERT INTO USERS (email, username, password, question, answer) VALUES ('${email}','${username}', '${password}', ${question}, '${answer}')`);
 
                 res.status(201).send({msg: 'Created user'});
-                console.log(req.body);
+                // console.log(req.body);
             }
         }
         catch (err) {
