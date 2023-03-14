@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -35,7 +34,25 @@
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet"
     />
-    <link rel="stylesheet" type="text/css" href="about_1.css" />
+    <link rel="stylesheet" type="text/css" href="Recipe_list.css" />
+    <style>
+      input[type="submit"] {
+        padding: 15 30 15 30;
+        margin-left: 65px;
+        margin-top: 20px;
+        color: #ffffff;
+        background: #ec8e22;
+        border: 1px solid #ec8e22;
+        transition: all 200ms ease-in-out;
+        border-radius: 50px;
+        box-shadow: 0px 3px 3px #c6c3cd;
+      }
+
+      input[type="submit"].btn:hover {
+        cursor: pointer;
+        background: #ffffff;
+      }
+    </style>
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-custom">
@@ -59,7 +76,7 @@
         >
       </button>
       <div class="collapse navbar-collapse" id="collapsibleNavbar">
-         <ul class="navbar-nav">
+        <ul class="navbar-nav">
           <li class="nav-item">
             <a class="nav-link" href="About_page">About</a>
           </li>
@@ -87,157 +104,158 @@
             </a>
           </button>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <a class="dropdown-item" href="#">Something else here</a>
+            <a class="dropdown-item" href="Register_page">Sign in</a>
+            <a class="dropdown-item" href="Register_page">Sign up</a>
+            <a class="dropdown-item" href="Register_page">Log out</a>
           </div>
         </div>
       </div>
     </nav>
-
-    
-    <div class="sidenav">
-      <form>
+    <!-- Filter sidebar -->
+    <div class="sidenav" style="margin-top: 157px; margin-bottom: 0px">
+      <form onsubmit="return false;" method="post" name="filters">
+        <!-- Search box -->
         <div class="search-container">
-          <form action="/action_page.php">
-            <input type="text" placeholder="Search.." name="search">
-            <button type="submit"><i class="fa fa-search"></i></button>
-          </form>
+          <input type="text" id="search" placeholder="Search.." name="search" />
         </div>
+        <!-- Ingredients box -->
         <div class="search-container">
-          <form action="/action_page.php">
-            <input type="text" placeholder="Add ingredient.." name="ingredient">
-            <button type="submit"><i class="fa fa-search"></i></button>
-          </form>
+          <input
+            type="text"
+            id="ingredients"
+            placeholder="Add ingredient.."
+            name="ingredient"
+          />
         </div>
-    
-      <button class="dropdown-btn">Dietary requirements 
-        <i class="fa fa-caret-down"></i>
-      </button>
-      <div class="dropdown-container">
-      <li><a href="#" class="small" data-value="Easy" tabIndex="-1"><input type="checkbox"/>&nbsp;Vegan</a></li>
-      <li><a href="#" class="small" data-value="Medium" tabIndex="-1"><input type="checkbox"/>&nbsp;Vegetarian</a></li>
-      <li><a href="#" class="small" data-value="Hard" tabIndex="-1"><input type="checkbox"/>&nbsp;Lactose intolerance</a></li>
-      <li><a href="#" class="small" data-value="Easy" tabIndex="-1"><input type="checkbox"/>&nbsp;Gluten intolerance</a></li>
-      <li><a href="#" class="small" data-value="Medium" tabIndex="-1"><input type="checkbox"/>&nbsp;Peanut allergies2</a></li>
-      
-    
-    
+        <!-- Allergies box -->
+        <div class="search-container">
+          <input
+            type="text"
+            id="allergies"
+            placeholder="Add allergy.."
+            name="allergies"
+          />
+        </div>
+
+        <!-- Dietary requirements dropdown -->
+        <button class="dropdown-btn">
+          Dietary requirements
+          <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-container">
+          <ul class="drop-down_container_list">
+            <li>
+              <label data-value="vegetarian" tabindex="-1"
+                ><input type="checkbox" id="vegetarian" />&nbspVegetarian</label
+              >
+            </li>
+            <li>
+              <label data-value="vegan" tabindex="-1"
+                ><input type="checkbox" id="vegan" />&nbspVegan</label
+              >
+            </li>
+            <li>
+              <label data-value="kosher" tabindex="-1"
+                ><input type="checkbox" id="kosher" />&nbspKosher</label
+              >
+            </li>
+            <li>
+              <label data-value="halal" tabindex="-1"
+                ><input type="checkbox" id="halal" />&nbspHalal</label
+              >
+            </li>
+          </ul>
+        </div>
+
+        <!-- Difficulty dropdown -->
+        <button class="dropdown-btn">
+          Difficulty
+          <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-container" id="difficulty">
+          <input type="radio" id="difficulty0" name="Difficulty" value="0" />
+          <label for="difficulty">Easy</label><br />
+          <input type="radio" id="difficulty1" name="Difficulty" value="1" />
+          <label for="difficulty">Medium</label><br />
+          <input type="radio" id="difficulty2" name="Difficulty" value="2" />
+          <label for="difficulty">Hard</label>
+        </div>
+
+        <!-- Time dropdown -->
+        <button class="dropdown-btn">
+          Time
+          <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-container" id="time">
+          <input type="radio" id="time0" name="time" value="0" />
+          <label for="time">Less than 5 minutes</label><br />
+          <input type="radio" id="time1" name="time" value="1" />
+          <label for="time">5-10 minutes</label><br />
+          <input type="radio" id="time2" name="time" value="2" />
+          <label for="time">10-20 minutes</label><br />
+          <input type="radio" id="time3" name="time" value="3" />
+          <label for="time">20-30 minutes</label><br />
+          <input type="radio" id="time4" name="time" value="4" />
+          <label for="time">30-40 minutes</label><br />
+          <input type="radio" id="time5" name="time" value="5" />
+          <label for="time">40-50 minutes</label><br />
+          <input type="radio" id="time6" name="time" value="6" />
+          <label for="time">50-60 minutes</label><br />
+          <input type="radio" id="time7" name="time" value="7" />
+          <label for="time">60-90 minutes</label><br />
+          <input type="radio" id="time8" name="time" value="8" />
+          <label for="time">90-120 minutes</label><br />
+          <input type="radio" id="time9" name="time" value="9" />
+          <label for="time">120-180 minutes</label><br />
+          <input type="radio" id="time10" name="time" value="10" />
+          <label for="time">More than 180 minutes</label>
+        </div>
+        <!-- Serving size dropdown -->
+        <button class="dropdown-btn">
+          Serving size
+          <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-container" id="serving">
+          <input type="radio" id="serving0" name="Serving size" value="0" />
+          <label for="serving">serves 1</label><br />
+          <input type="radio" id="serving1" name="Serving size" value="1" />
+          <label for="serving">serves 2</label><br />
+          <input type="radio" id="serving2" name="Serving size" value="2" />
+          <label for="serving">serves 3</label><br />
+          <input type="radio" id="serving3" name="Serving size" value="3" />
+          <label for="serving">serves 4</label><br />
+          <input type="radio" id="serving4" name="Serving size" value="4" />
+          <label for="serving">serves 5</label><br />
+          <input type="radio" id="serving5" name="Serving size" value="5" />
+          <label for="serving">serves 6</label><br />
+          <input type="radio" id="serving6" name="Serving size" value="6" />
+          <label for="serving">serves 7</label><br />
+          <input type="radio" id="serving7" name="Serving size" value="7" />
+          <label for="serving">serves 8</label><br />
+          <input type="radio" id="serving8" name="Serving size" value="8" />
+          <label for="serving">serves 9</label><br />
+          <input type="radio" id="serving9" name="Serving size" value="9" />
+          <label for="serving">serves 10</label><br />
+          <input type="radio" id="serving10" name="Serving size" value="10" />
+          <label for="serving">serves more than 10</label>
+        </div>
+
+        <!-- Filter submit button -->
+        <input
+          class=".btn"
+          type="submit"
+          name="filter"
+          value="Filter"
+          onclick="filterRecipes()"
+        />
+      </form>
+    </div>
+    <div>
+      <div class="main_content">
+        <!-- Recipe Icons inserted here -->
       </div>
-      <button class="dropdown-btn">Difficulty 
-        <i class="fa fa-caret-down"></i>
-      </button>
-      <div class="dropdown-container">
-
-      <input type="radio" id="child" name="Difficulty" value="easy">
-      <label for="child">Easy</label><br>
-      <input type="radio" id="adult" name="Difficulty" value="medium">
-      <label for="adult">Medium</label><br>
-      <input type="radio" id="senior" name="Difficulty" value="hard">
-      <label for="senior">Hard</label>
-
-      </div>
-
-      <button class="dropdown-btn">Time 
-      <i class="fa fa-caret-down"></i>
-    </button>
-    <div class="dropdown-container">
-
-    <input type="radio" id="child" name="time" value="10m">
-    <label for="child">10 minutes</label><br>
-    <input type="radio" id="adult" name="time" value="20m">
-    <label for="adult">20 minutes</label><br>
-    <input type="radio" id="adult" name="time" value="30m">
-    <label for="senior">30 minutes</label><br>
-    <input type="radio" id="45m" name="time" value="45m">
-    <label for="45m">45 minutes</label><br>
-    <input type="radio" id="1h" name="time" value="1h">
-    <label for="1h">> 1 hour</label>
-
     </div>
-
-    <button class="dropdown-btn">Serving size 
-      <i class="fa fa-caret-down"></i>
-    </button>
-    <div class="dropdown-container">
-
-    <input type="radio" id="child" name="Serving size" value="easy">
-    <label for="child">serves 1</label><br>
-    <input type="radio" id="adult" name="Serving size" value="medium">
-    <label for="adult">serves 2</label><br>
-    <input type="radio" id="senior" name="Serving size" value="hard">
-    <label for="senior">serves 3</label><br>
-    <input type="radio" id="senior" name="Serving size" value="hard">
-    <label for="senior">serves 4</label><br>
-    <input type="radio" id="senior" name="Serving size" value="hard">
-    <label for="senior">serves 5 or more</label>
-
-    </div>
-     
-    <input type="submit" value="Filter">
-    </div>
-  </nav>
-  <div>
-
-    <div class="main_content">
-      <p id="rcorners1">Recipe 1</p>
-      <p id="rcorners1">Recipe 2</p>
-      <p id="rcorners1">Recipe 3</p>
-      <p id="rcorners1">Recipe 4</p>
-      
-    </div>
-    
-    </div>
-    </body>
-  </form>
-    
-    </body>
-    <script>
-      /* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
-      var dropdown = document.getElementsByClassName("dropdown-btn");
-      var i;
-      
-      for (i = 0; i < dropdown.length; i++) {
-        dropdown[i].addEventListener("click", function() {
-          this.classList.toggle("active");
-          var dropdownContent = this.nextElementSibling;
-          if (dropdownContent.style.display === "block") {
-            dropdownContent.style.display = "none";
-          } else {
-            dropdownContent.style.display = "block";
-          }
-        });
-      }
-      var options = [];
-      
-      $( '.dropdown-menu a' ).on( 'click', function( event ) {
-      
-         var $target = $( event.currentTarget ),
-             val = $target.attr( 'data-value' ),
-             $inp = $target.find( 'input' ),
-             idx;
-      
-         if ( ( idx = options.indexOf( val ) ) > -1 ) {
-            options.splice( idx, 1 );
-            setTimeout( function() { $inp.prop( 'checked', false ) }, 0);
-         } else {
-            options.push( val );
-            setTimeout( function() { $inp.prop( 'checked', true ) }, 0);
-         }
-      
-         $( event.target ).blur();
-      
-         console.log( options );
-         return false;
-      });
-      $('input[type="submit"]').click(function(){
-        $('input[type="checkbox"]').each(function(){
-          $(this).prop('checked', false);
-        });
-      })
-     
-      </script>
-   <footer class="footer">
+    <footer class="footer" style="margin-top: 265px">
       <div class="container-fluid">
         <div class="row" style="justify-content: space-around">
           <div class="footer-col">
@@ -268,18 +286,74 @@
             <h4>Connect with us</h4>
             <div class="social-links">
               <a href="https://www.facebook.com/computersciencemcr/"
-                ><i class="fab fa-facebook-f"></i
+                ><i
+                  class="fab fa-facebook-f"
+                  style="position: relative; bottom: -10px"
+                ></i
               ></a>
               <a href="https://twitter.com/csmcr/"
-                ><i class="fab fa-twitter"></i
+                ><i
+                  class="fab fa-twitter"
+                  style="position: relative; bottom: -10px"
+                ></i
               ></a>
               <a href="https://www.instagram.com/uomcompsci/"
-                ><i class="fab fa-instagram"></i
+                ><i
+                  class="fab fa-instagram"
+                  style="position: relative; bottom: -10px"
+                ></i
               ></a>
             </div>
           </div>
         </div>
       </div>
     </footer>
+    <script>
+      /* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
+      var dropdown = document.getElementsByClassName("dropdown-btn");
+      var i;
+
+      for (i = 0; i < dropdown.length; i++) {
+        dropdown[i].addEventListener("click", function () {
+          this.classList.toggle("active");
+          var dropdownContent = this.nextElementSibling;
+          if (dropdownContent.style.display === "block") {
+            dropdownContent.style.display = "none";
+          } else {
+            dropdownContent.style.display = "block";
+          }
+        });
+      }
+      var options = [];
+
+      $(".dropdown-menu a").on("click", function (event) {
+        var $target = $(event.currentTarget),
+          val = $target.attr("data-value"),
+          $inp = $target.find("input"),
+          idx;
+
+        if ((idx = options.indexOf(val)) > -1) {
+          options.splice(idx, 1);
+          setTimeout(function () {
+            $inp.prop("checked", false);
+          }, 0);
+        } else {
+          options.push(val);
+          setTimeout(function () {
+            $inp.prop("checked", true);
+          }, 0);
+        }
+
+        $(event.target).blur();
+
+        console.log(options);
+        return false;
+      });
+      $('input[type="submit"]').click(function () {
+        $('input[type="checkbox"]').each(function () {
+          $(this).prop("checked", false);
+        });
+      });
+    </script>
   </body>
 </html>

@@ -23,7 +23,7 @@ body {
   border: 20px;
 }
 .nav-link:hover {
-  font-weight: li;
+  font-weight: light;
   color: black;
 }
 .dropdown-toggle::after {
