@@ -37,7 +37,7 @@ router.post('/login', async(req, res, next) => {
             if (password === dbPassword) {
                 let userID = await db.promise().query(`SELECT userID FROM USERS WHERE email='${email}' AND password='${password}'`);
                 userID=userID[0].map(elm => elm.userID)[0];
-                res.status(200).send({text: userID});
+                res.status(200).send({text: userID, valid: true});
                 console.log(userID);
             }
             else {
