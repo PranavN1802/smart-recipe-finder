@@ -685,7 +685,7 @@ app.post('/:userID/changePassword', async (req,res) => {
 //         let emails = await db.promise().query(`SELECT email FROM USERS`);
 //         emails = emails[0].map( elm => elm.email );
 
-//         if (email in emails) {
+//         if (emails.includes(email)) {
 //             let question = await db.promise().query(`SELECT question FROM USERS WHERE email='${email}'`);
 //             question = question[0].map( elm => elm.question )[0];
 
@@ -1093,7 +1093,7 @@ app.post('/logIn', async (req, res) => {
     emails = emails[0].map( elm => elm.email );
 
     // Check entered email is in db
-    if (email in emails) {
+    if (emails.includes(email)) {
         // Find password for email
         dbPassword = await db.promise().query(`SELECT password FROM USERS WHERE email='${email}'`);
         dbPassword = dbPassword[0].map( elm => elm.password )[0];
