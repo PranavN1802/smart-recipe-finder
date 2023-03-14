@@ -27,7 +27,7 @@ router.post('/login', async(req, res, next) => {
         console.log(email);
     
         // Check entered email is in db
-        if (email in emails) {
+        if (emails.includes(email)) {
             // Find password for email
             dbPassword = await db.promise().query(`SELECT password FROM USERS WHERE email='${email}'`);
             dbPassword = dbPassword[0].map( elm => elm.password )[0];
@@ -79,11 +79,11 @@ router.post('/register', async(req, res, next) => {
                 let emails = details[0].map( elm => elm.email );
 
                 // Check email and username are unique
-                if (email in emails) {
+                if (emails.includes(email)) {
                     res.status(500).send({text: "Email taken"});
                     console.log("Email taken");
                 }
-                else if (username in usernames) {
+                else if (usernames.includes(username)) {
                     res.status(500).send({text: "Username taken"});
                     console.log("Username taken");
                 }
