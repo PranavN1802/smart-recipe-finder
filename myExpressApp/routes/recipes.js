@@ -6,6 +6,7 @@ const db = require('./database');
 
 router.get('/', async(req, res, next) => {
     res.render('recipeList', { title: 'Recipes | Bubble\'N\'Sqeak' });
+    //res.render('recipeView', { title: 'View | Bubble\'N\'Sqeak' });
 
     //response = await db.promise().query(`SHOW TABLES`);
 });
@@ -176,6 +177,66 @@ router.post('/search', async(req, res, next) => {
             console.log(recipes);
             res.status(200).send(recipes);
         }
+    }
+    catch (err) {
+        console.log(err);
+    }
+});
+
+router.get('/view/:recID', async(req, res, next) => {
+    //res.render('recipeView', { title: 'View | Bubble\'N\'Sqeak' });
+
+    // Use recipe name passed as param to find recID for purposes of development
+    // In reality, would use recID from summary data - name too imprecise
+    let recID = req.params.recID;
+    console.log(recID);
+
+    try {
+
+        // Find complete recipe details with recID
+        let recipeDetails = await db.promise().query(`SELECT * FROM RECIPES WHERE recID='${recID}'`);
+        
+        // Find recipe ingredients
+        let ingredients = await db.promise().query(`SELECT name FROM INGREDIENTS WHERE ingID IN (SELECT ingID FROM RECIPE_INGREDIENT_QUANTITY WHERE recID=${recID})`);
+        
+        // Find recipe quantities
+        let quantities = await db.promise().query(`SELECT name FROM QUANTITIES WHERE quantityID IN (SELECT quantityID FROM RECIPE_INGREDIENT_QUANTITY WHERE recID=${recID})`);
+
+        // Extract recipe details as an array - each recipe value can be separately extracted as with userID
+        recipeDetails=recipeDetails[0];
+
+        console.log("scrambledRef");
+        console.log(recipeDetails[0].scrambledRef);
+
+        // If there is no scrambledRef, change it to an empty string
+        if (recipeDetails[0].scrambledRef==null) {
+            recipeDetails[0].scrambledRef="";
+        }
+        // If the scrambledRef is linked to the orphan recipe, change to "Deleted recipe"
+        else if (recipeDetails[0].scrambledRef==0) { // create orphan recipe
+            recipeDetails[0].scrambledRef="Deleted recipe";
+        }
+        // Otherwise, change scrambledRef to the recipe name and user
+        else {
+            scrambledRefRecipe = await db.promise().query(`SELECT name FROM RECIPES WHERE recID=${recipeDetails[0].scrambledRef}`);
+            scrambledRefRecipe = scrambledRefRecipe[0].map( elm => elm.name )[0];
+            console.log(scrambledRefRecipe)
+
+            scrambledRefUser = await db.promise().query(`SELECT username FROM USERS WHERE userID = (SELECT userID FROM RECIPES WHERE recID=${recipeDetails[0].scrambledRef})`);
+            scrambledRefUser = scrambledRefUser[0].map( elm => elm.username )[0];
+            console.log(scrambledRefUser)
+
+            recipeDetails[0].scrambledRef=scrambledRefRecipe+" by "+scrambledRefUser;
+        }
+
+        // Add ingredients to recipe details
+        recipeDetails[0].ingredients=ingredients[0].map( elm => elm.name );
+        
+        // Add quantities to recipe details
+        recipeDetails[0].quantities=quantities[0].map( elm => elm.name );
+        
+        console.log(recipeDetails);
+        res.status(200).send(recipeDetails);
     }
     catch (err) {
         console.log(err);

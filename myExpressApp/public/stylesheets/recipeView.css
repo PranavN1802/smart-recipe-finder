@@ -23,7 +23,7 @@ body {
   border: 20px;
 }
 .nav-link:hover {
-  font-weight: bold;
+  font-weight: light;
   color: black;
 }
 .dropdown-toggle::after {
@@ -65,7 +65,7 @@ body {
   border-radius: 12px;
 }
 
-img {
+img:not(.recipe_image) {
   opacity: 1;
   display: block;
   width: 100%;
@@ -76,7 +76,16 @@ img {
   margin-bottom: 10px;
 }
 
-.middle {
+.recipe_image {
+  opacity: 1;
+  display: block;
+  transition: 0.5s ease;
+  backface-visibility: hidden;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+*/ .middle {
   transition: 0.5s ease;
   opacity: 0;
   position: absolute;
@@ -86,37 +95,6 @@ img {
   -ms-transform: translate(-50%, -50%);
 }
 
-.container:hover .image {
-  opacity: 0.3;
-}
-
-.container:hover .middle {
-  opacity: 1;
-}
-
-.text {
-  background-color: #4caf50;
-  color: #ffffff;
-  font-size: 16px;
-  padding: 16px 32px;
-}
-h1 {
-  color: #af0caf;
-  font-family: "freight-text-pro", "FreightText Pro", "Garamond", serif;
-  font-weight: 600;
-  line-height: 1;
-  letter-spacing: 0;
-}
-.column {
-  float: left;
-  width: 33.33%;
-  padding: 15px;
-}
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
-}
 h2 {
   font-family: "freight-text-pro", "FreightText Pro", "Garamond", serif;
   font-weight: 600;
@@ -131,17 +109,12 @@ h3 {
   letter-spacing: 0;
 }
 p {
+  display: block;
   font-family: "freight-text-pro", "FreightText Pro", "Garamond", serif;
   line-height: 1.6;
   color: #373737;
   font-size: 20px;
   text-align: left;
-}
-img {
-  opacity: 1;
-  display: block;
-  width: 100%;
-  height: auto;
 }
 button:not(.menu_button, .drop-down_list) {
   display: inline;
@@ -149,25 +122,17 @@ button:not(.menu_button, .drop-down_list) {
   background: #ec8e22;
   border: 1px solid #ec8e22;
   margin: 20px auto;
-  padding: 2px 17px;
+  padding: 0px 17px;
   transition: all 200ms ease-in-out;
   border-radius: 50px;
   box-shadow: 0px 3px 3px #c6c3cd;
   font-size: 16px;
+  line-height: 20px;
 }
 button:not(.menu_button, .drop-down_list):hover {
   color: #ec8e22;
   cursor: pointer;
   background: #ffffff;
-}
-
-#scramble_button {
-  border-radius: 100%;
-}
-
-#back_buttton {
-  border-radius: 50%;
-  padding: 2px 17px;
 }
 .material-icons {
   font-size: 36px;
@@ -177,48 +142,19 @@ button:not(.menu_button, .drop-down_list):hover {
 .material-icons:hover {
   color: #ec8e22;
 }
-.button1:hover {
-  cursor: pointer;
-  background: #ffffff;
-}
-
-.container1 {
-  margin-left: 120px;
-  margin-right: 120px;
-  margin-bottom: 30px;
-  margin-top: 10px;
-  padding: 0;
-}
-.pagination {
-  display: inline-block;
+.container {
   display: flex;
-  padding-left: 0px;
-  list-style: none;
-  justify-content: center;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin-right: 0;
 }
-.pagination a {
-  color: black;
-  float: left;
-  padding: 8px 16px;
-  margin-bottom: 20px;
-  text-decoration: none;
-}
-.pagination a:hover {
-  background-color: #ddd;
-  border-radius: 5px;
+.jumbotron {
+  margin-bottom: 100px;
 }
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-}
-.container-fluid {
-  max-width: 1170px;
-  margin: auto;
-}
-.row {
-  display: flex;
-  flex-wrap: wrap;
 }
 ul {
   list-style: none;
@@ -226,6 +162,7 @@ ul {
 .footer {
   background-color: #ec8e22;
   padding: 70px 0;
+  margin: 0 auto;
 }
 .footer-col {
   width: 25%;
@@ -292,5 +229,12 @@ ul {
 @media (max-width: 574px) {
   .footer-col {
     width: 100%;
+  }
+}
+
+@media screen and (max-width: 574px) {
+  .recipe_image {
+    margin-right: 15px;
+    margin-bottom: 45px;
   }
 }

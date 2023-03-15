@@ -82,7 +82,7 @@
             aria-haspopup="true"
             aria-expanded="false"
           >
-            <a class="navbar-brand" href="index.html">
+            <a class="navbar-brand" href="/">
               <img src="/images/user_pic.png" alt="contact" style="width: 40px" />
             </a>
           </button>
@@ -224,6 +224,7 @@
       }
       var options = [];
       
+      /*
       $( '.dropdown-menu a' ).on( 'click', function( event ) {
       
          var $target = $( event.currentTarget ),
@@ -244,6 +245,8 @@
          console.log( options );
          return false;
       });
+      */
+
       $('input[type="submit"]').click(function(){
         $('input[type="checkbox"]').each(function(){
           $(this).prop('checked', false);
