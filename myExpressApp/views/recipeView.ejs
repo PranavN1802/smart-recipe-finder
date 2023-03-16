@@ -37,7 +37,7 @@
     />
     <link rel="stylesheet" type="text/css" href="/stylesheets/recipeView.css" />
   </head>
-  <body>
+  <body data-internalid="1">
     <nav class="navbar navbar-expand-lg navbar-custom">
       <!-- Brand/logo -->
       <a class="navbar-brand" href="/">
@@ -93,6 +93,10 @@
         </div>
       </div>
     </nav>
+
+    <script src="/functions/recipeDetails.js"></script>
+    <div data-internalid="1"></div>
+
     <div class="jumbotron bg-transparent" style="margin-bottom: 0">
       <div class="content_container">
         <img
@@ -108,14 +112,14 @@
         <p id="scrambledRef"></p>
         <br>
 
-        <p id="dietary"></p>
+        <p><b>Dietary Requirements: </b><span id="dietary"></span></p>
         <!-- Insert dietary requirement images -->
-        <p id="difficulty"></p>
+        <p><b>Difficulty: </b><span id="difficulty"></span></p>
         <!-- Insert difficulty images -->
-        <p id="serving"></p>
-        <!-- Insert serving image -->
-        <p id="time"></p>
+        <p><b>Time: </b><span id="time"></span></p>
         <!-- Insert time image -->
+        <p><b>Serving: </b><span id="serving"></span></p>
+        <!-- Insert serving image -->
         <br>
 
         <h3>Ingredients:</h3>
@@ -153,6 +157,7 @@
           </button>
         -->
 
+        <!--
           <button
             id="back_button"
             style="border-radius: 50%; padding-top: 5px"
@@ -162,6 +167,8 @@
               ><img src="/images/left_arrow.png" alt="back" title="Back"
             /></span>
           </button>
+        -->
+
         </div>
       </div>
     </div>

@@ -184,8 +184,15 @@ router.post('/search', async(req, res, next) => {
 });
 
 router.get('/view/:recID', async(req, res, next) => {
-    //res.render('recipeView', { title: 'View | Bubble\'N\'Sqeak' });
+    res.render('recipeView', { title: 'View | Bubble\'N\'Sqeak' });
+});
 
+router.post('/view/:recID', async(req, res, next) => {
+    let recID = req.params.recID;
+    res.status(200).send({ recID: recID});
+});
+
+router.get('/find/:recID', async(req, res, next) => {
     // Use recipe name passed as param to find recID for purposes of development
     // In reality, would use recID from summary data - name too imprecise
     let recID = req.params.recID;
