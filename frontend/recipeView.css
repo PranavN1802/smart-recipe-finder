@@ -166,6 +166,26 @@ button:not(.menu_button, .drop-down_list):hover {
 ul {
   list-style: none;
 }
+
+#ingredientName{
+  margin-right: 10%;
+}
+
+#ingredientNameLabel{
+  margin-left:1%;
+}
+
+#ingredientQuantity{
+  margin-left: 12.5%;
+  margin-right:10%;
+
+}
+
+#ingredientQuantityLabel{
+  margin-left:47%;
+  margin-right:10%;
+}
+
 .footer {
   background-color: #ec8e22;
   padding: 70px 0;
@@ -226,6 +246,14 @@ ul {
   color: #ec8e22;
   background-color: #ffffff;
 }
+
+.textareas{
+  padding-top: 2.5%;
+  padding-bottom: 2.5%;
+  padding-left: 5%;
+  padding-right: 5%;
+}
+
 /*responsive screen view*/
 @media (max-width: 767px) {
   .footer-col {
