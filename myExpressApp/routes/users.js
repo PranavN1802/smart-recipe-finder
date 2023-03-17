@@ -34,15 +34,26 @@ router.get('/', async(req, res, next) => {
 
 router.post('/login', passport.authenticate('local'), (req, res) => {
     console.log('login');
-
-    console.log(req.user);
-    console.log(req.user.userID);
-    res.status(200).send({text: user.userID, valid: true}); 
+    // res.status(200).send({text: "finished", valid: true});     
+    try {
+        if (req.user.userID===undefined) {
+            console.log('userID undefined');
+            res.status(500).send({text: `${req.user}`});
+        } else {
+            console.log('Authorisation passed');
+            console.log(req.user);
+            console.log(typeof(req.user.userID));
+            res.status(200).send({text: req.user.userID, valid: true});     
+        }
+    } catch(err) {
+        console.log('Error caught');
+        console.log(err);
+    }
 });
 
 // END OF NEW VERSION
 
-
+// PREVIOUS VERSION OF LOGIN
 // router.post('/login', async(req, res, next) => {
 
 //     // Jay - your serverside code goes here!

@@ -14,6 +14,7 @@ router.get('/', async(req, res, next) => {
 router.get('/search', async(req, res, next) => {
     console.log('Searching');
     // if (req.user) {
+    //     console.log(req.user.userID);
         request.post('http://localhost:3000/recipes/search',
             { json: { search: null, ingredients: null, vegetarian: null, vegan: null, kosher: null, halal: null, serving: null, time: null, difficulty: null, sortBy: null }},
             function (error, response, body) {

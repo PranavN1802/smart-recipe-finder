@@ -10,23 +10,34 @@ const db = require('../routes/database');
 // makes passport very powerful
 passport.serializeUser((user, done) => {
     console.log('Serialising user');
-    console.log(user);
-    console.log(user.userID);
-    done(null, user.userID); // Could be user.id??
+
+    if (user.userID===undefined) {
+        done(null, user);
+    } else {
+        console.log(user);
+        console.log(user.userID);
+        done(null, user.userID); // Could be user.id??
+    }
 });
 
 // here username being treated as unique identifier - will be userID
 passport.deserializeUser(async (userID, done) => {
     console.log('Deserialising user');
-    console.log(userID);
-    try {
-        const result = await db.promise().query(`SELECT userID, username FROM USERS WHERE userID=${userID}`);
-        if (result[0][0]) {
-            done(null, result[0][0]);
+    console.log(typeof(userID));
+
+    if (typeof(userID)==='number') {
+        console.log(userID);
+        try {
+            const result = await db.promise().query(`SELECT userID, username FROM USERS WHERE userID=${userID}`);
+            if (result[0][0]) {
+                done(null, result[0][0]);
+            }
         }
-    }
-    catch (err) {
-        done(err, null); // no user record
+        catch (err) {
+            done(err, null); // no user record
+        }
+    } else {
+        done(null, null);
     }
 });
 
@@ -76,10 +87,10 @@ passport.use(new LocalStrategy({
                 console.log('Validation failed');
                 console.log("Error validating email or password.");
                 // res.status(500).send({ text: "Error validating email or password." });
-                done(new Error("Error validating email or password."), false); // null for the error object; validation failed
+                // done(new Error("Error validating email or password."), false); // null for the error object; validation failed
                 
                 
-                // done(null, "Error validating email or password."); // null for the error object; validation failed
+                done(null, "Error validating email or password."); // null for the error object; validation failed
                 // Instead of res statement
                 // throw new Error("Error validating email or password.");
             } else {
@@ -108,12 +119,12 @@ passport.use(new LocalStrategy({
                     }
                     else {
                         console.log('Passwords do not match');
-                        done(new Error("Incorrect email or password"), false); // Incorrect credentials
+                        // done(new Error("Incorrect email or password"), false); // Incorrect credentials
+                        console.log("Incorrect email or password");
                         
-                        // done(null, "Incorrect email or password"); // Incorrect credentials
+                        done(null, "Incorrect email or password"); // Incorrect credentials
                         
                         // res.status(500).send({text: "Incorrect email or password"});
-                        console.log("Incorrect email or password");
 
                         // Instead of res statement
                         // throw new Error("Incorrect email or password");
@@ -121,12 +132,12 @@ passport.use(new LocalStrategy({
                 
                 } else {
                     console.log('Email does not exist');
-                    done(new Error("Incorrect email or username"), false); // null for the error object; user not found
+                    // done(new Error("Incorrect email or username"), false); // null for the error object; user not found
+                    console.log("Incorrect email or username");
                     
-                    // done(null, "Incorrect email or password"); // null for the error object; user not found
+                    done(null, "Incorrect email or password"); // null for the error object; user not found
                     
                     // res.status(500).send({text: "Incorrect email or password"});
-                    console.log("Incorrect email or username");
                     
                     // Instead of res statement
                     // throw new Error("Incorrect email or username");
