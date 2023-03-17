@@ -34,7 +34,20 @@ router.get('/', async(req, res, next) => {
 
 router.post('/login', passport.authenticate('local'), (req, res) => {
     console.log('login');
-    res.send(200);
+
+    // console.log(user.userID);
+
+    // const{cookies} = req;
+    // console.log(cookies);
+
+    // if ('userID' in cookies) {
+    //     res.send({msg: 'Authentication Passed'});
+    // } else {
+    //     res.send({msg: 'Authentication did not pass'});
+    // }
+
+
+    res.status(200);
 });
 
 // END OF NEW VERSION
