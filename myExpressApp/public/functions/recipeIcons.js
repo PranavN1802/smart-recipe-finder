@@ -108,7 +108,7 @@ filterRecipes = function() {
                     alert(article.text);
                 }
             } else {
-                summary = '<p id="rcorners1"><b>' + article.name + '</b> - ' + article.summary;
+                summary = '<p id="rcorners1"><a style="color: #373737;" href="http://localhost:3000/recipes/view/' + article.recID + '" target="_blank"><b>' + article.name + '</b></a> - ' + article.summary;
                 summary += '<br>Vg: ' + article.vegetarian + ', Ve: ' + article.vegan + ', Ko: ' + article.kosher + ', Ha: ' + article.halal;
                 summary += '<br>Serves: ' + article.serving + ', Time: ' + article.time + ', Difficulty: ' + article.difficulty + '</p>';
                 iconDisplay.insertAdjacentHTML("beforeend", summary);

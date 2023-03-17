@@ -35,7 +35,7 @@
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet"
     />
-    <link rel="stylesheet" type="text/css" href="/stylesheets/about_1.css" />
+    <link rel="stylesheet" type="text/css" href="/stylesheets/recipeList.css" />
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-custom">
@@ -95,7 +95,7 @@
     </nav>
 
     <!-- Filter sidebar -->
-    <div class="sidenav">
+    <div class="sidenav" style="margin-top: 157px; margin-bottom: 0px">
       <form onsubmit="return false;" method="post" name="filters">
         <!-- Search box -->
         <div class="search-container">
@@ -115,10 +115,28 @@
           <i class="fa fa-caret-down"></i>
         </button>
         <div class="dropdown-container">
-          <li><a href="#" class="small" data-value="vegetarian" tabIndex="-1"><input type="checkbox" id="vegetarian"/>Vegetarian</a></li>
-          <li><a href="#" class="small" data-value="vegan" tabIndex="-1"><input type="checkbox" id="vegan"/>Vegan</a></li>
-          <li><a href="#" class="small" data-value="kosher" tabIndex="-1"><input type="checkbox" id="kosher"/>Kosher</a></li>
-          <li><a href="#" class="small" data-value="halal" tabIndex="-1"><input type="checkbox" id="halal"/>Halal</a></li>
+          <ul class="drop-down_container_list">
+            <li>
+              <label data-value="vegetarian" tabindex="-1"
+                ><input type="checkbox" id="vegetarian" />&nbspVegetarian</label
+              >
+            </li>
+            <li>
+              <label data-value="vegan" tabindex="-1"
+                ><input type="checkbox" id="vegan" />&nbspVegan</label
+              >
+            </li>
+            <li>
+              <label data-value="kosher" tabindex="-1"
+                ><input type="checkbox" id="kosher" />&nbspKosher</label
+              >
+            </li>
+            <li>
+              <label data-value="halal" tabindex="-1"
+                ><input type="checkbox" id="halal" />&nbspHalal</label
+              >
+            </li>
+          </ul>
         </div>
 
         <!-- Difficulty dropdown -->
@@ -199,6 +217,30 @@
 
     <div class="main_content">
       <!-- Recipe Icons inserted here -->
+      <div class="flex-container">
+          <img class="recipe_picture" src="/images/random_food.png" alt="plate">
+          <p id="rcorners1">
+            <a style="color: black;" href="http://localhost:3000/recipes/view/' + article.recID + '" target="_blank"><b>article.name</b></a> - Creamy and nutritious, vegan mushroom stroganoff made with blended cashews.
+            <br>
+
+            <span id="rcorners2">
+              <b>4</b>
+              <img class="detail_icon_square"src="/images/icons/serving-dish.png" alt="serving dish">
+            </span>
+            
+
+            <span id="rcorners2">
+              <b>4</b>
+              <img class="detail_icon"src="/images/icons/clock.png" alt="clock">
+            </span>
+            
+          </p>
+
+          <img class="recipe_icon"src="/images/icons/easy.png" alt="easy">
+          <img class="recipe_icon"src="/images/icons/vegetarian.png" alt="vegetarian">
+          <img class="recipe_icon"src="/images/icons/vegan.png" alt="vegan">
+          <img class="recipe_icon"src="/images/icons/kosher.png" alt="kosher">
+      </div>
     </div>
   
   </div>
