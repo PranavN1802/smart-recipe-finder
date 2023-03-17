@@ -151,6 +151,13 @@ button:not(.menu_button, .drop-down_list):hover {
 .jumbotron {
   margin-bottom: 100px;
 }
+
+#back_button {
+  border-radius: 50%;
+  padding-top: 5px;
+  position: relative;
+  bottom: -3px;
+}
 * {
   margin: 0;
   padding: 0;
@@ -219,13 +226,14 @@ ul {
   color: #ec8e22;
   background-color: #ffffff;
 }
-/*responsive*/
+/*responsive screen view*/
 @media (max-width: 767px) {
   .footer-col {
     width: 50%;
     margin-bottom: 30px;
   }
 }
+
 @media (max-width: 574px) {
   .footer-col {
     width: 100%;
@@ -236,5 +244,39 @@ ul {
   .recipe_image {
     margin-right: 15px;
     margin-bottom: 45px;
+  }
+}
+
+@media screen and (max-width: 513px) {
+  #scramble_button {
+    position: relative;
+    left: 15px;
+    bottom: -5px;
+  }
+
+  #back_button {
+    position: relative;
+    left: 40px;
+    bottom: -5px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .recipe_image {
+    margin-right: -15px;
+    margin-bottom: 35px;
+  }
+
+  .recipeViewPageButtons {
+    display: flex;
+    flex-direction: column;
+  }
+
+  #back_button {
+    margin-right: 80px;
+  }
+
+  #scramble_button {
+    margin-right: 53px;
   }
 }
