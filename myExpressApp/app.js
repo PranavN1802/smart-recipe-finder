@@ -59,54 +59,54 @@ app.use(passport.session());
 // app.use('/auth', authRoute);
 
 
-// Every time user makes a request, want to validate cookie and make sure the cookie actually exists
-// next is a function to be invoked
-function validateCookie(req, res, next) {
-  // get the cookie
-  const{cookies} = req;
-  console.log(cookies);
-  if ( 'session_id' in cookies ) {
-      // i.e. client sent a cookie to the server
-      console.log( 'session id exists' );
-      // need to ensure cookie is actually valid otherwise vulnerability e.g. to act as other accounts
-      if ( cookies.session_id === '123456') next();
-      else res.status(403).send({msg: "Not authenticated"});
-  }   
-  else res.status(403).send({msg: "Not authenticated"});
-}
+// // Every time user makes a request, want to validate cookie and make sure the cookie actually exists
+// // next is a function to be invoked
+// function validateCookie(req, res, next) {
+//   // get the cookie
+//   const{cookies} = req;
+//   console.log(cookies);
+//   if ( 'session_id' in cookies ) {
+//       // i.e. client sent a cookie to the server
+//       console.log( 'session id exists' );
+//       // need to ensure cookie is actually valid otherwise vulnerability e.g. to act as other accounts
+//       if ( cookies.session_id === '123456') next();
+//       else res.status(403).send({msg: "Not authenticated"});
+//   }   
+//   else res.status(403).send({msg: "Not authenticated"});
+// }
 
-// Creates a cookie which lives on the client side
-// mount validate middleware function to sign in route
-// sign in route should be a post request
-app.get('/signin', (req, res) => {
-  res.cookie('session_id', '123456');
-  res.status(200).json({msg: 'Logged In.'})
-});
+// // Creates a cookie which lives on the client side
+// // mount validate middleware function to sign in route
+// // sign in route should be a post request
+// app.get('/signin', (req, res) => {
+//   res.cookie('session_id', '123456');
+//   res.status(200).json({msg: 'Logged In.'})
+// });
 
-// Visit 'protected' route
-app.get('/protected', validateCookie, (req, res) => {
-  res.status(200).json({msg: 'You are authorised'});
-});
+// // Visit 'protected' route
+// app.get('/protected', validateCookie, (req, res) => {
+//   res.status(200).json({msg: 'You are authorised'});
+// });
 
-app.post('/loginTest', (req, res) => {
-  console.log(req.sessionID)
-  const { username, password } = req.body;
-  if (username && password) {
-      if (req.session.authenticated) {
-          res.json(req.session);
-      } else {
-          if (password == '123')  {
-              req.session.authenticated = true;
-              req.session.user = {
-                  username, password
-              };
-              res.json(req.session);
-          } else {
-              res.status(403).json({msg: 'Bad Credentials'});
-          }
-      }
-  } else res.status(403).json({msg: 'Bad Credentials'});
-});
+// app.post('/loginTest', (req, res) => {
+//   console.log(req.sessionID)
+//   const { username, password } = req.body;
+//   if (username && password) {
+//       if (req.session.authenticated) {
+//           res.json(req.session);
+//       } else {
+//           if (password == '123')  {
+//               req.session.authenticated = true;
+//               req.session.user = {
+//                   username, password
+//               };
+//               res.json(req.session);
+//           } else {
+//               res.status(403).json({msg: 'Bad Credentials'});
+//           }
+//       }
+//   } else res.status(403).json({msg: 'Bad Credentials'});
+// });
 
 // whenever log in, send back cookie
 // cookie = unique id that server generates
@@ -155,3 +155,8 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
+
+// ADDED TO WORK ON LUIE'S LAPTOP
+app.listen(3000, () => {
+  console.log('Server is running on Port 3000');
+});
