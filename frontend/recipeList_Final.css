@@ -376,16 +376,3 @@ img.recipe_icon_square {
   height: 50px;
   margin-right: 10px;
 }
-
-.create-btn {
-  position: absolute;
-  right:    0;
-  bottom:   0;
-  height: 50px;
-  width: 90px;
-  margin-right: 10px;
-  background-position: 20px 20px;
-  display: inline-block;
-  padding: 1px 6px 1px 6px;
-  
-}

@@ -113,177 +113,231 @@
         </div>
       </div>
     </nav>
-    <!-- Filter sidebar -->
-    <div class="sidenav" style="margin-top: 157px; margin-bottom: 0px">
-      <form onsubmit="return false;" method="post" name="filters">
-        <!-- Search box -->
-        <div class="search-container">
-          <input type="text" id="search" placeholder="Search.." name="search" />
-        </div>
-        <!-- Ingredients box -->
-        <div class="search-container">
+    <div
+      class="jumbotron bg-transparent"
+      style="padding: 0; margin: 0; height: 1200px"
+    >
+      <!-- Filter sidebar -->
+      <div
+        class="sidenav"
+        style="position: relative; margin-top: 157px; margin: 0px"
+      >
+        <form onsubmit="return false;" method="post" name="filters">
+          <!-- Search box -->
+          <div class="search-container">
+            <input
+              type="text"
+              id="search"
+              placeholder="Search.."
+              name="search"
+            />
+          </div>
+          <!-- Ingredients box -->
+          <div class="search-container">
+            <input
+              type="text"
+              id="ingredients"
+              placeholder="Add ingredient.."
+              name="ingredient"
+            />
+          </div>
+          <!-- Allergies box -->
+          <div class="search-container">
+            <input
+              type="text"
+              id="allergies"
+              placeholder="Add allergy.."
+              name="allergies"
+            />
+          </div>
+
+          <!-- Dietary requirements dropdown -->
+          <button class="dropdown-btn">
+            Dietary requirements
+            <i class="fa fa-caret-down"></i>
+          </button>
+          <div class="dropdown-container">
+            <ul class="drop-down_container_list">
+              <li>
+                <label data-value="vegetarian" tabindex="-1"
+                  ><input
+                    type="checkbox"
+                    id="vegetarian"
+                  />&nbspVegetarian</label
+                >
+              </li>
+              <li>
+                <label data-value="vegan" tabindex="-1"
+                  ><input type="checkbox" id="vegan" />&nbspVegan</label
+                >
+              </li>
+              <li>
+                <label data-value="kosher" tabindex="-1"
+                  ><input type="checkbox" id="kosher" />&nbspKosher</label
+                >
+              </li>
+              <li>
+                <label data-value="halal" tabindex="-1"
+                  ><input type="checkbox" id="halal" />&nbspHalal</label
+                >
+              </li>
+            </ul>
+          </div>
+
+          <!-- Difficulty dropdown -->
+          <button class="dropdown-btn">
+            Difficulty
+            <i class="fa fa-caret-down"></i>
+          </button>
+          <div class="dropdown-container" id="difficulty">
+            <input type="radio" id="difficulty0" name="Difficulty" value="0" />
+            <label for="difficulty">Easy</label><br />
+            <input type="radio" id="difficulty1" name="Difficulty" value="1" />
+            <label for="difficulty">Medium</label><br />
+            <input type="radio" id="difficulty2" name="Difficulty" value="2" />
+            <label for="difficulty">Hard</label>
+          </div>
+
+          <!-- Time dropdown -->
+          <button class="dropdown-btn">
+            Time
+            <i class="fa fa-caret-down"></i>
+          </button>
+          <div class="dropdown-container" id="time">
+            <input type="radio" id="time0" name="time" value="0" />
+            <label for="time">Less than 5 minutes</label><br />
+            <input type="radio" id="time1" name="time" value="1" />
+            <label for="time">5-10 minutes</label><br />
+            <input type="radio" id="time2" name="time" value="2" />
+            <label for="time">10-20 minutes</label><br />
+            <input type="radio" id="time3" name="time" value="3" />
+            <label for="time">20-30 minutes</label><br />
+            <input type="radio" id="time4" name="time" value="4" />
+            <label for="time">30-40 minutes</label><br />
+            <input type="radio" id="time5" name="time" value="5" />
+            <label for="time">40-50 minutes</label><br />
+            <input type="radio" id="time6" name="time" value="6" />
+            <label for="time">50-60 minutes</label><br />
+            <input type="radio" id="time7" name="time" value="7" />
+            <label for="time">60-90 minutes</label><br />
+            <input type="radio" id="time8" name="time" value="8" />
+            <label for="time">90-120 minutes</label><br />
+            <input type="radio" id="time9" name="time" value="9" />
+            <label for="time">120-180 minutes</label><br />
+            <input type="radio" id="time10" name="time" value="10" />
+            <label for="time">More than 180 minutes</label>
+          </div>
+          <!-- Serving size dropdown -->
+          <button class="dropdown-btn">
+            Serving size
+            <i class="fa fa-caret-down"></i>
+          </button>
+          <div class="dropdown-container" id="serving">
+            <input type="radio" id="serving0" name="Serving size" value="0" />
+            <label for="serving">serves 1</label><br />
+            <input type="radio" id="serving1" name="Serving size" value="1" />
+            <label for="serving">serves 2</label><br />
+            <input type="radio" id="serving2" name="Serving size" value="2" />
+            <label for="serving">serves 3</label><br />
+            <input type="radio" id="serving3" name="Serving size" value="3" />
+            <label for="serving">serves 4</label><br />
+            <input type="radio" id="serving4" name="Serving size" value="4" />
+            <label for="serving">serves 5</label><br />
+            <input type="radio" id="serving5" name="Serving size" value="5" />
+            <label for="serving">serves 6</label><br />
+            <input type="radio" id="serving6" name="Serving size" value="6" />
+            <label for="serving">serves 7</label><br />
+            <input type="radio" id="serving7" name="Serving size" value="7" />
+            <label for="serving">serves 8</label><br />
+            <input type="radio" id="serving8" name="Serving size" value="8" />
+            <label for="serving">serves 9</label><br />
+            <input type="radio" id="serving9" name="Serving size" value="9" />
+            <label for="serving">serves 10</label><br />
+            <input type="radio" id="serving10" name="Serving size" value="10" />
+            <label for="serving">serves more than 10</label>
+          </div>
+
+          <!-- Filter submit button -->
           <input
-            type="text"
-            id="ingredients"
-            placeholder="Add ingredient.."
-            name="ingredient"
+            class="btn"
+            type="submit"
+            name="filter"
+            value="Filter"
+            onclick="filterRecipes()"
           />
+        </form>
+        <!---->
+      </div>
+      <!---->
+      <div style="position: relative; margin: 0; bottom: 1175px">
+        <div class="main_content">
+          <div class="flex-container">
+            <img class="recipe_picture" src="random_food.png" alt="cake" />
+            <p id="rcorners1">Recipe 1</p>
+            <div
+              class="chosen_options_from_sidebar"
+              style="display: flex; flex-direction: right"
+            >
+              <img class="recipe_icon" src="kosher.png" alt="cake" />
+              <img
+                class="recipe_icon_square"
+                src="serving-dish.png"
+                alt="cake"
+              />
+              <img class="recipe_icon" src="easy.png" alt="cake" />
+              <img class="recipe_icon" src="clock.png" alt="cake" />
+            </div>
+          </div>
+          <div class="flex-container">
+            <img class="recipe_picture" src="random_food.png" alt="cake" />
+            <p id="rcorners1">Recipe 2</p>
+            <div
+              class="chosen_options_from_sidebar"
+              style="display: flex; flex-direction: right"
+            >
+              <img class="recipe_icon" src="vegan.png" alt="cake" />
+              <img class="recipe_icon" src="vegetarian.png" alt="cake" />
+              <img
+                class="recipe_icon_square"
+                src="serving-dish.png"
+                alt="cake"
+              />
+              <img class="recipe_icon" src="medium.png" alt="cake" />
+              <img class="recipe_icon" src="clock.png" alt="cake" />
+            </div>
+          </div>
+          <div class="flex-container">
+            <img class="recipe_picture" src="random_food.png" alt="cake" />
+            <p id="rcorners1">Recipe 3</p>
+            <div
+              class="chosen_options_from_sidebar"
+              style="display: flex; flex-direction: right"
+            >
+              <img class="recipe_icon" src="vegan.png" alt="cake" />
+              <img class="recipe_icon" src="vegetarian.png" alt="cake" />
+              <img
+                class="recipe_icon_square"
+                src="serving-dish.png"
+                alt="cake"
+              />
+              <img class="recipe_icon" src="hard.png" alt="cake" />
+              <img class="recipe_icon" src="clock.png" alt="cake" />
+            </div>
+          </div>
+          <button
+            class="create-btn"
+            style="padding: 0 17 0 17; display: flex; margin-right: 20px"
+          >
+            <span style="position: relative; bottom: 5px">
+              <img src="pen.png" style="width: 25px"
+            /></span>
+          </button>
         </div>
-        <!-- Allergies box -->
-        <div class="search-container">
-          <input
-            type="text"
-            id="allergies"
-            placeholder="Add allergy.."
-            name="allergies"
-          />
-        </div>
-
-        <!-- Dietary requirements dropdown -->
-        <button class="dropdown-btn">
-          Dietary requirements
-          <i class="fa fa-caret-down"></i>
-        </button>
-        <div class="dropdown-container">
-          <ul class="drop-down_container_list">
-            <li>
-              <label data-value="vegetarian" tabindex="-1"
-                ><input type="checkbox" id="vegetarian" />&nbspVegetarian</label
-              >
-            </li>
-            <li>
-              <label data-value="vegan" tabindex="-1"
-                ><input type="checkbox" id="vegan" />&nbspVegan</label
-              >
-            </li>
-            <li>
-              <label data-value="kosher" tabindex="-1"
-                ><input type="checkbox" id="kosher" />&nbspKosher</label
-              >
-            </li>
-            <li>
-              <label data-value="halal" tabindex="-1"
-                ><input type="checkbox" id="halal" />&nbspHalal</label
-              >
-            </li>
-          </ul>
-        </div>
-
-        <!-- Difficulty dropdown -->
-        <button class="dropdown-btn">
-          Difficulty
-          <i class="fa fa-caret-down"></i>
-        </button>
-        <div class="dropdown-container" id="difficulty">
-          <input type="radio" id="difficulty0" name="Difficulty" value="0" />
-          <label for="difficulty">Easy</label><br />
-          <input type="radio" id="difficulty1" name="Difficulty" value="1" />
-          <label for="difficulty">Medium</label><br />
-          <input type="radio" id="difficulty2" name="Difficulty" value="2" />
-          <label for="difficulty">Hard</label>
-        </div>
-
-        <!-- Time dropdown -->
-        <button class="dropdown-btn">
-          Time
-          <i class="fa fa-caret-down"></i>
-        </button>
-        <div class="dropdown-container" id="time">
-          <input type="radio" id="time0" name="time" value="0" />
-          <label for="time">Less than 5 minutes</label><br />
-          <input type="radio" id="time1" name="time" value="1" />
-          <label for="time">5-10 minutes</label><br />
-          <input type="radio" id="time2" name="time" value="2" />
-          <label for="time">10-20 minutes</label><br />
-          <input type="radio" id="time3" name="time" value="3" />
-          <label for="time">20-30 minutes</label><br />
-          <input type="radio" id="time4" name="time" value="4" />
-          <label for="time">30-40 minutes</label><br />
-          <input type="radio" id="time5" name="time" value="5" />
-          <label for="time">40-50 minutes</label><br />
-          <input type="radio" id="time6" name="time" value="6" />
-          <label for="time">50-60 minutes</label><br />
-          <input type="radio" id="time7" name="time" value="7" />
-          <label for="time">60-90 minutes</label><br />
-          <input type="radio" id="time8" name="time" value="8" />
-          <label for="time">90-120 minutes</label><br />
-          <input type="radio" id="time9" name="time" value="9" />
-          <label for="time">120-180 minutes</label><br />
-          <input type="radio" id="time10" name="time" value="10" />
-          <label for="time">More than 180 minutes</label>
-        </div>
-        <!-- Serving size dropdown -->
-        <button class="dropdown-btn">
-          Serving size
-          <i class="fa fa-caret-down"></i>
-        </button>
-        <div class="dropdown-container" id="serving">
-          <input type="radio" id="serving0" name="Serving size" value="0" />
-          <label for="serving">serves 1</label><br />
-          <input type="radio" id="serving1" name="Serving size" value="1" />
-          <label for="serving">serves 2</label><br />
-          <input type="radio" id="serving2" name="Serving size" value="2" />
-          <label for="serving">serves 3</label><br />
-          <input type="radio" id="serving3" name="Serving size" value="3" />
-          <label for="serving">serves 4</label><br />
-          <input type="radio" id="serving4" name="Serving size" value="4" />
-          <label for="serving">serves 5</label><br />
-          <input type="radio" id="serving5" name="Serving size" value="5" />
-          <label for="serving">serves 6</label><br />
-          <input type="radio" id="serving6" name="Serving size" value="6" />
-          <label for="serving">serves 7</label><br />
-          <input type="radio" id="serving7" name="Serving size" value="7" />
-          <label for="serving">serves 8</label><br />
-          <input type="radio" id="serving8" name="Serving size" value="8" />
-          <label for="serving">serves 9</label><br />
-          <input type="radio" id="serving9" name="Serving size" value="9" />
-          <label for="serving">serves 10</label><br />
-          <input type="radio" id="serving10" name="Serving size" value="10" />
-          <label for="serving">serves more than 10</label>
-        </div>
-
-        <!-- Filter submit button -->
-        <input
-          class="btn"
-          type="submit"
-          name="filter"
-          value="Filter"
-          onclick="filterRecipes()"
-        />
-      </form>
+        <!---->
+      </div>
+      <!---->
     </div>
-    <div>
-      <div class="main_content">
-        <div class="flex-container">
-          <img class="recipe_picture" src="random_food.png" alt="cake">
-              <p id="rcorners1">Recipe 1</p>
-              <img class="recipe_icon"src="kosher.png" alt="cake">
-              <img class="recipe_icon_square"src="serving-dish.png" alt="cake">
-              <img class="recipe_icon"src="easy.png" alt="cake">
-              <img class="recipe_icon"src="clock.png" alt="cake">
-      </div>
-      <div class="flex-container">
-          <img class="recipe_picture" src="random_food.png" alt="cake">
-              <p id="rcorners1">Recipe 2</p>
-              <img class="recipe_icon"src="vegan.png" alt="cake">
-              <img class="recipe_icon"src="vegetarian.png" alt="cake">
-              <img class="recipe_icon_square"src="serving-dish.png" alt="cake">
-              <img class="recipe_icon"src="medium.png" alt="cake">
-              <img class="recipe_icon"src="clock.png" alt="cake">
-      </div>
-      <div class="flex-container">
-          <img class="recipe_picture" src="random_food.png" alt="cake">
-              <p id="rcorners1">Recipe 3</p>
-              <img class="recipe_icon"src="vegan.png" alt="cake">
-              <img class="recipe_icon"src="vegetarian.png" alt="cake">
-              <img class="recipe_icon_square"src="serving-dish.png" alt="cake">
-              <img class="recipe_icon"src="hard.png" alt="cake">
-              <img class="recipe_icon"src="clock.png" alt="cake">
-      </div>
-      <button class="create-btn"><img src="pen.png" style="position: relative; float: right; width: 25px; margin-right: 10px; height:20px; margin-top: -3px "></button>
-      </div>
-    </div>
-    <footer class="footer" style="margin-top: 265px">
+    <footer class="footer" style="margin-top: 265px; margin: 0">
       <div class="container-fluid">
         <div class="row" style="justify-content: space-around">
           <div class="footer-col">
@@ -336,6 +390,7 @@
         </div>
       </div>
     </footer>
+    <!---->
     <script>
       /* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
       var dropdown = document.getElementsByClassName("dropdown-btn");
