@@ -9,11 +9,16 @@ const db = require('../routes/database');
 // how user session is maintained
 // makes passport very powerful
 passport.serializeUser((user, done) => {
-    done(null, user.userID);
+    console.log('Serialising user');
+    console.log(user);
+    console.log(user.userID);
+    done(null, user.userID); // Could be user.id??
 });
 
 // here username being treated as unique identifier - will be userID
 passport.deserializeUser(async (userID, done) => {
+    console.log('Deserialising user');
+    console.log(userID);
     try {
         const result = await db.promise().query(`SELECT userID, username FROM USERS WHERE userID=${userID}`);
         if (result[0][0]) {
@@ -72,7 +77,9 @@ passport.use(new LocalStrategy({
                 console.log("Error validating email or password.");
                 // res.status(500).send({ text: "Error validating email or password." });
                 done(new Error("Error validating email or password."), false); // null for the error object; validation failed
-
+                
+                
+                // done(null, "Error validating email or password."); // null for the error object; validation failed
                 // Instead of res statement
                 // throw new Error("Error validating email or password.");
             } else {
@@ -102,6 +109,9 @@ passport.use(new LocalStrategy({
                     else {
                         console.log('Passwords do not match');
                         done(new Error("Incorrect email or password"), false); // Incorrect credentials
+                        
+                        // done(null, "Incorrect email or password"); // Incorrect credentials
+                        
                         // res.status(500).send({text: "Incorrect email or password"});
                         console.log("Incorrect email or password");
 
@@ -112,6 +122,9 @@ passport.use(new LocalStrategy({
                 } else {
                     console.log('Email does not exist');
                     done(new Error("Incorrect email or username"), false); // null for the error object; user not found
+                    
+                    // done(null, "Incorrect email or password"); // null for the error object; user not found
+                    
                     // res.status(500).send({text: "Incorrect email or password"});
                     console.log("Incorrect email or username");
                     

@@ -12,14 +12,17 @@ router.get('/', async(req, res, next) => {
 });
 
 router.get('/search', async(req, res, next) => {
-    request.post('http://localhost:3000/recipes/search',
-        { json: { search: null, ingredients: null, vegetarian: null, vegan: null, kosher: null, halal: null, serving: null, time: null, difficulty: null, sortBy: null }},
-        function (error, response, body) {
-            if (!error && response.statusCode == 200) {
-                res.status(200).send(body);
+    console.log('Searching');
+    // if (req.user) {
+        request.post('http://localhost:3000/recipes/search',
+            { json: { search: null, ingredients: null, vegetarian: null, vegan: null, kosher: null, halal: null, serving: null, time: null, difficulty: null, sortBy: null }},
+            function (error, response, body) {
+                if (!error && response.statusCode == 200) {
+                    res.status(200).send(body);
+                }
             }
-        }
-    );
+        );
+    // } else res.send(401);
 });
 
 router.post('/search', async(req, res, next) => {
