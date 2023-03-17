@@ -51,3 +51,9 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
+
+
+// ADDED TO WORK ON LUIE'S LAPTOP
+// app.listen(3000, () => {
+//   console.log('Server is running on Port 3000');
+// });
