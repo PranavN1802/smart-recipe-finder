@@ -47,7 +47,7 @@ router.post('/login', passport.authenticate('local'), (req, res) => {
     // }
 
 
-    res.status(200);
+    res.send(200);
 });
 
 // END OF NEW VERSION

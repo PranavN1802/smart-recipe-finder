@@ -30,12 +30,13 @@ passport.deserializeUser(async (userID, done) => {
 
 // Anytime username is used, it is referring to the email
 // Set up needed to use passport local
-passport.use(new LocalStrategy(
-    async (username, password, done) => {
+passport.use(new LocalStrategy({
+    usernameField: 'email',
+    }, async (email, password, done) => {
         try {
             console.log('local');
 
-            console.log(username);
+            console.log(email);
             console.log(password);
 
             // const emailCheck = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
@@ -66,11 +67,14 @@ passport.use(new LocalStrategy(
             const emailCheck = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
             const passwordCheck = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[A-Z])[a-zA-Z0-9!@#$%^&*]{8,50}$/;
 
-            if(!emailCheck.test(username)||!passwordCheck.test(password)) {
+            if(!emailCheck.test(email)||!passwordCheck.test(password)) {
                 console.log('Validation failed');
                 console.log("Error validating email or password.");
                 // res.status(500).send({ text: "Error validating email or password." });
-                done(null, false); // null for the error object; validation failed
+                done(new Error("Error validating email or password."), false); // null for the error object; validation failed
+
+                // Instead of res statement
+                // throw new Error("Error validating email or password.");
             } else {
                 console.log('Validation passed');
                 let emails = await db.promise().query(`SELECT email FROM USERS`);
@@ -78,32 +82,41 @@ passport.use(new LocalStrategy(
                 console.log(emails);
 
                 // Check entered email is in db
-                if (emails.includes(username)) {
+                if (emails.includes(email)) {
                     console.log('Email exists');
                     // Find password for email
-                    var dbPassword = await db.promise().query(`SELECT password FROM USERS WHERE email='${username}'`);
+                    var dbPassword = await db.promise().query(`SELECT password FROM USERS WHERE email='${email}'`);
                 
                     // Check if the password is correct
                     if (dbPassword[0].map( elm => elm.password )[0] === password) {
                         console.log('Passwords match');
-                        var result = await db.promise().query(`SELECT userID, username FROM USERS WHERE email='${username}'`);
+                        var result = await db.promise().query(`SELECT userID, username FROM USERS WHERE email='${email}'`);
                         userID=result[0].map(elm => elm.userID)[0];
                         done(null, result[0][0]); // Passes in actual user record
-                        // res.status(200).send({text: userID, valid: true});
+                        // res.status(200).send({text: userID, valid: true}); 
                         console.log(userID);
+
+                        // Instead of res statement
+                        // throw new Error("Error validating email or password.");
                     }
                     else {
                         console.log('Passwords do not match');
-                        done(null, false); // Incorrect credentials
+                        done(new Error("Incorrect email or password"), false); // Incorrect credentials
                         // res.status(500).send({text: "Incorrect email or password"});
                         console.log("Incorrect email or password");
+
+                        // Instead of res statement
+                        // throw new Error("Incorrect email or password");
                     }
                 
                 } else {
                     console.log('Email does not exist');
-                    done(null, false); // null for the error object; user not found
+                    done(new Error("Incorrect email or username"), false); // null for the error object; user not found
                     // res.status(500).send({text: "Incorrect email or password"});
                     console.log("Incorrect email or username");
+                    
+                    // Instead of res statement
+                    // throw new Error("Incorrect email or username");
                 }  
             }
         } catch(err) {
