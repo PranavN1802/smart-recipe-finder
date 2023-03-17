@@ -3,9 +3,32 @@ var router = express.Router();
 
 const db = require('./database');
 
+
+// FOR SESSIONS AND PASSPORT
+
+// install passport and passport local for user authentication
+// passport is an authentication middleware that allows the handling of everything to do with authentication
+// also takes care of saving sessions into the request object so don't have to implement own sessions
+// passport local is the strategy planning to use to authenticate user (i.e. username and password)
+// lots of different strategy options on passport.js e.g. with google
+const passport = require('passport');
+
+// END OF SESSIONS AND PASSPORT
+
+
 router.get('/', async(req, res, next) => {
     return res.redirect('/register');
 });
+
+
+// NEW VERSION OF LOGIN FOR SESSIONS AND PASSPORT
+
+router.post('/login', passport.authenticate('local'), (req, res) => {
+    res.send(200);
+});
+
+// END OF NEW VERSION
+
 
 router.post('/login', async(req, res, next) => {
 
