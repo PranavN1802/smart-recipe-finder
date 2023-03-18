@@ -191,13 +191,15 @@
                             <th>Ingredient</th>
                             <th>Quantity</th>
                             <th>Add</th>
+                            <th>Remove</th>
                         </tr>
-                        <tr>
-                            <td><input type="text" class="recipeIngredient" id="ingredientName" placeholder="e.g Oat/Salt/Pasta"></td>
-                            <td><input type="text" class="recipeIngredient" id="ingredientQuantity" placeholder="e.g 500g/3tbsp"></td>
-                            <td><button title="Add Ingredient" id="addIngredient"><span style="position: relative; bottom: 3px">
+                        <tr id="entry0">
+                            <td><input type="text" class="recipeIngredient" id="ingredientName0" placeholder="e.g Oat/Salt/Pasta"></td>
+                            <td><input type="text" class="recipeIngredient" id="ingredientQuantity0" placeholder="e.g 500g/3tbsp"></td>
+                            <td><button title="Add Ingredient" class="editRow" id="addIngredient0" onclick="addIngredient(0)"><span style="position: relative; bottom: 3px">
                                 <img src="/images/plus.png" style="height: 10px; width: 10px;" alt="add"/>
                             </span></button></td>
+                            <td id="removeIngredient0"></td>
                         </tr>
                     </table>
                     <label for="ingredientTable" id="ingredientTableResult"></label>

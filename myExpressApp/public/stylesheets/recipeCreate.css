@@ -273,8 +273,10 @@ table {
   vertical-align: middle;
 }
 
-#addIngredient {
-  margin: 0%;
+.editRow {
+  position: relative;
+  top: -20px;
+  left: 0px;
   border-radius: 50%;
   vertical-align: middle;
 }

@@ -21,7 +21,7 @@ fetchDetails = function() {
                 $recipeName.text(data.name);
                 $summary.text(data.summary);
                 author.insertAdjacentHTML("beforeend", data.username)
-                recRef.insertAdjacentHTML("beforebegin", data.recRef);
+                if (data.recRef != null && data.recRef != 'null') recRef.insertAdjacentHTML("beforebegin", data.recRef);
                 if (data.scrambledRef != "") scrambledRef.insertAdjacentHTML("beforebegin", data.scrambledRef);
 
                 var dietary = '<img class="recipe_icon"src="/images/icons/' + difficulties[data.difficulty] + '.png" alt="' + difficulties[data.difficulty] + '">';
@@ -37,7 +37,7 @@ fetchDetails = function() {
                 var ingredientEntry;
                 for(var i = 0; i < data.ingredients.length; i++) {
                     ingredientEntry = '<li>' + data.ingredients[i];
-                    if (i < data.quantities.length) ingredientEntry += ' - ' + data.quantities[i];
+                    if (i < data.quantities.length && data.quantities[i] != 'null') ingredientEntry += ' - ' + data.quantities[i];
                     ingredientEntry += '</li>';
 
                     ingredients.insertAdjacentHTML("beforeend", ingredientEntry);
