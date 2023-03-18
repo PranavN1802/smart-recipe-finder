@@ -114,8 +114,14 @@
       </div>
     </nav>
     <!-- Filter sidebar -->
-    <div id="mySidebar" class="sidenav" style="margin-top: 157px; margin-bottom: 0px">
-      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()" style="margin-left: 200px">×</a>
+    <div id="mySidebar" class="sidenav" style="margin-bottom: 0px">
+      <a
+        href="javascript:void(0)"
+        class="closebtn"
+        onclick="closeNav()"
+        style="margin-left: 200px"
+        >×</a
+      >
       <form onsubmit="return false;" method="post" name="filters">
         <!-- Search box -->
         <div class="search-container">
@@ -255,37 +261,44 @@
     </div>
     <div>
       <div id="main" class="main_content">
-        <button class="openbtn1" onclick="openNav()">☰</button>  
+        <button class="openbtn1" onclick="openNav()">☰ Search</button>
         <div class="flex-container">
-          <img class="recipe_picture" src="random_food.png" alt="cake">
-              <p id="rcorners1">Recipe 1</p>
-              <img class="recipe_icon"src="kosher.png" alt="cake">
-              <img class="recipe_icon_square"src="serving-dish.png" alt="cake">
-              <img class="recipe_icon"src="easy.png" alt="cake">
-              <img class="recipe_icon"src="clock.png" alt="cake">
-      </div>
-      <div class="flex-container">
-          <img class="recipe_picture" src="random_food.png" alt="cake">
-              <p id="rcorners1">Recipe 2</p>
-              <img class="recipe_icon"src="vegan.png" alt="cake">
-              <img class="recipe_icon"src="vegetarian.png" alt="cake">
-              <img class="recipe_icon_square"src="serving-dish.png" alt="cake">
-              <img class="recipe_icon"src="medium.png" alt="cake">
-              <img class="recipe_icon"src="clock.png" alt="cake">
-      </div>
-      <div class="flex-container">
-          <img class="recipe_picture" src="random_food.png" alt="cake">
-              <p id="rcorners1">Recipe 3</p>
-              <img class="recipe_icon"src="vegan.png" alt="cake">
-              <img class="recipe_icon"src="vegetarian.png" alt="cake">
-              <img class="recipe_icon_square"src="serving-dish.png" alt="cake">
-              <img class="recipe_icon"src="hard.png" alt="cake">
-              <img class="recipe_icon"src="clock.png" alt="cake">
-      </div>
-      <button class="create-btn"><img src="pen.png" style="position: relative; float: right; width: 25px; margin-right: 10px; height:20px; margin-top: -3px "></button>
+          <img class="recipe_picture" src="random_food.png" alt="cake" />
+          <p id="rcorners1">Recipe 1</p>
+          <img class="recipe_icon" src="kosher.png" alt="cake" />
+          <img class="recipe_icon_square" src="serving-dish.png" alt="cake" />
+          <img class="recipe_icon" src="easy.png" alt="cake" />
+          <img class="recipe_icon" src="clock.png" alt="cake" />
+        </div>
+        <div class="flex-container">
+          <img class="recipe_picture" src="random_food.png" alt="cake" />
+          <p id="rcorners1">Recipe 2</p>
+          <img class="recipe_icon" src="vegan.png" alt="cake" />
+          <img class="recipe_icon" src="vegetarian.png" alt="cake" />
+          <img class="recipe_icon_square" src="serving-dish.png" alt="cake" />
+          <img class="recipe_icon" src="medium.png" alt="cake" />
+          <img class="recipe_icon" src="clock.png" alt="cake" />
+        </div>
+        <div class="flex-container">
+          <img class="recipe_picture" src="random_food.png" alt="cake" />
+          <p id="rcorners1">Recipe 3</p>
+          <img class="recipe_icon" src="vegan.png" alt="cake" />
+          <img class="recipe_icon" src="vegetarian.png" alt="cake" />
+          <img class="recipe_icon_square" src="serving-dish.png" alt="cake" />
+          <img class="recipe_icon" src="hard.png" alt="cake" />
+          <img class="recipe_icon" src="clock.png" alt="cake" />
+        </div>
+        <button
+          class="create-btn"
+          style="padding: 0 17 0 17; display: flex; margin-right: 20px"
+        >
+          <span style="position: relative; bottom: 5px">
+            <img src="pen.png" style="width: 25px"
+          /></span>
+        </button>
       </div>
     </div>
-    <footer class="footer" style="margin-top: 265px">
+    <footer class="footer" style="margin-top: 158px">
       <div class="container-fluid">
         <div class="row" style="justify-content: space-around">
           <div class="footer-col">
@@ -389,10 +402,10 @@
         document.getElementById("mySidebar").style.width = "250px";
         document.getElementById("main").style.marginLeft = "250px";
       }
-      
+
       function closeNav() {
         document.getElementById("mySidebar").style.width = "0";
-        document.getElementById("main").style.marginLeft= "0";
+        document.getElementById("main").style.marginLeft = "0";
       }
     </script>
   </body>
