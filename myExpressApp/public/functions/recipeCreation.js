@@ -1,6 +1,8 @@
+// Keeps a list of the current indexes of the table rows
 var ingredientRows = [0];
 const ingredientTable = document.querySelector('#ingredientTable');
 
+// Get the text elements to return an error message if something goes wrong
 const $nameResult = $('#nameResult');
 const $summaryResult = $('#summaryResult');
 const $ingredientsResult = $('#ingredientTableResult');
@@ -48,12 +50,14 @@ createRecipe = function() {
     if(document.getElementById('kosher').checked) kosher = true;
 
 
+    // Keeps track of the row entries with null quantities
     var nullIndex = [];
     var ingredients = [];
     var quantities = [];
     const ingredientCheck = /^.{1,50}$/;
     const quantityCheck = /^.{0,20}$/;
 
+    // Iterates through the row indexes, checking the ingredients and quantities for each entry
     for(var i=0; i < ingredientRows.length; i++) {
         index = ingredientRows[i];
         console.log(index);
@@ -61,6 +65,7 @@ createRecipe = function() {
         var ingredient = document.getElementById('ingredientName' + index).value;
         var quantity = document.getElementById('ingredientQuantity' + index).value;
 
+        // Checks the values using regular expressions, if there is an error the loop breaks (no further checks needed)
         if(ingredientCheck.test(ingredient) == false) {
             valid = false;
             $ingredientsResult.text('All ingredient names must be between 1-50 characters!');
@@ -73,18 +78,25 @@ createRecipe = function() {
             break;
         }
 
+        // If there is no given quantity then the index of the row is added to the 'nullIndex' array to iterate through afterwards
         if(quantity.length == 0) {
             console.log("empty");
             nullIndex.push(index);
-        } else {
+        } 
+        // Otherwise the ingredient and quantity are added to the array
+        else {
             ingredients.push(ingredient);
             quantities.push(quantity);
         }
     }
+    // Checks if the ingredients are valid after leaving the loop
     if (ingredientCheck.test(ingredient) == true && quantityCheck.test(quantity) == true) {
         $ingredientsResult.text('Ingredients are valid');
         $ingredientsResult.css('color', 'green');
 
+        // If the ingredients are valid, iterate through the 'nullIndex' array to add the ingredients with null quantities
+        // This allows the recipe view page to correctly match the ingredients to the quantities later
+        // (null quantities halfway through the array mess up the order of the remaining quantities, better to add them after all other ingredients here:)
         for(var i=0; i < nullIndex.length; i++) {
             index = nullIndex[i];
             console.log(index);
@@ -102,7 +114,7 @@ createRecipe = function() {
     const stepsCheck = /^.{50,16777215}$/;
     if(stepsCheck.test(steps) == false) {
         valid = false;
-        $stepsResult.text('Steps must be between 50 to 16,777,215 characters and cannot include a \'/\' or \'\\\' character!');
+        $stepsResult.text('Steps must be between 50 to 16,777,215 characters!');
         $stepsResult.css('color', 'red');
     } else {
         $stepsResult.text('Summary is valid');
@@ -125,7 +137,7 @@ createRecipe = function() {
         reference = null;
     }
 
-    alert("Name: " + name + "\nSummary: " +  summary + "\nServing: " + serving + "\nTime: " + time + "\nDifficulty: " + difficulty + "\nVegetarian: " + vegetarian + "\nVegan: " + vegan + "\nKosher: " + kosher + "\nIngredients: " + ingredients + "\nQuantities: " + quantities + "\nSteps: " + steps + "\nReference: " + reference);
+    //alert("Name: " + name + "\nSummary: " +  summary + "\nServing: " + serving + "\nTime: " + time + "\nDifficulty: " + difficulty + "\nVegetarian: " + vegetarian + "\nVegan: " + vegan + "\nKosher: " + kosher + "\nIngredients: " + ingredients + "\nQuantities: " + quantities + "\nSteps: " + steps + "\nReference: " + reference);
     console.log(JSON.stringify({
         name: name,
         recRef: reference,
@@ -142,6 +154,8 @@ createRecipe = function() {
         summary: summary
     }));
 
+    // If the details are valid, make a request to the server create the recipe with the given details
+    // NOTE - this currently uses a userID of 1 to create every recipe, this will be changed later when we have sorted out cookies
     if(valid == true) {
         fetch("http://localhost:3000/recipes/create/1", {
             method: "POST",
@@ -166,6 +180,7 @@ createRecipe = function() {
         })
         .then((response) => response.json())
         .then(article => {
+            // Display any alert message and redirect to the new recipe if creation was successful
             if (article.alert != undefined) {
                 if (article.alert == true) {
                     alert(article.text);
@@ -179,11 +194,14 @@ createRecipe = function() {
     }
 }
 
+// Add a new row to the ingredient-quantity table
 addIngredient = function(index) {
+    // Calculate the new index and add to the list of current indexes
     const newIndex = index + 1;
     ingredientRows.push(newIndex);
     var entry = '';
 
+    // Write the HTML for a new row with the correct index naming
     entry += '<tr id="entry' + newIndex + '">';
     entry += '<td><input type="text" class="recipeIngredient" id="ingredientName' + newIndex + '" placeholder="e.g Oat/Salt/Pasta"></td>';
     entry += '<td><input type="text" class="recipeIngredient" id="ingredientQuantity' + newIndex + '" placeholder="e.g 500g/3tbsp"></td>';
@@ -191,23 +209,31 @@ addIngredient = function(index) {
     entry += '<img src="/images/plus.png" style="height: 10px; width: 10px;" alt="add"/></span></button></td>';
     entry += '<td id="removeIngredient' + newIndex + '"</td></tr>';
 
+    // Add the row to the end of the table
     ingredientTable.insertAdjacentHTML("beforeend", entry);
 
+    // Add a delete button to the previous row
+    // (This is to prevent the user deleting the only row with an add button)
     const deleteButton = document.getElementById("removeIngredient" + index);
     deleteButton.innerHTML = '<td><button title="Remove Ingredient" class ="editRow" onclick="removeIngredient(' + index + ')"><span style="position: relative; bottom: 3px"><img src="/images/pot.png" style="height: 10px; width: 10px;" alt="add"/></span></button></td>';
 
+    // Remove the previous add button
+    // (This is to reduce clutter and make it clear that rows can only be added to the END of the table)
     const addButton = document.getElementById("addIngredient" + index);
     addButton.remove();
 
     console.log(ingredientRows);
 }
 
+// Remove the indexed row from the table and update index list
 removeIngredient = function(index) {
+    // Remove the index from the index list
     const location = ingredientRows.indexOf(index);
     if (location > -1) { // only splice array when item is found
         ingredientRows.splice(location, 1); // 2nd parameter means remove one item only
     }
 
+    // Remove the entire row with the index given
     const row = document.getElementById("entry" + index);
     row.remove();
 
