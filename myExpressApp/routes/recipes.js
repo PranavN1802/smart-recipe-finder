@@ -49,27 +49,27 @@ router.post('/search', async(req, res, next) => {
 
     if (vegan===null) vegan="_";
     else if (vegan===true) vegan=1;
-    else if (vegan===true) vegan=0;
+    else if (vegan===false) vegan=0;
 
     if (kosher===null) kosher="_";
     else if (kosher===true) kosher=1;
-    else if (kosher===true) kosher=0;
+    else if (kosher===false) kosher=0;
 
     if (halal===null) halal="_";
     else if (halal===true) halal=1;
-    else if (halal===true) halal=0;
+    else if (halal===false) halal=0;
 
     if (serving===null) serving="_";
     else if (serving===true) serving=1;
-    else if (serving===true) serving=0;
+    else if (serving===false) serving=0;
 
     if (time===null) time="_";
     else if (time===true) time=1;
-    else if (time===true) time=0;
+    else if (time===false) time=0;
 
     if (difficulty===null) difficulty="_";
     else if (difficulty===true) difficulty=1;
-    else if (difficulty===true) difficulty=0;
+    else if (difficulty===false) difficulty=0;
 
     try {
 

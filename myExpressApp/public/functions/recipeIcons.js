@@ -1,4 +1,4 @@
-const iconDisplay = document.querySelector('.main_content');
+const iconDisplay = document.querySelector('#icons');
 
 const difficulties = ['easy', 'medium', 'hard'];
 const dietary = ['vegetarian', 'vegan', 'kosher'];
