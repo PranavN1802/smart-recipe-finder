@@ -17,8 +17,8 @@ initialSearch = function() {
                     } 
                 } else {
                     summary = '<div class="flex-container"><img class="recipe_picture" src="/images/random_food.png" alt="plate"><p id="rcorners1"><a style="color: black;" href="http://localhost:3000/recipes/view/' + article.recID + '" target="_blank"><b>' + article.name + '</b></a> - ' + article.summary + '<br>';
-                    summary += '<span id="rcorners2"><b>' + servings[article.serving] + '  </b><img class="detail_icon_square"src="/images/icons/serving-dish.png" alt="serving dish"></span>';
-                    summary += '<span id="rcorners2"><b>' + times[article.time] + '  </b><img class="detail_icon"src="/images/icons/clock.png" alt="clock"></span></p>';
+                    summary += '<span id="rcorners2"><img class="detail_icon_square"src="/images/icons/serving-dish.png" alt="serving dish"><b>' + servings[article.serving] + '</b></span>';
+                    summary += '<span id="rcorners2"><img class="detail_icon"src="/images/icons/clock.png" alt="clock"><b>' + times[article.time] + '</b></span></p>';
                     summary += '<img class="recipe_icon"src="/images/icons/' + difficulties[article.difficulty] + '.png" alt="' + difficulties[article.difficulty] + '">';
 
                     if (article.vegetarian) {
@@ -128,8 +128,8 @@ filterRecipes = function() {
                 }
             } else {
                 summary = '<div class="flex-container"><img class="recipe_picture" src="/images/random_food.png" alt="plate"><p id="rcorners1"><a style="color: black;" href="http://localhost:3000/recipes/view/' + article.recID + '" target="_blank"><b>' + article.name + '</b></a> - ' + article.summary + '<br>';
-                summary += '<span id="rcorners2"><b>' + servings[article.serving] + '  </b><img class="detail_icon_square"src="/images/icons/serving-dish.png" alt="serving dish"></span>';
-                summary += '<span id="rcorners2"><b>' + times[article.time] + '  </b><img class="detail_icon"src="/images/icons/clock.png" alt="clock"></span></p>';
+                summary += '<span id="rcorners2"><img class="detail_icon_square"src="/images/icons/serving-dish.png" alt="serving dish"><b>' + servings[article.serving] + '</b></span>';
+                summary += '<span id="rcorners2"><img class="detail_icon"src="/images/icons/clock.png" alt="clock"><b>' + times[article.time] + '</b></span></p>';
                 summary += '<img class="recipe_icon"src="/images/icons/' + difficulties[article.difficulty] + '.png" alt="' + difficulties[article.difficulty] + '">';
 
                 if (article.vegetarian) {
@@ -174,6 +174,10 @@ filterRecipes = function() {
         })
     })
     .catch(err => console.log(err));
+}
+
+create = function() {
+    window.location.replace("http://localhost:3000/recipes/create");
 }
 
 validate = function() {

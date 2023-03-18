@@ -212,6 +212,9 @@ router.get('/find/:recID', async(req, res, next) => {
         // Extract recipe details as an array - each recipe value can be separately extracted as with userID
         recipeDetails=recipeDetails[0];
 
+        let username = await db.promise().query(`SELECT username FROM USERS WHERE userID=${recipeDetails[0].userID}`);
+        recipeDetails[0].username = username[0].map( elm => elm.username )[0];
+
         console.log("scrambledRef");
         console.log(recipeDetails[0].scrambledRef);
 
@@ -231,7 +234,6 @@ router.get('/find/:recID', async(req, res, next) => {
 
             scrambledRefUser = await db.promise().query(`SELECT username FROM USERS WHERE userID = (SELECT userID FROM RECIPES WHERE recID=${recipeDetails[0].scrambledRef})`);
             scrambledRefUser = scrambledRefUser[0].map( elm => elm.username )[0];
-            console.log(scrambledRefUser)
 
             recipeDetails[0].scrambledRef=scrambledRefRecipe+" by "+scrambledRefUser;
         }
@@ -248,6 +250,10 @@ router.get('/find/:recID', async(req, res, next) => {
     catch (err) {
         console.log(err);
     }
+});
+
+router.get('/create', async(req, res, next) => {
+    res.render('recipeCreate', { title: 'Create | Bubble\'N\'Sqeak' });
 });
 
 module.exports = router;

@@ -378,6 +378,7 @@ img.detail_icon {
   width: 30px;
   height: 30px;
   margin-right: 10px;
+  margin-left: 10px;
   vertical-align: -50%;
   display: inline;
 }
@@ -385,6 +386,7 @@ img.detail_icon_square {
   width: 30px;
   height: 30px;
   margin-right: 10px;
+  margin-left: 10px;
   vertical-align: -50%;
   display: inline;
 }

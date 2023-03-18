@@ -166,6 +166,26 @@ button:not(.menu_button, .drop-down_list):hover {
 ul {
   list-style: none;
 }
+
+#ingredientName{
+  margin-right: 10%;
+}
+
+#ingredientNameLabel{
+  margin-left:1%;
+}
+
+#ingredientQuantity{
+  margin-left: 12.5%;
+  margin-right:10%;
+
+}
+
+#ingredientQuantityLabel{
+  margin-left:47%;
+  margin-right:10%;
+}
+
 .footer {
   background-color: #ec8e22;
   padding: 70px 0;
@@ -226,6 +246,39 @@ ul {
   color: #ec8e22;
   background-color: #ffffff;
 }
+
+.textareas{
+  padding-top: 2.5%;
+  padding-bottom: 2.5%;
+  padding-left: 5%;
+  padding-right: 5%;
+}
+
+table {
+  background-color: #ffd386;
+  border: 1px solid #dddddd7f;
+}
+
+.recipeIngredient {
+  margin-left: 2.5%;
+  margin-right: 2.5%;
+  width: 90%;
+}
+
+#ingredientName {
+  margin-left: 10px;
+  margin-right: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  vertical-align: middle;
+}
+
+#addIngredient {
+  margin: 0%;
+  border-radius: 50%;
+  vertical-align: middle;
+}
+
 /*responsive screen view*/
 @media (max-width: 767px) {
   .footer-col {
@@ -247,20 +300,6 @@ ul {
   }
 }
 
-@media screen and (max-width: 513px) {
-  #scramble_button {
-    position: relative;
-    left: 15px;
-    bottom: -5px;
-  }
-
-  #back_button {
-    position: relative;
-    left: 40px;
-    bottom: -5px;
-  }
-}
-
 @media screen and (max-width: 400px) {
   .recipe_image {
     margin-right: -15px;
@@ -271,36 +310,4 @@ ul {
     display: flex;
     flex-direction: column;
   }
-
-  #back_button {
-    margin-right: 80px;
-  }
-
-  #scramble_button {
-    margin-right: 53px;
-  }
-}
-
-img.recipe_icon {
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  margin-right: 10px;
-}
-img.detail_icon {
-  width: 50px;
-  height: 50px;
-  margin-right: 10px;
-  vertical-align: -90%;
-  display: inline;
-}
-
-.rcorners2 {
-  font-size: 20px;
-  display: inline-block;
-}
-
-.icons {
-  float: right;
-  display: flex;
 }
