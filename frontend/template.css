@@ -199,6 +199,38 @@ ul {
   padding-right: 5%;
 }
 
+.section1{
+  border-top: 5px dotted black;
+  padding-top:2%;
+}
+
+.onTop{
+  position: absolute;
+  padding: 0.5%;
+  border-radius:5px;
+  border-color:#ec8e22;
+  border-style: dotted;
+  top:90%;
+  right:10%;
+}
+
+.onTop2{
+  position: absolute;
+  padding: 0.5%;
+  border-radius:5px;
+  border-color:#ec8e22;
+  border-style: dotted;
+  top:130%;
+  right:20%;
+
+}
+
+ol{
+  margin-left:5%;
+
+}
+
+
 /* #button1 {
   padding-top: 2.5%;
   padding-bottom: 2.5%;
