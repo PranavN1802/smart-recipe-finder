@@ -1,0 +1,236 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="" />
+    <link rel="shortcut icon" href="pot.ico.png" type="image/x-icon" />
+    <title>Recipes | BUBBLE&SQUEAK</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Slabo+27px%26display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" type="text/css" href="recipeList_Final2.css" />
+    <style>
+      input[type="submit"] {
+        padding: 15 30 15 30;
+        margin-left: 65px;
+        margin-top: 20px;
+        color: #ffffff;
+        background: #ec8e22;
+        border: 1px solid #ec8e22;
+        transition: all 200ms ease-in-out;
+        border-radius: 50px;
+        box-shadow: 0px 3px 3px #c6c3cd;
+      }
+
+      input[type="submit"].btn:hover {
+        cursor: pointer;
+        background: #ffffff;
+        color: #ec8e22;
+        border: 1px solid #ec8e22;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-custom">
+      <!-- Brand/logo -->
+      <a class="navbar-brand" href="index.html">
+        <img
+          class="img-fluid"
+          src="logo.png"
+          alt="B&S logo"
+          style="width: 200px; margin-left: -20px"
+        />
+      </a>
+      <button
+        class="menu_button navbar-toggler ms-auto custom-toggler button1"
+        type="button"
+        data-toggle="collapse"
+        data-target="#collapsibleNavbar"
+      >
+        <span class="navbar-toggler-icon"
+          ><i class="material-icons">menu</i></span
+        >
+      </button>
+      <div class="collapse navbar-collapse" id="collapsibleNavbar">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="About_page">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="Recipes_page">Recipes</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="Ethics_page">Ethics</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="Suggestion_page">Suggest</a>
+          </li>
+        </ul>
+        <div class="dropdown">
+          <button
+            class="btn dropdown-toggle drop-down_list"
+            type="button"
+            id="dropdownMenuButton"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+            <a class="navbar-brand" href="index.html">
+              <img src="user_pic.png" alt="contact" style="width: 40px" />
+            </a>
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" href="Register_page">Sign in</a>
+            <a class="dropdown-item" href="Register_page">Sign up</a>
+            <a class="dropdown-item" href="Register_page">Log out</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <div class="content" style="margin: 0; padding: 0">
+      <div id="main" class="main_content">
+        <p>Email:</p>
+        <a href="#" class="btn btn-info btn-lg" style="height: 60px; margin-top: 5px; margin-bottom: 20px">
+        <span class="glyphicon glyphicon-log-out"></span> Change password
+        </a>
+        <div class="flex-container">
+          <img class="recipe_picture" src="random_food.png" alt="cake" />
+          <p id="rcorners1">Recipe 1</p>
+          <div
+            class="chosen_options_from_sidebar"
+            style="display: flex; flex-direction: right"
+          >
+            <img class="recipe_icon" src="kosher.png" alt="cake" />
+            <img class="recipe_icon_square" src="serving-dish.png" alt="cake" />
+            <img class="recipe_icon" src="easy.png" alt="cake" />
+            <img class="recipe_icon" src="clock.png" alt="cake" />
+            <button
+                class="create-btn"
+                style="margin-left: 40px; margin: right 5px; background-color: #b86002;"
+              >
+                <span style="position: relative; bottom: 5px">
+                  <img src="editing.png" style="width: 25px; margin-top: -9px"
+                /></span>
+              </button>
+              <button
+                class="create-btn"
+                style=" margin-right: 0px; margin-left: 5px; background-color: #b86002;"
+              >
+                <span style="position: relative; bottom: 5px">
+                  <img src="trash-can.png" style="width: 25px; margin-top: -8px"/>
+                </span>
+              </button>
+          </div>
+        </div>
+        <div class="flex-container">
+          <img class="recipe_picture" src="random_food.png" alt="cake" />
+          <p id="rcorners1">Recipe 2</p>
+          <div
+            class="chosen_options_from_sidebar"
+            style="display: flex; flex-direction: right"
+          >
+            <img class="recipe_icon" src="vegan.png" alt="cake" />
+            <img class="recipe_icon" src="vegetarian.png" alt="cake" />
+            <img class="recipe_icon_square" src="serving-dish.png" alt="cake" />
+            <img class="recipe_icon" src="medium.png" alt="cake" />
+            <img class="recipe_icon" src="clock.png" alt="cake" />
+            <button
+                class="create-btn"
+                style="margin-left: 40px; margin: right 5px; background-color: #b86002;"
+              >
+                <span style="position: relative; bottom: 5px">
+                  <img src="editing.png" style="width: 25px; margin-top: -9px"
+                /></span>
+              </button>
+              <button
+                class="create-btn"
+                style=" margin-right: 0px; margin-left: 5px; background-color: #b86002;"
+              >
+                <span style="position: relative; bottom: 5px">
+                  <img src="trash-can.png" style="width: 25px; margin-top: -8px"/>
+                </span>
+              </button>
+          </div>
+        </div>
+          <div class="flex-container">
+            <img class="recipe_picture" src="random_food.png" alt="cake" />
+            <p id="rcorners1">Recipe 3</p>
+            <div
+              class="chosen_options_from_sidebar"
+              style="display: flex; flex-direction: right"
+            >
+              <img class="recipe_icon" src="vegan.png" alt="cake" />
+              <img class="recipe_icon" src="vegetarian.png" alt="cake" />
+              <img class="recipe_icon_square" src="serving-dish.png" alt="cake" />
+              <img class="recipe_icon" src="hard.png" alt="cake" />
+              <img class="recipe_icon" src="clock.png" alt="cake" />
+              <button
+                class="create-btn"
+                style="margin-left: 40px; margin: right 5px; background-color: #b86002;"
+              >
+                <span style="position: relative; bottom: 5px">
+                  <img src="editing.png" style="width: 25px; margin-top: -9px"
+                /></span>
+              </button>
+              <button
+                class="create-btn"
+                style=" margin-right: 0px; margin-left: 5px; background-color: #b86002;"
+              >
+                <span style="position: relative; bottom: 5px">
+                  <img src="trash-can.png" style="width: 25px; margin-top: -8px"/>
+                </span>
+              </button>
+            </div>
+          </div>
+          <div class="btn-group">
+            <a href="#" class="btn btn-info btn-lg" style="height: 60px; margin-top: 20px;">
+            <span class="glyphicon glyphicon-log-out"></span> Log out
+            </a>  
+            <button
+            class="create-btn"
+            style="padding: 0 17 0 17; display: flex; margin-right: 20px; margin-left: 1135px"
+            >
+            <span style="position: relative; bottom: 5px">
+              <img src="pen.png" style="width: 25px"
+            /></span>
+            </button>
+            <button
+              class="create-btn"
+              style="padding: 0 17 0 17; display: flex; margin-right: 20px; background-color: #d21d19; line-height: 50px;"
+            >
+              <span style="position: relative; bottom: 5px">
+                <img src="trash-can.png" style="width: 25px"
+              /></span>Delete account
+            </button>
+          </div>
+      </div>
+    </div>
+    <!---->
+  </body>
+</html>
