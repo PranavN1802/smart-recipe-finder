@@ -3,57 +3,88 @@ var router = express.Router();
 
 const db = require('./database');
 
+
+// FOR SESSIONS AND PASSPORT
+const passport = require('passport');
+
+
 router.get('/', async(req, res, next) => {
     return res.redirect('/register');
 });
 
-router.post('/login', async(req, res, next) => {
 
-    // Jay - your serverside code goes here!
+// NEW VERSION OF LOGIN FOR SESSIONS AND PASSPORT
 
-    const { email, password } = req.body;
-
-    // Used to check details on the serverside (in case user has javascript disabled like a cheeky hacker)
-    const emailCheck = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-    const passwordCheck = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[A-Z])[a-zA-Z0-9!@#$%^&*]{8,50}$/;
-
-    if(!emailCheck.test(email)||!passwordCheck.test(password)) {
-        console.log("Error validating email or password.");
-        res.status(500).send({ text: "Error validating email or password." });
-    } else {
-        let emails = await db.promise().query(`SELECT email FROM USERS`);
-        emails = emails[0].map( elm => elm.email );
-        console.log(emails);
-        console.log(email);
-    
-        // Check entered email is in db
-        if (emails.includes(email)) {
-            // Find password for email
-            dbPassword = await db.promise().query(`SELECT password FROM USERS WHERE email='${email}'`);
-            dbPassword = dbPassword[0].map( elm => elm.password )[0];
-            console.log(dbPassword);
-        
-            // Check if the password is correct
-            if (password === dbPassword) {
-                let userID = await db.promise().query(`SELECT userID FROM USERS WHERE email='${email}' AND password='${password}'`);
-                userID=userID[0].map(elm => elm.userID)[0];
-                res.status(200).send({text: userID, valid: true});
-                console.log(userID);
-            }
-            else {
-                res.status(500).send({text: "Incorrect email or password"});
-                console.log("Incorrect email or username");
-            }
+router.post('/login', passport.authenticate('local'), (req, res) => {
+    console.log('login');
+    // res.status(200).send({text: "finished", valid: true});     
+    try {
+        if (req.user.userID===undefined) {
+            console.log('userID undefined');
+            res.status(500).send({text: `${req.user}`});
+        } else {
+            console.log('Authorisation passed');
+            console.log(req.user);
+            console.log(typeof(req.user.userID));
+            res.status(200).send({text: req.user.userID, valid: true});     
         }
-        else {
-            res.status(500).send({text: "Incorrect email or password"});
-            console.log("Incorrect email or username");
-        }           
+    } catch(err) {
+        console.log('Error caught');
+        console.log(err);
     }
-
-
-
 });
+
+// END OF NEW VERSION
+
+
+// OLD VERSION OF LOGIN
+// router.post('/login', async(req, res, next) => {
+
+//     // Jay - your serverside code goes here!
+
+//     const { email, password } = req.body;
+
+//     // Used to check details on the serverside (in case user has javascript disabled like a cheeky hacker)
+//     const emailCheck = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+//     const passwordCheck = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[A-Z])[a-zA-Z0-9!@#$%^&*]{8,50}$/;
+
+//     if(!emailCheck.test(email)||!passwordCheck.test(password)) {
+//         console.log("Error validating email or password.");
+//         res.status(500).send({ text: "Error validating email or password." });
+//     } else {
+//         let emails = await db.promise().query(`SELECT email FROM USERS`);
+//         emails = emails[0].map( elm => elm.email );
+//         console.log(emails);
+//         console.log(email);
+    
+//         // Check entered email is in db
+//         if (emails.includes(email)) {
+//             // Find password for email
+//             dbPassword = await db.promise().query(`SELECT password FROM USERS WHERE email='${email}'`);
+//             dbPassword = dbPassword[0].map( elm => elm.password )[0];
+//             console.log(dbPassword);
+        
+//             // Check if the password is correct
+//             if (password === dbPassword) {
+//                 let userID = await db.promise().query(`SELECT userID FROM USERS WHERE email='${email}' AND password='${password}'`);
+//                 userID=userID[0].map(elm => elm.userID)[0];
+//                 res.status(200).send({text: userID, valid: true});
+//                 console.log(userID);
+//             }
+//             else {
+//                 res.status(500).send({text: "Incorrect email or password"});
+//                 console.log("Incorrect email or username");
+//             }
+//         }
+//         else {
+//             res.status(500).send({text: "Incorrect email or password"});
+//             console.log("Incorrect email or username");
+//         }           
+//     }
+
+
+
+// });
 
 router.post('/register', async(req, res, next) => {
     const { email, username, password } = req.body;
