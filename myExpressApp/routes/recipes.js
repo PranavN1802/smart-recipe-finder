@@ -318,13 +318,12 @@ router.get('/find/:recID', async(req, res, next) => {
 
 router.get('/create', async(req, res, next) => {
     if (req.user) {
-        res.render('recipeCreate', { title: 'Create | Bubble\'N\'Sqeak' });
+        res.render('recipeCreate', { title: 'Create | Bubble\'N\'Sqeak', src: '/functions/recipeCreation.js'});
     } else {
         //TODO: This needs to be replaced with a redirection to the login page
         console.log('Not logged in');
         res.status(401).send({msg: 'Not logged in'});
     }
-    res.render('recipeCreate', { title: 'Create | Bubble\'N\'Sqeak', src: '/functions/recipeCreation.js'});
 });
 
 router.get('/edit/:recID', async(req, res, next) => {
