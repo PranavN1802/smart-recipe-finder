@@ -108,7 +108,7 @@ h3 {
   line-height: 1;
   letter-spacing: 0;
 }
-p {
+p, pre {
   display: block;
   font-family: "freight-text-pro", "FreightText Pro", "Garamond", serif;
   line-height: 1.6;

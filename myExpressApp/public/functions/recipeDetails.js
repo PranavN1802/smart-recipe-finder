@@ -43,6 +43,12 @@ fetchDetails = function() {
                     ingredients.insertAdjacentHTML("beforeend", ingredientEntry);
                 }
 
+                console.log(data.steps);
+                steps = data.steps.split('\n');
+                console.log(data.steps);
+
+                stepText = '';
+
                 $steps.text(data.steps);
             })
             .catch(err => console.log(err));

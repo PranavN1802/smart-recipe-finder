@@ -60,12 +60,28 @@ filterRecipes = function() {
     else {
         ingredients = ingredients.split(",");
         for(let j = 0; j<ingredients.length; j++) {
+            ingredients[j] = ingredients[j].trim();
             ingredients[j] = ingredients[j].split(" ");
             console.log(ingredients[j]);
             for(let i = 0; i<ingredients[j].length; i++) {
                 ingredients[j][i] = ingredients[j][i][0].toUpperCase() + ingredients[j][i].substring(1);
             }
             ingredients[j] = ingredients[j].join(" ");
+        }
+    }
+
+    allergies = document.getElementById('allergies').value;
+    if(allergies == "") allergies = null;
+    else {
+        allergies = allergies.split(",");
+        for(let j = 0; j<allergies.length; j++) {
+            allergies[j] = allergies[j].trim();
+            allergies[j] = allergies[j].split(" ");
+            console.log(allergies[j]);
+            for(let i = 0; i<allergies[j].length; i++) {
+                allergies[j][i] = allergies[j][i][0].toUpperCase() + allergies[j][i].substring(1);
+            }
+            allergies[j] = allergies[j].join(" ");
         }
     }
 
@@ -108,6 +124,7 @@ filterRecipes = function() {
         body: JSON.stringify({
             search: search,
             ingredients: ingredients,
+            allergies: allergies,
             vegetarian: vegetarian,
             vegan: vegan,
             kosher: kosher,
