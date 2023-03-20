@@ -10,6 +10,7 @@ fetchDetails = function() {
     const time = document.querySelector('#time');
     const ingredients = document.querySelector('#ingredients');
     const $steps = $('#steps');
+    
 
     console.log(recID);
 
