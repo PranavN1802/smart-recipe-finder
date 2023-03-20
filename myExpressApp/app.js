@@ -42,7 +42,7 @@ const store = new session.MemoryStore();
 // and cookie property
 app.use(session({
   secret: 'some secret',
-  cookie: { maxAge: 30000 }, // max age 30 seconds
+  cookie: { maxAge: 86400 }, // max age 30 seconds
   saveUninitialized: false, // necessary for log in system, otherwise a new session id will be generated every time a request is made to server
   store // set up a new store
 }));
