@@ -25,8 +25,7 @@ router.post('/login', passport.authenticate('local'), (req, res) => {
         } else {
             console.log('Authorisation passed');
             console.log(req.user);
-            console.log(typeof(req.user.userID));
-            res.status(200).send({text: req.user.userID, valid: true});     
+            res.status(200).send({text: 'Welcome!', valid: true});     
         }
     } catch(err) {
         console.log('Error caught');
