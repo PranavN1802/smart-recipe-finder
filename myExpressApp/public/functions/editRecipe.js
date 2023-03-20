@@ -13,9 +13,12 @@ const $recipeRefResult = $('#recipeRefResult');
 
 fetchDetails = function(){
 
-    console.log(recID)
+    alert("http request made");
 
-    fetch('http://localhost:3000/recipes/find/' + recID)
+    //console.log(recID)
+    //console.log(req.recID);
+
+    fetch('http://localhost:3000/recipes/find')
             .then(response => response.json())
             .then(data => {
                 data = data[0];
@@ -31,5 +34,13 @@ fetchDetails = function(){
             })
             .catch(err => console.log(err));
 
+
 }
 
+validate = function() {
+    alert("Source link worked!");
+}
+
+validate();
+
+fetchDetails();
