@@ -11,7 +11,7 @@ const $steps = document.getElementById('steps');
 const $recipeRef = document.getElementById('recipeRef');
 const $ingredientTable = document.getElementById('ingredientTable');
 
-
+var ingredientRows = [0];
 
 fetchDetails = function(){
 
@@ -24,17 +24,15 @@ fetchDetails = function(){
             .then(response => response.json())
             .then(data => {
                 data = data[0];
-                //var ingedientRows = [data.ingredients.length];
-                // for (var i = 0; i < ingedientRows.length; i++ ){
-                //     index = ingredientRows[i];
-                //     document.getElementById('ingredientName' + index).value = data.ingredients[i];
-                // }
+                
                 document.getElementById('ingredientName0').value = data.ingredients[0];
                 document.getElementById('ingredientQuantity0').value = data.quantities[0];
+                
 
                 for (var i = 1; i < data.ingredients.length; i++){
                     var entry = '';
                     var index = (i-1);
+                    ingredientRows.push(i);
                     entry += '<tr id="entry' + i + '">';
                     entry += '<td><input type="text" class="recipeIngredient" id="ingredientName' + i + '" placeholder="e.g Oat/Salt/Pasta"></td>';
                     entry += '<td><input type="text" class="recipeIngredient" id="ingredientQuantity' + i + '" placeholder="e.g 500g/3tbsp"></td>';
@@ -56,7 +54,9 @@ fetchDetails = function(){
                     addButton.remove();
 
                     document.getElementById('ingredientName'+i).value = data.ingredients[i];
-                    document.getElementById('ingredientQuantity'+ i).value = data.quantities[i];
+
+                    if (data.quantities == 'null'){document.getElementById('ingredientQuantity'+ i).value = "";
+                    }else{document.getElementById('ingredientQuantity'+ i).value = data.quantities[i];}
 
                 }
 
@@ -69,7 +69,7 @@ fetchDetails = function(){
                 if (data.vegetarian == true) $vegetarian.checked = true;
                 if (data.vegan == true) $vegan.checked = true;
                 $steps.value = (data.steps);
-                $recipeRef.value = (data.recRef);
+                if(data.recRef == 'null'){$recipeRef.value = "";}else{$recipeRef.value = data.recRef;}
 
             })
             .catch(err => console.log(err));
@@ -237,12 +237,13 @@ createRecipe = function() {
     // If the details are valid, make a request to the server create the recipe with the given details
     // NOTE - this currently uses a userID of 1 to create every recipe, this will be changed later when we have sorted out cookies
     if(valid == true) {
-        fetch("http://localhost:3000/recipes/create/1", {
+        fetch("http://localhost:3000/recipes/edit", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
+                scrambledRef : null,
                 name: name,
                 recRef: reference,
                 vegetarian: vegetarian,
@@ -320,9 +321,7 @@ removeIngredient = function(index) {
     console.log(ingredientRows);
 }
 
-// validate = function() {
-//     alert("Filter submitted");
-// }
+
 validate = function() {
     alert("Source link worked!");
 }
