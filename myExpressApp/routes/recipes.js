@@ -332,8 +332,6 @@ router.get('/edit/:recID', async(req, res, next) => {
 
 router.post('/edit', async(req, res, next)=>{
     const {cookies} = req;
-    console.log(cookies);
-    console.log(cookies.recID);
     let recID = cookies.recID;
 
     let userID = req.user.userID;
@@ -408,7 +406,7 @@ router.post('/edit', async(req, res, next)=>{
 
             // Find recID for recipe with same name and userID but different recID (empty array if recipe not present in db)
             recipeFound = await db.promise().query(`SELECT recID FROM RECIPES WHERE name='${name}' AND userID='${userID}' AND recID NOT IN (${recID})`);
-            console.log(recipeFound);
+            console.log(recipeFound[0]);
 
             // Check if recipe is already in db - prevents users from creating two recipes of the same name
             if (recipeFound[0].length===0) {
@@ -430,7 +428,7 @@ router.post('/edit', async(req, res, next)=>{
 
                         // Extract ingID array for current ingredient
                         let ingredientDetail = await db.promise().query(`SELECT ingID FROM INGREDIENTS WHERE name='${ingredients[j]}'`);
-                        console.log(ingredientDetail);
+                        console.log(ingredientDetail[0]);
 
                         // Extract ingID integer for current ingredient
                         let ingID = ingredientDetail[0].map( elm => elm.ingID )[0];
@@ -438,7 +436,7 @@ router.post('/edit', async(req, res, next)=>{
 
                         // Extract quantityID array for current quantity
                         let quantityDetail = await db.promise().query(`SELECT quantityID FROM QUANTITIES WHERE name='${quantities[j]}'`);
-                        console.log(quantityDetail);
+                        console.log(quantityDetail[0]);
 
                         // Extract quantityID array for current quantity
                         let quantityID = quantityDetail[0].map( elm => elm.quantityID )[0];
@@ -460,7 +458,8 @@ router.post('/edit', async(req, res, next)=>{
                 console.log('Recipe found in db');
                 res.status(500).send({ alert: true, text: "Recipe already exsists!"});
             }
-            res.status(201).send({text: 'Recipe Edited!'});
+            console.log(recID);
+            res.status(201).send({ alert: false, text: 'Recipe Edited!', recID: recID});
         }
         else {
             console.log("Value not present")

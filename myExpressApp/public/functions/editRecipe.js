@@ -15,7 +15,7 @@ var ingredientRows = [0];
 
 fetchDetails = function(){
 
-    alert("http request made");
+    //alert("http request made");
 
     //console.log(recID)
     //console.log(req.recID);
@@ -26,7 +26,7 @@ fetchDetails = function(){
                 data = data[0];
                 
                 document.getElementById('ingredientName0').value = data.ingredients[0];
-                document.getElementById('ingredientQuantity0').value = data.quantities[0];
+                if (data.quantities[i] != 'null' && data.quantities[i] != undefined) document.getElementById('ingredientQuantity0').value = data.quantities[0];
                 
 
                 for (var i = 1; i < data.ingredients.length; i++){
@@ -55,8 +55,7 @@ fetchDetails = function(){
 
                     document.getElementById('ingredientName'+i).value = data.ingredients[i];
 
-                    if (data.quantities == 'null'){document.getElementById('ingredientQuantity'+ i).value = "";
-                    }else{document.getElementById('ingredientQuantity'+ i).value = data.quantities[i];}
+                    if (data.quantities[i] != 'null' || data.quantities[i] != undefined) document.getElementById('ingredientQuantity'+ i).value = data.quantities[i];
 
                 }
 
@@ -267,7 +266,7 @@ createRecipe = function() {
                     alert(article.text);
                 } else {
                     alert(article.text);
-                    window.location.replace("http://localhost:3000/recipes/view/" + article.recID.recID);
+                    window.location.replace("http://localhost:3000/recipes/view/" + article.recID);
                 }
             }
         })
@@ -325,7 +324,5 @@ removeIngredient = function(index) {
 validate = function() {
     alert("Source link worked!");
 }
-
-validate();
 
 fetchDetails();
