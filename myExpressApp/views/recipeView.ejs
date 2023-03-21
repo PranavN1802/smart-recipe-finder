@@ -107,21 +107,25 @@
           style="width: 400px; display: block; margin-left: auto; float: right"
         />
         -->
+        <div class="icons" id="dietary">
+          
+        </div>
 
         <h3 id="recipeName"></h3>
         <p id="summary"></p>
-        <p id="recRef"></p>
-        <p id="scrambledRef"></p>
-        <br>
 
-        <p><b>Dietary Requirements: </b><span id="dietary"></span></p>
-        <!-- Insert dietary requirement images -->
-        <p><b>Difficulty: </b><span id="difficulty"></span></p>
-        <!-- Insert difficulty images -->
-        <p><b>Time: </b><span id="time"></span></p>
-        <!-- Insert time image -->
-        <p><b>Serves: </b><span id="serving"></span></p>
-        <!-- Insert serving image -->
+        <div class="icons">
+          <p>
+            <span class="rcorners2" id="serving">
+              <img class="detail_icon"src="/images/icons/serving-dish.png" alt="serving dish">
+            </span>
+            <span class="rcorners2" id="time">
+              <img class="detail_icon"src="/images/icons/clock.png" alt="clock"></img>
+            </span>
+          </p>
+        </div>
+
+        <p id="author">Created by </p>
         <br>
 
         <h3>Ingredients:</h3>
@@ -131,7 +135,11 @@
         <br>
 
         <h3>Steps:</h3>
-        <p id="steps"></p>
+        <pre id="steps"></pre>
+        <br>
+
+        <p id="recRef"></p>
+        <p id="scrambledRef"></p>
       </div>
       <div class="container">
         <div class="recipeViewPageButtons">

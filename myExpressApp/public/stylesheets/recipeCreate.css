@@ -254,6 +254,33 @@ ul {
   padding-right: 5%;
 }
 
+table {
+  background-color: #ffd386;
+  border: 1px solid #dddddd7f;
+}
+
+.recipeIngredient {
+  margin-left: 2.5%;
+  margin-right: 2.5%;
+  width: 90%;
+}
+
+#ingredientName {
+  margin-left: 10px;
+  margin-right: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  vertical-align: middle;
+}
+
+.editRow {
+  position: relative;
+  top: -20px;
+  left: 0px;
+  border-radius: 50%;
+  vertical-align: middle;
+}
+
 /*responsive screen view*/
 @media (max-width: 767px) {
   .footer-col {
@@ -275,20 +302,6 @@ ul {
   }
 }
 
-@media screen and (max-width: 513px) {
-  #scramble_button {
-    position: relative;
-    left: 15px;
-    bottom: -5px;
-  }
-
-  #back_button {
-    position: relative;
-    left: 40px;
-    bottom: -5px;
-  }
-}
-
 @media screen and (max-width: 400px) {
   .recipe_image {
     margin-right: -15px;
@@ -298,13 +311,5 @@ ul {
   .recipeViewPageButtons {
     display: flex;
     flex-direction: column;
-  }
-
-  #back_button {
-    margin-right: 80px;
-  }
-
-  #scramble_button {
-    margin-right: 53px;
   }
 }

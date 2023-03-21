@@ -34,7 +34,7 @@
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet"
     />
-    <link rel="stylesheet" type="text/css" href="recipeList_Final1.css" />
+    <link rel="stylesheet" type="text/css" href="recipeList_Final2.css" />
     <style>
       input[type="submit"] {
         padding: 15 30 15 30;
@@ -342,9 +342,86 @@
             <img class="recipe_icon" src="clock.png" alt="cake" />
           </div>
         </div>
+        <div class="flex-container">
+          <img class="recipe_picture" src="random_food.png" alt="cake" />
+          <p id="rcorners1">Recipe 3</p>
+          <div
+            class="chosen_options_from_sidebar"
+            style="display: flex; flex-direction: right"
+          >
+            <img class="recipe_icon" src="vegan.png" alt="cake" />
+            <img class="recipe_icon" src="vegetarian.png" alt="cake" />
+            <img class="recipe_icon_square" src="serving-dish.png" alt="cake" />
+            <img class="recipe_icon" src="hard.png" alt="cake" />
+            <img class="recipe_icon" src="clock.png" alt="cake" />
+          </div>
+        </div>
+        <div class="flex-container">
+          <img class="recipe_picture" src="random_food.png" alt="cake" />
+          <p id="rcorners1">Recipe 3</p>
+          <div
+            class="chosen_options_from_sidebar"
+            style="display: flex; flex-direction: right"
+          >
+            <img class="recipe_icon" src="vegan.png" alt="cake" />
+            <img class="recipe_icon" src="vegetarian.png" alt="cake" />
+            <img class="recipe_icon_square" src="serving-dish.png" alt="cake" />
+            <img class="recipe_icon" src="hard.png" alt="cake" />
+            <img class="recipe_icon" src="clock.png" alt="cake" />
+          </div>
+        </div>
+        <div class="flex-container">
+          <img class="recipe_picture" src="random_food.png" alt="cake" />
+          <p id="rcorners1">Recipe 3</p>
+          <div
+            class="chosen_options_from_sidebar"
+            style="display: flex; flex-direction: right"
+          >
+            <img class="recipe_icon" src="vegan.png" alt="cake" />
+            <img class="recipe_icon" src="vegetarian.png" alt="cake" />
+            <img class="recipe_icon_square" src="serving-dish.png" alt="cake" />
+            <img class="recipe_icon" src="hard.png" alt="cake" />
+            <img class="recipe_icon" src="clock.png" alt="cake" />
+          </div>
+        </div>
+        <div class="flex-container">
+          <img class="recipe_picture" src="random_food.png" alt="cake" />
+          <p id="rcorners1">Recipe 3</p>
+          <div
+            class="chosen_options_from_sidebar"
+            style="display: flex; flex-direction: right"
+          >
+            <img class="recipe_icon" src="vegan.png" alt="cake" />
+            <img class="recipe_icon" src="vegetarian.png" alt="cake" />
+            <img class="recipe_icon_square" src="serving-dish.png" alt="cake" />
+            <img class="recipe_icon" src="hard.png" alt="cake" />
+            <img class="recipe_icon" src="clock.png" alt="cake" />
+          </div>
+        </div>
+        <div class="flex-container">
+          <img class="recipe_picture" src="random_food.png" alt="cake" />
+          <p id="rcorners1">Recipe 3</p>
+          <div
+            class="chosen_options_from_sidebar"
+            style="display: flex; flex-direction: right"
+          >
+            <img class="recipe_icon" src="vegan.png" alt="cake" />
+            <img class="recipe_icon" src="vegetarian.png" alt="cake" />
+            <img class="recipe_icon_square" src="serving-dish.png" alt="cake" />
+            <img class="recipe_icon" src="hard.png" alt="cake" />
+            <img class="recipe_icon" src="clock.png" alt="cake" />
+          </div>
+        </div>
         <button
           class="create-btn"
-          style="padding: 0 17 0 17; display: flex; margin-right: 20px"
+          style="
+            padding: 0 17 0 17;
+            display: flex;
+            margin-right: 20px;
+            position: fixed;
+            bottom: 0px;
+            right: 0px;
+          "
         >
           <span style="position: relative; bottom: 5px">
             <img src="pen.png" style="width: 25px"
@@ -399,6 +476,9 @@
           $(this).prop("checked", false);
         });
       });
+
+      var height = $(".main_content").height();
+      $(".sidenav").height(height);
 
       function openNav() {
         document.getElementById("mySidebar").style.width = "250px";

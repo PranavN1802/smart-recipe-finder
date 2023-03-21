@@ -2,7 +2,7 @@ html,
 body {
   max-width: 100%;
   overflow-x: hidden;
-  background-color: #f2b883;
+  background-color: #fde4cd;
 }
 
 * {
@@ -118,7 +118,7 @@ img {
   margin-bottom: 10px;
 }
 
-button:not(.menu_button, .drop-down_list) {
+button:not(.menu_button, .drop-down_list, .create-btn) {
   display: inline;
   color: #ffffff;
   background: #ec8e22;
@@ -155,100 +155,31 @@ button:not(.menu_button, .drop-down_list):hover {
 ul {
   list-style: none;
 }
-.footer {
-  background-color: #ec8e22;
-  padding: 70px 0;
-  margin-top: 266.5px;
-}
-.footer-col {
-  width: 25%;
-  padding: 0 15px;
-}
-.footer-col h4 {
-  font-size: 18px;
-  color: #ffffff;
-  text-transform: capitalize;
-  margin-bottom: 35px;
-  font-weight: 500;
-  position: relative;
-}
-.footer-col h4::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -10px;
-  background-color: black;
-  height: 2px;
-  box-sizing: border-box;
-  width: 50px;
-}
-.footer-col ul li:not(:last-child) {
-  margin-bottom: 10px;
-}
-.footer-col ul li a {
-  font-size: 16px;
-  text-transform: capitalize;
-  color: #ffffff;
-  text-decoration: none;
-  font-weight: 400;
-  display: block;
-  transition: all 0.3s ease;
-}
-.footer-col ul li a:hover {
-  color: black;
-  padding-left: 8px;
-  font-weight: 400;
-}
-.footer-col .social-links a {
-  display: inline-block;
-  height: 40px;
-  width: 40px;
-  background-color: black;
-  margin: 0 10px 10px 0;
-  text-align: center;
-  line-height: 40px;
-  border-radius: 50%;
-  color: #ffffff;
-  transition: all 0.5s ease;
-}
-.footer-col .social-links a:hover {
-  color: #ec8e22;
-  background-color: #ffffff;
-}
-/*responsive footer*/
-@media (max-width: 767px) {
-  .footer-col {
-    width: 50%;
-    margin-bottom: 30px;
-  }
-}
-@media (max-width: 574px) {
-  .footer-col {
-    width: 100%;
-  }
-}
-body {
+
+*/ body {
   /* font-family: "Lato", sans-serif; */
   background-color: navajowhite;
+  height: auto;
 }
 
 /* Fixed sidenav, full height */
 .sidenav {
-  height: 100%;
-  width: 230px;
+  width: 250px;
   position: absolute;
   align-self: flex-start;
   z-index: 1;
-  top: 0;
   left: 0;
-  margin-top: 120.5px;
   background-color: #efab5d;
   overflow-x: hidden;
   padding-top: 20px;
   padding-bottom: 20px;
   min-height: 750px;
-  display: flex;
+  display: block;
+  height: 100vh;
   flex-direction: column;
+  transition: 0.3s;
+  align-items: stretch;
+  overflow-y: auto;
 }
 
 /* Style the sidenav links and the dropdown button */
@@ -316,6 +247,39 @@ body {
   }
 }
 
+.sidenav a .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  border-bottom: 0px;
+}
+
+.main_content .openbtn1 {
+  font-size: 20px;
+  cursor: pointer;
+  background-color: #ec8e22;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  margin-top: -15px;
+}
+
+.main_content .openbtn1:hover {
+  background-color: white;
+  color: #ec8e22;
+}
+
+#mySidebar {
+  width: 0px;
+}
+#main {
+  transition: margin-left 0.5s;
+  padding: 16px;
+  flex: 1 0 auto;
+  margin-left: 0;
+}
+
 input[type="text"] {
   background-color: navajowhite;
   padding-left: 10px;
@@ -325,7 +289,6 @@ input[type="text"] {
 .main_content {
   overflow: hidden;
   margin-left: 250px;
-  margin-top: 20px;
   min-height: 465px;
 }
 #rcorners1 {
@@ -375,4 +338,34 @@ img.recipe_icon_square {
   width: 50px;
   height: 50px;
   margin-right: 10px;
+}
+
+button.create-btn {
+  display: inline;
+  color: #ffffff;
+  background: #ec8e22;
+  border: 1px solid #000;
+  margin: 20px auto;
+  padding: 18px 25px;
+  transition: all 200ms ease-in-out;
+  border-radius: 50px;
+  box-shadow: 0px 3px 3px #c6c3cd;
+  font-size: 16px;
+}
+button.create-btn:hover {
+  color: #ec8e22;
+  cursor: pointer;
+  background: #ffffff;
+  border: 1px solid #000;
+}
+@media screen and (max-width: 858px) {
+  div.chosen_options_from_sidebar {
+    flex-direction: column-reverse;
+    justify-content: space-evenly;
+    width: 100%;
+    height: 100%;
+  }
+}
+.content {
+  display: flex;
 }
