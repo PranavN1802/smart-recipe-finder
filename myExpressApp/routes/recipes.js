@@ -330,10 +330,16 @@ router.get('/edit/:recID', async(req, res, next) => {
     res.render('recipeCreate', { title: 'Edit | Bubble\'N\'Sqeak', src: '/functions/editRecipe.js' });
 });
 
-router.post('/edit/:recID', async(req, res, next)=>{
+router.post('/edit', async(req, res, next)=>{
+    const {cookies} = req;
+    console.log(cookies);
+    console.log(cookies.recID);
+    let recID = cookies.recID;
 
-    let recID = req.params.recID;
-    let { name, recRef, vegetarian, vegan, kosher, halal, serving, time, difficulty, ingredients, quantities, steps, summary } = req.body;
+    let userID = req.user.userID;
+
+    
+    let { name, recRef, scrambledRef, vegetarian, vegan, kosher, halal, serving, time, difficulty, ingredients, quantities, steps, summary } = req.body;
 
     try {
 

@@ -110,6 +110,21 @@ app.get('/createDatabaseTables', (req, res) => {
 });
 
 
+// CREATE NEW TABLES FOR UPVOTES AND REPORTS AND EDIT RECIPES TO INCLUDE UPVOTES
+app.post('/createNewTables', async (req, res) => {
+    try {
+        db.promise().query(`CREATE TABLE upvotes (recID int, FOREIGN KEY (recID) REFERENCES recipes (recID), userID int, FOREIGN KEY (userID) REFERENCES users (userID))`);
+        db.promise().query(`CREATE TABLE reports (recID int, FOREIGN KEY (recID) REFERENCES recipes (recID), userID int, FOREIGN KEY (userID) REFERENCES users (userID))`);
+        db.promise().query(`ALTER TABLE recipes ADD upvotes int`);
+        console.log('Tables added');
+        res.send({msg: 'Tables added'});
+    } catch (err) {
+        console.log(err);
+    }
+});
+
+
+
 // ADD ACCOUNT DETAILS TO DATABASE
 // allows web server to handle post requests
 // can specify endpoint to send the post request to
@@ -593,22 +608,70 @@ app.post('/:userID/:recID/edit', async (req, res) => {
 // CHANGE REPORTS
 app.post("/:userID/recipes/:recID/report", async (req,res) => {
 
+    // THEO - CHANGE RECID AND USERID TO BE RETRIEVED FROM REQ.USER AND COOKIE
     let recID = req.params.recID; // Would come from complete recipe details
 
-    try{
-        // Find current reports value for the recipe
-        let reports = await db.promise().query(`SELECT reports FROM RECIPES WHERE recID=${recID}`);
-        
-        // Extract reports value form array
-        reports = reports[0].map( elm => elm.reports )[0];
+    // Check if user is logged in
+    if (req.user) {
+        try{
+            // Check if the user has already reported this recipe
+            let result = await db.promise().query(`SELECT recID FROM REPORTS WHERE userID=${req.user.userID}`);
+            
+            if (result[0].length===0) {
+                // Find current reports value for the recipe
+                let reports = await db.promise().query(`SELECT reports FROM RECIPES WHERE recID=${recID}`);
+                
+                // Extract reports value form array
+                reports = reports[0].map( elm => elm.reports )[0];
 
-        // Increment the number of reports by 1
-        db.promise().query(`UPDATE RECIPES SET reports=${reports} + 1 WHERE recID= ${recID}`);
-        console.log('reported');
-        res.status(200).send({msg: "reported"});
+                // Increment the number of reports by 1
+                db.promise().query(`UPDATE RECIPES SET reports=${reports} + 1 WHERE recID= ${recID}`);
+                console.log('reported');
+                res.status(200).send({msg: "reported"});
+            } else {
+                res.send({msg: 'You may only report a recipe once'});
+            }
+        }
+        catch (err){
+            console.log(err);
+        }
+    } else {
+        res.send({msg: 'Log in to use this function'});
     }
-    catch (err){
-        console.log(err);
+});
+
+// CHANGE UPVOTES
+app.post("/:userID/recipes/:recID/upvote", async (req,res) => {
+
+    // THEO - CHANGE RECID AND USERID TO BE RETRIEVED FROM REQ.USER AND COOKIE
+    let recID = req.params.recID;
+
+    // Check if user is logged in
+    if (req.user) {
+        try{
+            // Check if the user has already reported this recipe
+            let result = await db.promise().query(`SELECT recID FROM UPVOTES WHERE userID=${req.user.userID}`);
+            
+            if (result[0].length===0) {
+                // Find current upvotes value for the recipe
+                let upvotes = await db.promise().query(`SELECT upvotes FROM RECIPES WHERE recID=${recID}`);
+                
+                // Extract upvotes value form array
+                upvotes = upvotes[0].map( elm => elm.upvotes )[0];
+
+                // Increment the number of upvotes by 1
+                db.promise().query(`UPDATE RECIPES SET upvotes=${upvotes} + 1 WHERE recID= ${recID}`);
+                console.log('reported');
+                res.status(200).send({msg: "reported"});
+            } else {
+                res.send({msg: 'You may only upvote a recipe once'});
+            }
+        }
+        catch (err){
+            console.log(err);
+        }
+    } else {
+        res.send({msg: 'Log in to use this function'});
     }
 });
 
@@ -957,7 +1020,7 @@ app.get('/:userID/recipes/:recID', async (req, res) => {
     // Use recipe name passed as param to find recID for purposes of development
     // In reality, would use recID from summary data - name too imprecise
     let recID = req.params.recID;
-    console.log(recipe);
+    // console.log(recipe);
 
     try {
 
