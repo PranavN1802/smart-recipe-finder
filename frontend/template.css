@@ -185,7 +185,9 @@ ul {
   background-color: #ffffff;
 }
 
-
+a:link{
+  color: black;
+}
 
 #easyimg{
   width: 50%;
