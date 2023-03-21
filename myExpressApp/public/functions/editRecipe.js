@@ -26,7 +26,7 @@ fetchDetails = function(){
                 data = data[0];
                 
                 document.getElementById('ingredientName0').value = data.ingredients[0];
-                if (data.quantities[i] != 'null' && data.quantities[i] != undefined) document.getElementById('ingredientQuantity0').value = data.quantities[0];
+                if (data.quantities[0] != 'null' && data.quantities[0] != undefined) document.getElementById('ingredientQuantity0').value = data.quantities[0];
                 
 
                 for (var i = 1; i < data.ingredients.length; i++){
