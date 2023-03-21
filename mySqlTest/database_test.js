@@ -111,12 +111,16 @@ app.get('/', async(req, res) => {
 
 
 // CREATE NEW TABLES FOR UPVOTES AND REPORTS AND EDIT RECIPES TO INCLUDE UPVOTES
-app.post('/createNewTables', (req, res) => {
-	db.promise().query(`CREATE TABLE upvotes (recID int, FOREIGN KEY (recID) REFERENCES recipes (recID), userID int, FOREIGN KEY (userID) REFERENCES users (userID))`);
-	db.promise().query(`CREATE TABLE reports (recID int, FOREIGN KEY (recID) REFERENCES recipes (recID), userID int, FOREIGN KEY (userID) REFERENCES users (userID))`);
-    // db.promise().query(`ALTER TABLE recipes ADD upvotes int`);
-    console.log('Tables added');
-    res.send({msg: 'Tables added'});
+app.post('/createNewTables', async (req, res) => {
+    try {
+        db.promise().query(`CREATE TABLE upvotes (recID int, FOREIGN KEY (recID) REFERENCES recipes (recID), userID int, FOREIGN KEY (userID) REFERENCES users (userID))`);
+        db.promise().query(`CREATE TABLE reports (recID int, FOREIGN KEY (recID) REFERENCES recipes (recID), userID int, FOREIGN KEY (userID) REFERENCES users (userID))`);
+        db.promise().query(`ALTER TABLE recipes ADD upvotes int`);
+        console.log('Tables added');
+        res.send({msg: 'Tables added'});
+    } catch (err) {
+        console.log(err);
+    }
 });
 
 
