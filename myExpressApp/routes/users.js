@@ -12,6 +12,14 @@ router.get('/', async(req, res, next) => {
     return res.redirect('/register');
 });
 
+router.get('/checklogin', async(req, res, next) => {
+    if(req.user) {
+        res.status(200).send({login: true});
+    } else {
+        res.status(200).send({login: false});
+    }
+})
+
 
 // NEW VERSION OF LOGIN FOR SESSIONS AND PASSPORT
 
