@@ -13,7 +13,7 @@ router.get('/', async(req, res, next) => {
 
 router.get('/search', async(req, res, next) => {
     request.post('http://localhost:3000/recipes/search',
-        { json: { search: null, ingredients: null, vegetarian: null, vegan: null, kosher: null, halal: null, serving: null, time: null, difficulty: null, sortBy: null }},
+        { json: { search: null, ingredients: null, allergies: null, vegetarian: null, vegan: null, kosher: null, halal: null, serving: null, time: null, difficulty: null, sortBy: null }},
         function (error, response, body) {
             if (!error && response.statusCode == 200) {
                 res.status(200).send(body);
@@ -29,12 +29,12 @@ router.post('/search', async(req, res, next) => {
 
     console.log("Input body: ", req.body);
     // Extract values from request body
-    let { search, ingredients, vegetarian, vegan, kosher, halal, serving, time, difficulty, sortBy } = req.body;
-    console.log("Request to recipes/search:", search, ingredients, vegetarian, vegan, kosher, halal, serving, time, difficulty, sortBy);
+    // let { search, ingredients, vegetarian, vegan, kosher, halal, serving, time, difficulty, sortBy } = req.body;
+    // console.log("Request to recipes/search:", search, ingredients, vegetarian, vegan, kosher, halal, serving, time, difficulty, sortBy);
 
     // For allergies
-    // let { search, ingredients, allergies, vegetarian, vegan, kosher, halal, serving, time, difficulty, sortBy } = req.body;
-    // console.log(search, ingredients, allergies, vegetarian, vegan, kosher, halal, serving, time, difficulty, sortBy);
+    let { search, ingredients, allergies, vegetarian, vegan, kosher, halal, serving, time, difficulty, sortBy } = req.body;
+    console.log("Request to recipes/search:", search, ingredients, allergies, vegetarian, vegan, kosher, halal, serving, time, difficulty, sortBy);
 
     // Replace null values with wildcards that will match any value for that attribute in the db
     // % => any number of characters
@@ -81,41 +81,41 @@ router.post('/search', async(req, res, next) => {
             ingredients = ingredients[0].map( elm => elm.name );
         }
 
-        // // For allergies
-        // if (allergies===null) {
-        //     allergies=[];
-        // }
+        // For allergies
+        if (allergies===null) {
+            allergies=[];
+        }
 
-        console.log("Request reformatted to:", search, ingredients, vegetarian, vegan, kosher, halal, serving, time, difficulty, sortBy);
+        console.log("Request reformatted to:", search, ingredients, allergies, vegetarian, vegan, kosher, halal, serving, time, difficulty, sortBy);
 
-        //For allergies
-        // console.log(search, ingredients, allergies, vegetarian, vegan, kosher, halal, serving, time, difficulty, sortBy);
+        // For allergies
+        console.log(search, ingredients, allergies, vegetarian, vegan, kosher, halal, serving, time, difficulty, sortBy);
 
         // Use ingredients to find an array of recIDs
         let recIDs=[];
 
         // For allergies
-        // let recIDsAllergies = [];
+        let recIDsAllergies = [];
 
         // For allergies
-        // for (let a=0; a<allergies.length; a++) {
+        for (let a=0; a<allergies.length; a++) {
 
-        //     // Find an ingID matching a name containing that ingredient (wildcards)
-        //     let allergy = "%"+allergies[k]+"%";
-        //     let ingID = await db.promise().query(`SELECT ingID FROM INGREDIENTS WHERE name LIKE '${allergy}'`);
-        //     ingID = ingID[0].map( elm => elm.ingID )[0];
+            // Find an ingID matching a name containing that ingredient (wildcards)
+            let allergy = "%"+allergies[a]+"%";
+            let ingID = await db.promise().query(`SELECT ingID FROM INGREDIENTS WHERE name LIKE '${allergy}'`);
+            ingID = ingID[0].map( elm => elm.ingID )[0];
 
-        //     // Find the recIDs that match that ingID in recipe_ingredient_quantity
-        //     let recID = await db.promise().query(`SELECT recID FROM RECIPE_INGREDIENT_QUANTITY WHERE ingID=${ingID}`);
+            // Find the recIDs that match that ingID in recipe_ingredient_quantity
+            let recID = await db.promise().query(`SELECT recID FROM RECIPE_INGREDIENT_QUANTITY WHERE ingID=${ingID}`);
 
-        //     // Add recIDs to an array
-        //     for (let r=0; r<recID[0].length; r++) {
-        //         recIDCurrent = recID[0].map( elm => elm.recID )[r];
-        //         if (recIDsAllergies.includes(recIDCurrent)===false) recIDsAllergies.push(recIDCurrent);
+            // Add recIDs to an array
+            for (let r=0; r<recID[0].length; r++) {
+                recIDCurrent = recID[0].map( elm => elm.recID )[r];
+                if (recIDsAllergies.includes(recIDCurrent)===false) recIDsAllergies.push(recIDCurrent);
 
-        //     }
-        //     console.log(recIDsAllergies);
-        // }
+            }
+            console.log("RecIDsAllergies: ", recIDsAllergies);
+        }
 
         for (let k=0; k<ingredients.length; k++) {
 
@@ -137,10 +137,10 @@ router.post('/search', async(req, res, next) => {
             // Add recIDs to an array
             for (let r=0; r<recID[0].length; r++) {
                 recIDCurrent = recID[0].map( elm => elm.recID )[r];
-                if (recIDs.includes(recIDCurrent)===false) recIDs.push(recIDCurrent);
+                //if (recIDs.includes(recIDCurrent)===false) recIDs.push(recIDCurrent);
 
                 // For allegies
-                // if (recIDs.includes(recIDCurrent)===false && recIDsAllergies.includes(recIDCurrent)===false) recIDs.push(recIDCurrent);
+                if (recIDs.includes(recIDCurrent)===false && recIDsAllergies.includes(recIDCurrent)===false) recIDs.push(recIDCurrent);
 
             }
         }
@@ -199,8 +199,6 @@ router.get('/find', async(req, res, next) => {
     console.log(cookies.recID);
     let recID = cookies.recID;
     // console.log(req.headers);
-
-    // console.log(recID);
 
     try {
 
@@ -261,6 +259,7 @@ router.get('/find/:recID', async(req, res, next) => {
     // In reality, would use recID from summary data - name too imprecise
     let recID = req.params.recID;
     console.log(recID);
+    console.log(typeof(recID));
 
     try {
 
@@ -320,9 +319,9 @@ router.get('/create', async(req, res, next) => {
     if (req.user) {
         res.render('recipeCreate', { title: 'Create | Bubble\'N\'Sqeak', src: '/functions/recipeCreation.js'});
     } else {
-        //TODO: This needs to be replaced with a redirection to the login page
-        console.log('Not logged in');
-        res.status(401).send({msg: 'Not logged in'});
+        return res.redirect('/login');
+        //console.log('Not logged in');
+        //res.status(401).send({msg: 'Not logged in'});
     }
 });
 
