@@ -151,4 +151,17 @@ router.get('/account', async(req, res, next) => {
     }
 });
 
+router.get('/account/fetch', async (req, res) => {
+    if (req.user) {
+        let userID = req.user.userID;
+
+        // Find username for the userID
+        let details = await db.promise().query(`SELECT email, username FROM USERS WHERE userID=${userID}`);
+        console.log(details[0]);
+        res.status(200).send(details[0]);
+    } else {
+        return res.redirect('/login');
+    }
+});
+
 module.exports = router;

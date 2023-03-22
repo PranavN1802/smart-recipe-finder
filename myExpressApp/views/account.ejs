@@ -120,22 +120,17 @@
 
     <div class="content">
       <div id="main" class="main_content">
-        <div
-          class="container"
-          style="margin-left: 0; margin-right: 0; padding-left: 0"
-        >
-          <p style="margin-top: 30px">Email:</p>
-          <a
-            href="#"
-            class="btn btn-info btn-lg"
-            style="height: 60px; margin-top: 10px; margin-bottom: 20px"
-          >
+        <div class="container" style="margin-left: 0; margin-right: 0; padding-left: 0">
+          <h3 id="username">Welcome, </h3>
+
+          <p id="email"></p>
+
+          <a href="#" class="btn btn-info btn-lg" style="height: 60px; margin-top: 10px; margin-bottom: 20px">
             <span class="glyphicon glyphicon-log-out"></span> Change password
           </a>
+
           <br />
-          <a
-            href="#"
-            class="btn btn-info btn-lg"
+          <a href="#" class="btn btn-info btn-lg"
             style="
               height: 60px;
               margin-bottom: 20px;
@@ -145,8 +140,17 @@
           >
             <span class="glyphicon glyphicon-log-out"></span> Log out
           </a>
-        </div>
 
+        </div>
+        <br>
+
+        <button title="Create recipe" style="padding: 0 17 0 17; display: inline; vertical-align: middle;">
+          <span style="position: relative; bottom: 5px">
+            <img src="/images/pen.png" style="width: 25px"/>
+          </span>
+        </button>
+        <h3 style="display: inline-block">Your Recipes:</h3>
+        <br>
         <!------------Recipe 1------------>
 
         <div class="flex-container">
@@ -188,32 +192,24 @@
           </div>
         </div>
 
-        <div
-          class="container-fluid"
-          style="margin-left: 0; padding-left: 0; margin-right: 0"
-        >
-          <div
-            class="btn-group"
-            style="display: flex; justify-content: flex-end"
-          >
+        <div class="container-fluid" style="margin-left: 0; padding-left: 0; margin-right: 0">
+          <div class="btn-group" style="display: flex; justify-content: flex-end">
             <button class="delete_account_btn" style="margin-left: 0">
               <span style="position: relative; bottom: 5px">
-                <img src="/images/delete.png" style="width: 25px" /></span
-              >Delete account
+                <img src="/images/delete.png" style="width: 25px" />
+              </span>Delete account
             </button>
-            <button
-              title="Create recipe"
-              class="create-btn"
-              style="padding: 0 17 0 17; margin-left: 0"
-            >
+            <button title="Create recipe" class="create-btn" style="padding: 0 17 0 17; margin-left: 0">
               <span style="position: relative; bottom: 5px">
-                <img src="/images/pen.png" style="width: 25px"
-              /></span>
+                <img src="/images/pen.png" style="width: 25px"/>
+              </span>
             </button>
           </div>
         </div>
       </div>
     </div>
+
+    <script src="/functions/accountDetails.js"></script>
 
     <footer class="footer">
       <div class="container-fluid">
