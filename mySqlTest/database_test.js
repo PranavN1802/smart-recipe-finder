@@ -609,7 +609,13 @@ app.post('/:userID/:recID/edit', async (req, res) => {
 app.post("/:userID/recipes/:recID/report", async (req,res) => {
 
     // THEO - CHANGE RECID AND USERID TO BE RETRIEVED FROM REQ.USER AND COOKIE
-    let recID = req.params.recID; // Would come from complete recipe details
+    // let recID = req.params.recID; // Would come from complete recipe details
+    // let userID = req.params.userID;
+
+    const {cookies} = req;
+
+    let recID = cookies.reportedRecID;
+    let userID = req.user.userID;
 
     // Check if user is logged in
     if (req.user) {
@@ -626,8 +632,9 @@ app.post("/:userID/recipes/:recID/report", async (req,res) => {
 
                 // Increment the number of reports by 1
                 db.promise().query(`UPDATE RECIPES SET reports=${reports} + 1 WHERE recID= ${recID}`);
-                console.log('reported');
-                res.status(200).send({msg: "reported"});
+                db.promise().query(`INSERT INTO REPORTS (recID, userID) VALUES (${recID}, ${userID})`);
+                console.log('Reported');
+                res.status(200).send({msg: "Thank you for your report"});
             } else {
                 res.send({msg: 'You may only report a recipe once'});
             }
@@ -644,13 +651,19 @@ app.post("/:userID/recipes/:recID/report", async (req,res) => {
 app.post("/:userID/recipes/:recID/upvote", async (req,res) => {
 
     // THEO - CHANGE RECID AND USERID TO BE RETRIEVED FROM REQ.USER AND COOKIE
-    let recID = req.params.recID;
+    // let recID = req.params.recID;
+    // let userID = req.params.userID;
+
+    const {cookies} = req;
+
+    let recID = cookies.upvotedRecID;
+    let userID = req.user.userID;
 
     // Check if user is logged in
     if (req.user) {
         try{
             // Check if the user has already reported this recipe
-            let result = await db.promise().query(`SELECT recID FROM UPVOTES WHERE userID=${req.user.userID}`);
+            let result = await db.promise().query(`SELECT recID FROM UPVOTES WHERE userID=${userID}`);
             
             if (result[0].length===0) {
                 // Find current upvotes value for the recipe
@@ -661,8 +674,9 @@ app.post("/:userID/recipes/:recID/upvote", async (req,res) => {
 
                 // Increment the number of upvotes by 1
                 db.promise().query(`UPDATE RECIPES SET upvotes=${upvotes} + 1 WHERE recID= ${recID}`);
-                console.log('reported');
-                res.status(200).send({msg: "reported"});
+                db.promise().query(`INSERT INTO UPVOTES (recID, userID) VALUES (${recID}, ${userID})`);
+                console.log('upvoted');
+                res.status(200).send({msg: "Upvoted!"});
             } else {
                 res.send({msg: 'You may only upvote a recipe once'});
             }
