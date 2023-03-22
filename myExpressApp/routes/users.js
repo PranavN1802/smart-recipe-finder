@@ -143,4 +143,12 @@ router.post('/register', async(req, res, next) => {
     }
 });
 
+router.get('/account', async(req, res, next) => {
+    if (req.user) {
+        res.render('account', { title: 'Account | Bubble\'N\'Sqeak' });
+    } else {
+        return res.redirect('/login');
+    }
+});
+
 module.exports = router;

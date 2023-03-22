@@ -23,7 +23,7 @@ fetchDetails = function() {
                 $summary.text(data.summary);
                 author.insertAdjacentHTML("beforeend", data.username)
                 if (data.recRef != null && data.recRef != 'null') recRef.insertAdjacentHTML("beforebegin", data.recRef);
-                if (data.scrambledRef != "") scrambledRef.insertAdjacentHTML("beforebegin", data.scrambledRef);
+                if (data.scrambledRef != "" && data.scrambledRef != null && data.scrambledRef != 'null') scrambledRef.insertAdjacentHTML("beforebegin", data.scrambledRef);
 
                 var dietary = '<img class="recipe_icon"src="/images/icons/' + difficulties[data.difficulty] + '.png" alt="' + difficulties[data.difficulty] + '">';
 

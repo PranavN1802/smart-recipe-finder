@@ -72,9 +72,11 @@ fetchDetails = function(){
                 if(data.recRef == 'null'){
                     $recipeRef.value = "";
                 }else{
-                    linkSearch = /http.*\/>/;
+                    //console.log(data.recRef);
+                    //console.log(data.name);
+                    const linkSearch = new RegExp(`http.*>${data.name[0]}`);
                     recRef = data.recRef.match(linkSearch);
-                    console.log(recRef);
+                    //console.log(recRef);
 
                     recRef = recRef[0];
                     recRef = recRef.substring(0, recRef.length - 2);

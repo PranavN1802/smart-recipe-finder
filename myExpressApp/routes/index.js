@@ -19,7 +19,7 @@ router.get('/login', function(req, res, next) {
 });
 
 router.get('/account', function(req, res, next) {
-  res.render('account', { title: 'Account | Bubble\'N\'Sqeak' });
+  return res.redirect('/users/account');
 });
 
 module.exports = router;
