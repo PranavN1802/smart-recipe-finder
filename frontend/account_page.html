@@ -34,7 +34,7 @@
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet"
     />
-    <link rel="stylesheet" type="text/css" href="recipeList_Final2.css" />
+    <link rel="stylesheet" type="text/css" href="account_page.css" />
     <style>
       input[type="submit"] {
         padding: 15 30 15 30;
@@ -106,131 +106,182 @@
             </a>
           </button>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" href="Register_page">Sign in</a>
-            <a class="dropdown-item" href="Register_page">Sign up</a>
+            <a class="dropdown-item" href="Register_page">Register</a>
             <a class="dropdown-item" href="Register_page">Log out</a>
           </div>
         </div>
       </div>
     </nav>
+
     <div class="content" style="margin: 0; padding: 0">
       <div id="main" class="main_content">
-        <p>Email:</p>
-        <a href="#" class="btn btn-info btn-lg" style="height: 60px; margin-top: 5px; margin-bottom: 20px">
-        <span class="glyphicon glyphicon-log-out"></span> Change password
-        </a>
+        <div
+          class="container"
+          style="margin-left: 0; margin-right: 0; padding-left: 0"
+        >
+          <p style="margin-top: 30px">Email:</p>
+          <a
+            href="#"
+            class="btn btn-info btn-lg"
+            style="height: 60px; margin-top: 10px; margin-bottom: 20px"
+          >
+            <span class="glyphicon glyphicon-log-out"></span> Change password
+          </a>
+          <br />
+          <a
+            href="#"
+            class="btn btn-info btn-lg"
+            style="
+              height: 60px;
+              margin-bottom: 20px;
+              padding-left: 60px;
+              padding-right: 60px;
+            "
+          >
+            <span class="glyphicon glyphicon-log-out"></span> Log out
+          </a>
+        </div>
+
+        <!------------Recipe 1------------>
+
         <div class="flex-container">
           <img class="recipe_picture" src="random_food.png" alt="cake" />
-          <p id="rcorners1">Recipe 1</p>
-          <div
-            class="chosen_options_from_sidebar"
-            style="display: flex; flex-direction: right"
-          >
-            <img class="recipe_icon" src="kosher.png" alt="cake" />
-            <img class="recipe_icon_square" src="serving-dish.png" alt="cake" />
-            <img class="recipe_icon" src="easy.png" alt="cake" />
-            <img class="recipe_icon" src="clock.png" alt="cake" />
-            <button
-                class="create-btn"
-                style="margin-left: 40px; margin: right 5px; background-color: #b86002;"
-              >
-                <span style="position: relative; bottom: 5px">
-                  <img src="editing.png" style="width: 25px; margin-top: -9px"
-                /></span>
-              </button>
-              <button
-                class="create-btn"
-                style=" margin-right: 0px; margin-left: 5px; background-color: #b86002;"
-              >
-                <span style="position: relative; bottom: 5px">
-                  <img src="trash-can.png" style="width: 25px; margin-top: -8px"/>
-                </span>
-              </button>
-          </div>
-        </div>
-        <div class="flex-container">
-          <img class="recipe_picture" src="random_food.png" alt="cake" />
-          <p id="rcorners1">Recipe 2</p>
-          <div
-            class="chosen_options_from_sidebar"
-            style="display: flex; flex-direction: right"
-          >
-            <img class="recipe_icon" src="vegan.png" alt="cake" />
-            <img class="recipe_icon" src="vegetarian.png" alt="cake" />
-            <img class="recipe_icon_square" src="serving-dish.png" alt="cake" />
-            <img class="recipe_icon" src="medium.png" alt="cake" />
-            <img class="recipe_icon" src="clock.png" alt="cake" />
-            <button
-                class="create-btn"
-                style="margin-left: 40px; margin: right 5px; background-color: #b86002;"
-              >
-                <span style="position: relative; bottom: 5px">
-                  <img src="editing.png" style="width: 25px; margin-top: -9px"
-                /></span>
-              </button>
-              <button
-                class="create-btn"
-                style=" margin-right: 0px; margin-left: 5px; background-color: #b86002;"
-              >
-                <span style="position: relative; bottom: 5px">
-                  <img src="trash-can.png" style="width: 25px; margin-top: -8px"/>
-                </span>
-              </button>
-          </div>
-        </div>
-          <div class="flex-container">
-            <img class="recipe_picture" src="random_food.png" alt="cake" />
-            <p id="rcorners1">Recipe 3</p>
-            <div
-              class="chosen_options_from_sidebar"
-              style="display: flex; flex-direction: right"
+          <p id="rcorners1">
+            <a
+              style="color: black"
+              href="http://localhost:3000/recipes/view/' + article.recID + '"
+              target="_blank"
+              ><b>article.name</b></a
             >
-              <img class="recipe_icon" src="vegan.png" alt="cake" />
-              <img class="recipe_icon" src="vegetarian.png" alt="cake" />
-              <img class="recipe_icon_square" src="serving-dish.png" alt="cake" />
-              <img class="recipe_icon" src="hard.png" alt="cake" />
-              <img class="recipe_icon" src="clock.png" alt="cake" />
-              <button
-                class="create-btn"
-                style="margin-left: 40px; margin: right 5px; background-color: #b86002;"
-              >
-                <span style="position: relative; bottom: 5px">
-                  <img src="editing.png" style="width: 25px; margin-top: -9px"
-                /></span>
-              </button>
-              <button
-                class="create-btn"
-                style=" margin-right: 0px; margin-left: 5px; background-color: #b86002;"
-              >
-                <span style="position: relative; bottom: 5px">
-                  <img src="trash-can.png" style="width: 25px; margin-top: -8px"/>
-                </span>
-              </button>
+            - Creamy and nutritious, <br />vegan mushroom stroganoff<br />
+            made with blended cashews. <br />
+            <span id="rcorners2" style="display: inline-block">
+              <b>4</b>
+              <img
+                class="detail_icon"
+                src="serving-dish.png"
+                alt="serving dish"
+              />
+            </span>
+
+            <span id="rcorners2" style="display: inline-block">
+              <b>40-50min</b>
+              <img class="detail_icon" src="clock.png" alt="clock" />
+            </span>
+          </p>
+          <div class="chosen_options_from_sidebar">
+            <img class="recipe_icon" src="easy.png" alt="easy" />
+            <img class="recipe_icon" src="vegetarian.png" alt="vegetarian" />
+            <img class="recipe_icon" src="vegan.png" alt="vegan" />
+            <img class="recipe_icon" src="kosher.png" alt="kosher" />
+
+            <div style="display: flex; margin-left: 5px">
+              <div class="recipe_edit_and_delete_btns">
+                <button class="edit-btn" title="Edit recipe">
+                  <span
+                    id="edit_and_delete_buttons_style"
+                    style="position: relative; bottom: 5px"
+                  >
+                    <img
+                      src="editing.png"
+                      style="width: 25px; margin-top: -9px"
+                  /></span>
+                </button>
+                <button class="delete-btn" title="Delete recipe">
+                  <span style="position: relative; bottom: 5px">
+                    <img
+                      src="delete.png"
+                      style="width: 25px; margin-top: -8px"
+                    />
+                  </span>
+                </button>
+              </div>
             </div>
           </div>
-          <div class="btn-group">
-            <a href="#" class="btn btn-info btn-lg" style="height: 60px; margin-top: 20px;">
-            <span class="glyphicon glyphicon-log-out"></span> Log out
-            </a>  
-            <button
-            class="create-btn"
-            style="padding: 0 17 0 17; display: flex; margin-right: 20px; margin-left: 1135px"
-            >
-            <span style="position: relative; bottom: 5px">
-              <img src="pen.png" style="width: 25px"
-            /></span>
+        </div>
+
+        <div
+          class="container-fluid"
+          style="margin-left: 0; padding-left: 0; margin-right: 0"
+        >
+          <div
+            class="btn-group"
+            style="display: flex; justify-content: flex-end"
+          >
+            <button class="delete_account_btn" style="margin-left: 0">
+              <span style="position: relative; bottom: 5px">
+                <img src="delete.png" style="width: 25px" /></span
+              >Delete account
             </button>
             <button
+              title="Create recipe"
               class="create-btn"
-              style="padding: 0 17 0 17; display: flex; margin-right: 20px; background-color: #d21d19; line-height: 50px;"
+              style="padding: 0 17 0 17; margin-left: 0"
             >
               <span style="position: relative; bottom: 5px">
-                <img src="trash-can.png" style="width: 25px"
-              /></span>Delete account
+                <img src="pen.png" style="width: 25px"
+              /></span>
             </button>
           </div>
+        </div>
       </div>
     </div>
-    <!---->
+
+    <footer class="footer">
+      <div class="container-fluid">
+        <div class="row" style="justify-content: space-around">
+          <div class="footer-col">
+            <h4>Get help</h4>
+            <ul>
+              <li>
+                <a href="aboutPage">How your data is handled?</a>
+              </li>
+              <li>
+                <a href="aboutPage">Wondering what's on our website?</a>
+              </li>
+              <li>
+                <a href="suggestPage">Any suggestions?</a>
+              </li>
+              <li>
+                <a href="ReferencesPage">References</a>
+              </li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Contact us</h4>
+            <ul>
+              <li>
+                <a href="mailto:ug-compsci@manchester.ac.uk"
+                  >bubble_and_squeak@hotmail.com</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Connect with us</h4>
+            <div class="social-links">
+              <a href="https://www.facebook.com/computersciencemcr/"
+                ><i
+                  class="fab fa-facebook-f"
+                  style="position: relative; bottom: -10px"
+                ></i
+              ></a>
+              <a href="https://twitter.com/csmcr/"
+                ><i
+                  class="fab fa-twitter"
+                  style="position: relative; bottom: -10px"
+                ></i
+              ></a>
+              <a href="https://www.instagram.com/uomcompsci/"
+                ><i
+                  class="fab fa-instagram"
+                  style="position: relative; bottom: -10px"
+                ></i
+              ></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
   </body>
 </html>
