@@ -74,3 +74,30 @@ fetch(window.location.href, { method: "POST" })
 function scrambleRedirect(){
     window.location.replace("http://localhost:3000/recipes/scramble/" + recID);
 }
+
+report = function(){
+    console.log('upvote function');
+
+    fetch('http://localhost:3000/recipes/' + recID + '/report', { method: "POST" })
+            .then(response => response.json())
+            .then(data => {
+                message = data.msg;
+                alert(message);
+            })
+            .catch(err => console.log(err));
+}
+
+upvote = function(){
+    console.log('upvote function');
+
+    fetch('http://localhost:3000/recipes/' + recID + '/upvote', { method: "POST" })
+            .then(response => response.json())
+            .then(data => {
+                message = data.msg;
+                alert(message);
+            })
+            .catch(err => console.log(err));
+}
+
+
+
