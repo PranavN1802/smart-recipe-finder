@@ -834,4 +834,90 @@ router.post('/details/:recID', async(req, res, next) => {
     res.status(201).send({ recipe: recipe })
 });
 
+
+// CHANGE UPVOTES
+router.post("/:recID/report", async (req,res) => {
+
+    // THEO - CHANGE RECID AND USERID TO BE RETRIEVED FROM REQ.USER AND COOKIE
+    let recID = req.params.recID;
+    console.log(recID);
+
+    console.log(req.user);
+
+    // Check if user is logged in
+    if (req.user) {
+        let userID = req.user.userID;
+        console.log(userID);
+        try{
+            console.log('retrieve user record');
+            // Check if the user has already reported this recipe
+            let result = await db.promise().query(`SELECT recID FROM REPORTS WHERE userID=${userID} AND recID=${recID}`);
+            
+            if (result[0].length===0) {
+                // Find current upvotes value for the recipe
+                let reports = await db.promise().query(`SELECT reports FROM RECIPES WHERE recID=${recID}`);
+                
+                // Extract upvotes value form array
+                reports = reports[0].map( elm => elm.reports )[0];
+
+                // Increment the number of upvotes by 1
+                db.promise().query(`UPDATE RECIPES SET reports=${reports} + 1 WHERE recID= ${recID}`);
+                db.promise().query(`INSERT INTO REPORTS (recID, userID) VALUES (${recID}, ${userID})`);
+                console.log('reported');
+                res.status(200).send({msg: "Reported!"});
+            } else {
+                res.status(500).send({msg: 'You may only report a recipe once'});
+            }
+        }
+        catch (err){
+            console.log(err);
+        }
+    } else {
+        res.status(500).send({msg: 'Log in to use this function'});
+    }
+});
+
+// CHANGE UPVOTES
+router.post("/:recID/upvote", async (req,res) => {
+
+    let recID = req.params.recID;
+    console.log(recID);
+
+    console.log(req.user);
+
+    // Check if user is logged in
+    if (req.user) {
+        let userID = req.user.userID;
+        console.log(userID);
+        try{
+            console.log('retrieve user record');
+            // Check if the user has already reported this recipe
+            let result = await db.promise().query(`SELECT recID FROM UPVOTES WHERE userID=${userID} AND recID=${recID}`);
+            
+            if (result[0].length===0) {
+                // Find current upvotes value for the recipe
+                let upvotes = await db.promise().query(`SELECT upvotes FROM RECIPES WHERE recID=${recID}`);
+                
+                // Extract upvotes value form array
+                upvotes = upvotes[0].map( elm => elm.upvotes )[0];
+
+                // Increment the number of upvotes by 1
+                db.promise().query(`UPDATE RECIPES SET upvotes=${upvotes} + 1 WHERE recID= ${recID}`);
+                db.promise().query(`INSERT INTO UPVOTES (recID, userID) VALUES (${recID}, ${userID})`);
+                console.log('upvoted');
+                res.status(200).send({msg: "Upvoted!"});
+            } else {
+                res.status(500).send({msg: 'You may only upvote a recipe once'});
+            }
+        }
+        catch (err){
+            console.log(err);
+        }
+    } else {
+        res.status(500).send({msg: 'Log in to use this function'});
+    }
+});
+
+
+
 module.exports = router;
