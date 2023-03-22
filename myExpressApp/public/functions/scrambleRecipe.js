@@ -46,7 +46,7 @@ fetchDetails = function(){
                     // Add a delete button to the previous row
                     // (This is to prevent the user deleting the only row with an add button)
                     const deleteButton = document.getElementById("removeIngredient" + index);
-                    deleteButton.innerHTML = '<td><button title="Remove Ingredient" class ="editRow" onclick="removeIngredient(' + index + ')"><span style="position: relative; bottom: 3px"><img src="/images/pot.png" style="height: 10px; width: 10px;" alt="add"/></span></button></td>';
+                    deleteButton.innerHTML = '<td><button title="Remove Ingredient" class ="editRow" onclick="removeIngredient(' + index + ')"><span style="position: relative; bottom: 3px"><img src="/images/delete.png" style="height: 10px; width: 10px;" alt="add"/></span></button></td>';
 
                     // Remove the previous add button
                     // (This is to reduce clutter and make it clear that rows can only be added to the END of the table)
@@ -309,7 +309,7 @@ addIngredient = function(index) {
     // Add a delete button to the previous row
     // (This is to prevent the user deleting the only row with an add button)
     const deleteButton = document.getElementById("removeIngredient" + index);
-    deleteButton.innerHTML = '<td><button title="Remove Ingredient" class ="editRow" onclick="removeIngredient(' + index + ')"><span style="position: relative; bottom: 3px"><img src="/images/pot.png" style="height: 10px; width: 10px;" alt="add"/></span></button></td>';
+    deleteButton.innerHTML = '<td><button title="Remove Ingredient" class ="editRow" onclick="removeIngredient(' + index + ')"><span style="position: relative; bottom: 3px"><img src="/images/delete.png" style="height: 10px; width: 10px;" alt="add"/></span></button></td>';
 
     // Remove the previous add button
     // (This is to reduce clutter and make it clear that rows can only be added to the END of the table)
