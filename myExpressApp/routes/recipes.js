@@ -118,18 +118,25 @@ router.post('/search', async(req, res, next) => {
 
             // Find an ingID matching a name containing that ingredient (wildcards)
             let ingredient = "%"+ingredients[k]+"%";
-            let ingID = await db.promise().query(`SELECT ingID FROM INGREDIENTS WHERE name LIKE '${ingredient}'`);
-            ingID = ingID[0].map( elm => elm.ingID )[0];
+            let ingIDs = await db.promise().query(`SELECT ingID FROM INGREDIENTS WHERE name LIKE '${ingredient}'`);
+            ingIDs = ingIDs[0].map( elm => elm.ingID );
+            //console.log(ingredient, ingIDs);
 
             // Checks if ingredient was found
-            if (ingID == undefined) {
+            if (ingIDs == undefined) {
                 alert = true;
                 alertText += "Ingredient '" + ingredients[k] + "' was not found in any recipe!\n";
                 continue;
             }
 
+            ingSQL = `(ingID='${ingIDs[0]}'`;
+            for(var i = 1; i < ingIDs.length; i++) {
+                ingSQL += ` OR ingID='${ingIDs[i]}'`;
+            }
+            ingSQL += `)`;
+
             // Find the recIDs that match that ingID in recipe_ingredient_quantity
-            let recID = await db.promise().query(`SELECT recID FROM RECIPE_INGREDIENT_QUANTITY WHERE ingID=${ingID}`);
+            let recID = await db.promise().query(`SELECT recID FROM RECIPE_INGREDIENT_QUANTITY WHERE ${ingSQL}`);
 
             // Add recIDs to an array
             for (let r=0; r<recID[0].length; r++) {
@@ -138,8 +145,9 @@ router.post('/search', async(req, res, next) => {
 
                 // For allegies
                 if (recIDs.includes(recIDCurrent)===false && recIDsAllergies.includes(recIDCurrent)===false) recIDs.push(recIDCurrent);
-
             }
+
+            //console.log(recIDs);
         }
 
         // Creates potential alert 
@@ -324,8 +332,20 @@ router.get('/create', async(req, res, next) => {
 
 router.get('/edit/:recID', async(req, res, next) => {
     if (req.user) {
-        res.cookie('recID', req.params.recID);
-        res.render('recipeCreate', { title: 'Edit | Bubble\'N\'Sqeak', src: '/functions/editRecipe.js' });
+        let userID = req.user.userID;
+        let recID = req.params.recID;
+        console.log(userID);
+
+        actualUser = await db.promise().query(`SELECT userID FROM recipes WHERE recID=${recID}`);
+        actualUser = actualUser[0].map( elm => elm.userID )[0];
+        console.log(actualUser);
+
+        if(userID != actualUser) {
+            res.render('cheekyHacker', { message: 'You cannot edit a recipe you did not create!'});
+        } else {
+            res.cookie('recID', recID);
+            res.render('recipeCreate', { title: 'Edit | Bubble\'N\'Sqeak', src: '/functions/editRecipe.js' });
+        }
     } else {
         return res.redirect('/login');
         //console.log('Not logged in');
@@ -493,138 +513,148 @@ router.post('/edit', async(req, res, next)=>{
 
     if (req.user) {
         let userID = req.user.userID;
+        console.log(userID);
 
-        let { name, recRef, scrambledRef, vegetarian, vegan, kosher, halal, serving, time, difficulty, ingredients, quantities, steps, summary } = req.body;
+        actualUser = await db.promise().query(`SELECT userID FROM recipes WHERE recID=${recID}`);
+        actualUser = actualUser[0].map( elm => elm.userID )[0];
+        console.log(actualUser);
 
-        try {
+        if(userID != actualUser) {
+            res.render('cheekyHacker', { message: 'You cannot edit a recipe you did not create!'});
+        } else {
 
-            // Add any new ingredients which aren't in db to db
-            if ( name, recRef, scrambledRef, vegetarian, vegan, kosher, halal, serving, time, difficulty, ingredients, quantities, steps, summary ) {
-                
-                // Add ingredients
-                for (let i=0; i<ingredients.length; i++) {
+            let { name, recRef, scrambledRef, vegetarian, vegan, kosher, halal, serving, time, difficulty, ingredients, quantities, steps, summary } = req.body;
 
-                    // Find current ingredient
-                    var ingredient = ingredients[i];
-                    console.log(ingredient);
+            try {
 
-                    // Find ingID for current ingredient (empty array if ingredient not present in db)
-                    ingredientFound = await db.promise().query(`SELECT ingID FROM INGREDIENTS WHERE name='${ingredient}'`);
-                    console.log(ingredientFound[0]);
-
-                    // Check if ingredient is already present in db
-                    if (ingredientFound[0].length===0) {
-
-                        // If not in db, add current ingredient to db
-                        db.promise().query(`INSERT INTO INGREDIENTS (name) VALUES ('${ingredients[i]}')`);
-                        console.log('Added ingredient');
-                    }
-                    else {
-                        console.log('Ingredient found in db');
-                    }
-                }
-
-                // Add any new quantities which aren't in db to db
-                for (let q=0; q<quantities.length; q++) {
-
-                    // Find current quantity
-                    var quantity = quantities[q];
-                    console.log(quantity);
-
-                    // Find quantityID for current quantity (emtpy array if quantity not present in db)
-                    quantityFound = await db.promise().query(`SELECT quantityID FROM QUANTITIES WHERE name='${quantity}'`);
-
-                    // Check if quantity is already present in db
-                    if (quantityFound[0].length===0) {
-
-                        // If not in db, add current quantity to db
-                        db.promise().query(`INSERT INTO QUANTITIES (name) VALUES ('${quantity}')`);
-                        console.log('Added quantity');
-                    }
-                    else {
-                        console.log('Quantity found in db');
-                    }
-                }
-
-                // Edit recipe details
-
-                // Convert booleans values to 1 and 0 for storage in mysql db
-                if (vegetarian===true) vegetarian=1;
-                else vegetarian=0;
-
-                if (vegan===true) vegan=1;
-                else vegan=0;
-
-                if (kosher===true) kosher=1;
-                else kosher=0;
-
-                if (halal===true) halal=1;
-                else halal=0;
-
-                // Find recID for recipe with same name and userID but different recID (empty array if recipe not present in db)
-                recipeFound = await db.promise().query(`SELECT recID FROM RECIPES WHERE name='${name}' AND userID='${userID}' AND recID NOT IN (${recID})`);
-                console.log(recipeFound[0]);
-
-                // Check if recipe is already in db - prevents users from creating two recipes of the same name
-                if (recipeFound[0].length===0) {
-
-                    // Update the recipe record in the db
-                    // TODO: FRONT END NEEDS TO REQUIRE SOMETHING IN EVERY FIELD IN RECIPE CREATION (NOT SCRAMBLED REF FOR ORIGINAL CREATION?)
-                    db.promise().query(`UPDATE RECIPES SET name='${name}', recRef='${recRef}', vegetarian='${vegetarian}', vegan='${vegan}', kosher='${kosher}', halal='${halal}', serving='${serving}', time='${time}', difficulty='${difficulty}', steps='${steps}', summary='${summary}' WHERE recID=${recID}`);
-
-                    // Update records in recipe_ingredient_quantity
+                // Add any new ingredients which aren't in db to db
+                if ( name, recRef, scrambledRef, vegetarian, vegan, kosher, halal, serving, time, difficulty, ingredients, quantities, steps, summary ) {
                     
-                    // Check each ingredient in the ingredients array has a corresponding quantity in the quantities array
-                    if (ingredients.length==quantities.length) {
+                    // Add ingredients
+                    for (let i=0; i<ingredients.length; i++) {
 
-                        // Delete all records with that recID from recipe_ingredient_quantity
-                        db.promise().query(`DELETE FROM RECIPE_INGREDIENT_QUANTITY WHERE recID=${recID}`);
+                        // Find current ingredient
+                        var ingredient = ingredients[i];
+                        console.log(ingredient);
+
+                        // Find ingID for current ingredient (empty array if ingredient not present in db)
+                        ingredientFound = await db.promise().query(`SELECT ingID FROM INGREDIENTS WHERE name='${ingredient}'`);
+                        console.log(ingredientFound[0]);
+
+                        // Check if ingredient is already present in db
+                        if (ingredientFound[0].length===0) {
+
+                            // If not in db, add current ingredient to db
+                            db.promise().query(`INSERT INTO INGREDIENTS (name) VALUES ('${ingredients[i]}')`);
+                            console.log('Added ingredient');
+                        }
+                        else {
+                            console.log('Ingredient found in db');
+                        }
+                    }
+
+                    // Add any new quantities which aren't in db to db
+                    for (let q=0; q<quantities.length; q++) {
+
+                        // Find current quantity
+                        var quantity = quantities[q];
+                        console.log(quantity);
+
+                        // Find quantityID for current quantity (emtpy array if quantity not present in db)
+                        quantityFound = await db.promise().query(`SELECT quantityID FROM QUANTITIES WHERE name='${quantity}'`);
+
+                        // Check if quantity is already present in db
+                        if (quantityFound[0].length===0) {
+
+                            // If not in db, add current quantity to db
+                            db.promise().query(`INSERT INTO QUANTITIES (name) VALUES ('${quantity}')`);
+                            console.log('Added quantity');
+                        }
+                        else {
+                            console.log('Quantity found in db');
+                        }
+                    }
+
+                    // Edit recipe details
+
+                    // Convert booleans values to 1 and 0 for storage in mysql db
+                    if (vegetarian===true) vegetarian=1;
+                    else vegetarian=0;
+
+                    if (vegan===true) vegan=1;
+                    else vegan=0;
+
+                    if (kosher===true) kosher=1;
+                    else kosher=0;
+
+                    if (halal===true) halal=1;
+                    else halal=0;
+
+                    // Find recID for recipe with same name and userID but different recID (empty array if recipe not present in db)
+                    recipeFound = await db.promise().query(`SELECT recID FROM RECIPES WHERE name='${name}' AND userID='${userID}' AND recID NOT IN (${recID})`);
+                    console.log(recipeFound[0]);
+
+                    // Check if recipe is already in db - prevents users from creating two recipes of the same name
+                    if (recipeFound[0].length===0) {
+
+                        // Update the recipe record in the db
+                        // TODO: FRONT END NEEDS TO REQUIRE SOMETHING IN EVERY FIELD IN RECIPE CREATION (NOT SCRAMBLED REF FOR ORIGINAL CREATION?)
+                        db.promise().query(`UPDATE RECIPES SET name='${name}', recRef='${recRef}', vegetarian='${vegetarian}', vegan='${vegan}', kosher='${kosher}', halal='${halal}', serving='${serving}', time='${time}', difficulty='${difficulty}', steps='${steps}', summary='${summary}' WHERE recID=${recID}`);
+
+                        // Update records in recipe_ingredient_quantity
                         
-                        // Iterate through both arrays
-                        for (let j=0; j<ingredients.length; j++) {
+                        // Check each ingredient in the ingredients array has a corresponding quantity in the quantities array
+                        if (ingredients.length==quantities.length) {
 
-                            // Extract ingID array for current ingredient
-                            let ingredientDetail = await db.promise().query(`SELECT ingID FROM INGREDIENTS WHERE name='${ingredients[j]}'`);
-                            console.log(ingredientDetail[0]);
-
-                            // Extract ingID integer for current ingredient
-                            let ingID = ingredientDetail[0].map( elm => elm.ingID )[0];
-                            console.log(ingID);
-
-                            // Extract quantityID array for current quantity
-                            let quantityDetail = await db.promise().query(`SELECT quantityID FROM QUANTITIES WHERE name='${quantities[j]}'`);
-                            console.log(quantityDetail[0]);
-
-                            // Extract quantityID array for current quantity
-                            let quantityID = quantityDetail[0].map( elm => elm.quantityID )[0];
-                            console.log(quantityID);     
+                            // Delete all records with that recID from recipe_ingredient_quantity
+                            db.promise().query(`DELETE FROM RECIPE_INGREDIENT_QUANTITY WHERE recID=${recID}`);
                             
-                            // Use recID, ingID and quantityID to create a new record in recipe_ingredient_quantity
-                            db.promise().query(`INSERT INTO RECIPE_INGREDIENT_QUANTITY (recID, ingID, quantityID) VALUES ('${recID}', '${ingID}', '${quantityID}')`);
-                            console.log('Added recipe_ingredient_quantity');
+                            // Iterate through both arrays
+                            for (let j=0; j<ingredients.length; j++) {
 
-                            
+                                // Extract ingID array for current ingredient
+                                let ingredientDetail = await db.promise().query(`SELECT ingID FROM INGREDIENTS WHERE name='${ingredients[j]}'`);
+                                console.log(ingredientDetail[0]);
+
+                                // Extract ingID integer for current ingredient
+                                let ingID = ingredientDetail[0].map( elm => elm.ingID )[0];
+                                console.log(ingID);
+
+                                // Extract quantityID array for current quantity
+                                let quantityDetail = await db.promise().query(`SELECT quantityID FROM QUANTITIES WHERE name='${quantities[j]}'`);
+                                console.log(quantityDetail[0]);
+
+                                // Extract quantityID array for current quantity
+                                let quantityID = quantityDetail[0].map( elm => elm.quantityID )[0];
+                                console.log(quantityID);     
+                                
+                                // Use recID, ingID and quantityID to create a new record in recipe_ingredient_quantity
+                                db.promise().query(`INSERT INTO RECIPE_INGREDIENT_QUANTITY (recID, ingID, quantityID) VALUES ('${recID}', '${ingID}', '${quantityID}')`);
+                                console.log('Added recipe_ingredient_quantity');
+
+                                
+                            }
+                        }
+                        else {
+                            console.log('Different number of ingredients and quantities');
+                            res.status(500).send({ alert: true, text: "Different number of ingredients and quantities..."});
                         }
                     }
                     else {
-                        console.log('Different number of ingredients and quantities');
-                        res.status(500).send({ alert: true, text: "Different number of ingredients and quantities..."});
+                        console.log('Recipe found in db');
+                        res.status(500).send({ alert: true, text: "Recipe already exsists!"});
                     }
+                    console.log(recID);
+                    res.status(201).send({ alert: false, text: 'Recipe Edited!', recID: recID});
                 }
                 else {
-                    console.log('Recipe found in db');
-                    res.status(500).send({ alert: true, text: "Recipe already exsists!"});
+                    console.log("Value not present")
+                    res.status(500).send({ alert: true, text: "Missing recipe body..."});
                 }
-                console.log(recID);
-                res.status(201).send({ alert: false, text: 'Recipe Edited!', recID: recID});
             }
-            else {
-                console.log("Value not present")
-                res.status(500).send({ alert: true, text: "Missing recipe body..."});
+            catch (err) {
+                console.log(err);
             }
-        }
-        catch (err) {
-            console.log(err);
         }
     } else {
         return res.redirect('/login');
@@ -633,7 +663,7 @@ router.post('/edit', async(req, res, next)=>{
     }
 })
 
-router.post('/create/:userID', async(req, res, next) => {
+router.post('/create', async(req, res, next) => {
     console.log(req.body);
 
     if (req.user) {
@@ -644,7 +674,7 @@ router.post('/create/:userID', async(req, res, next) => {
         // :)
 
         // Find email, username and password from queries - won't be needed once userID is saved from log in
-        let userID = req.params.userID;
+        let userID = req.user.userID;
         let { name, recRef, vegetarian, vegan, kosher, halal, serving, time, difficulty, ingredients, quantities, steps, summary } = req.body;
         // name = name.charAt(0).toUpperCase()+name.slice(1);
 

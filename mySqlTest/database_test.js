@@ -1203,7 +1203,7 @@ app.post('/logIn', async (req, res) => {
 
 
 // ADD DUMMY DATA (RECIPES) TO DATABASE (UNTESTED)
-app.get('/addRecipes', async (req, res) => {
+app.post('/addRecipes', async (req, res) => {
 
     // List of recipes - changed userID to match local db
     // Code will cycle through each recipe and add it to the db
@@ -1433,7 +1433,7 @@ app.get('/addRecipes', async (req, res) => {
             
             // Find recID for recipe (empty array if recipe not present in db)
             recipeFound = await db.promise().query(`SELECT recID FROM RECIPES WHERE name='${name}' AND userID='${userID}'`);
-            console.log(recipeFound);
+            console.log(recipeFound[0]);
 
             // Check if recipe is already in db - prevents users from creating two recipes of the same name
             if (recipeFound[0].length===0) {

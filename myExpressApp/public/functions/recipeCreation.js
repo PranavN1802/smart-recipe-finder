@@ -85,6 +85,15 @@ createRecipe = function() {
         } 
         // Otherwise the ingredient and quantity are added to the array
         else {
+            ingredient = ingredient.trim();
+            ingredient = ingredient.split(" ");
+            console.log(ingredient);
+            for(let i = 0; i<ingredient.length; i++) {
+                ingredient[i] = ingredient[i][0].toUpperCase() + ingredient[i].substring(1);
+            }
+            ingredient = ingredient.join(" ");
+            console.log(ingredient);
+
             ingredients.push(ingredient);
             quantities.push(quantity);
         }
@@ -102,6 +111,16 @@ createRecipe = function() {
             console.log(index);
 
             var ingredient = document.getElementById('ingredientName' + index).value;
+
+            ingredient = ingredient.trim();
+            ingredient = ingredient.split(" ");
+            console.log(ingredient);
+            for(let i = 0; i<ingredient.length; i++) {
+                ingredient[i] = ingredient[i][0].toUpperCase() + ingredient[i].substring(1);
+            }
+            ingredient = ingredient.join(" ");
+            console.log(ingredient);
+
             var quantity = document.getElementById('ingredientQuantity' + index).value;
 
             ingredients.push(ingredient);
@@ -157,7 +176,7 @@ createRecipe = function() {
     // If the details are valid, make a request to the server create the recipe with the given details
     // NOTE - this currently uses a userID of 1 to create every recipe, this will be changed later when we have sorted out cookies
     if(valid == true) {
-        fetch("http://localhost:3000/recipes/create/1", {
+        fetch("http://localhost:3000/recipes/create", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
