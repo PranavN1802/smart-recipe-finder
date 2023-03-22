@@ -214,7 +214,23 @@ router.get('/find', async(req, res, next) => {
         let ingredients = await db.promise().query(`SELECT name FROM INGREDIENTS WHERE ingID IN (SELECT ingID FROM RECIPE_INGREDIENT_QUANTITY WHERE recID=${recID})`);
         
         // Find recipe quantities
-        let quantities = await db.promise().query(`SELECT name FROM QUANTITIES WHERE quantityID IN (SELECT quantityID FROM RECIPE_INGREDIENT_QUANTITY WHERE recID=${recID})`);
+        let quantityIDs = await db.promise().query(`SELECT quantityID, ingID FROM RECIPE_INGREDIENT_QUANTITY WHERE recID=${recID}`);
+        quantityIDs = quantityIDs[0].map( elm => elm.quantityID );
+        console.log(quantityIDs);
+        
+        let quantities =[];
+        let quantity = "";
+
+        for (z=0; z<quantityIDs.length; z++) {
+            console.log(quantityIDs[z])
+            quantity = await db.promise().query(`SELECT name FROM QUANTITIES WHERE quantityID=${quantityIDs[z]}`);
+            console.log(quantity[0].map( elm => elm.name )[0]);
+            quantities = quantities.concat(quantity[0].map( elm => elm.name )[0]);
+            console.log(quantities);
+        }
+
+        console.log(quantities);
+
 
         // Extract recipe details as an array - each recipe value can be separately extracted as with userID
         recipeDetails=recipeDetails[0];
@@ -247,7 +263,7 @@ router.get('/find', async(req, res, next) => {
         recipeDetails[0].ingredients=ingredients[0].map( elm => elm.name );
         
         // Add quantities to recipe details
-        recipeDetails[0].quantities=quantities[0].map( elm => elm.name );
+        recipeDetails[0].quantities=quantities;
         
         console.log(recipeDetails);
         res.status(200).send(recipeDetails);
@@ -273,7 +289,21 @@ router.get('/find/:recID', async(req, res, next) => {
         let ingredients = await db.promise().query(`SELECT name FROM INGREDIENTS WHERE ingID IN (SELECT ingID FROM RECIPE_INGREDIENT_QUANTITY WHERE recID=${recID})`);
         
         // Find recipe quantities
-        let quantities = await db.promise().query(`SELECT name FROM QUANTITIES WHERE quantityID IN (SELECT quantityID FROM RECIPE_INGREDIENT_QUANTITY WHERE recID=${recID})`);
+        let quantityIDs = await db.promise().query(`SELECT quantityID, ingID FROM RECIPE_INGREDIENT_QUANTITY WHERE recID=${recID}`);
+        quantityIDs = quantityIDs[0].map( elm => elm.quantityID );
+        console.log(quantityIDs);
+        
+        let quantities =[];
+        let quantity = "";
+
+        for (z=0; z<quantityIDs.length; z++) {
+            console.log(quantityIDs[z])
+            quantity = await db.promise().query(`SELECT name FROM QUANTITIES WHERE quantityID=${quantityIDs[z]}`);
+            console.log(quantity[0].map( elm => elm.name )[0]);
+            quantities = quantities.concat(quantity[0].map( elm => elm.name )[0]);
+            console.log(quantities);
+        }
+
 
         // Extract recipe details as an array - each recipe value can be separately extracted as with userID
         recipeDetails=recipeDetails[0];
@@ -306,7 +336,7 @@ router.get('/find/:recID', async(req, res, next) => {
         recipeDetails[0].ingredients=ingredients[0].map( elm => elm.name );
         
         // Add quantities to recipe details
-        recipeDetails[0].quantities=quantities[0].map( elm => elm.name );
+        recipeDetails[0].quantities=quantities;
         
         console.log(recipeDetails);
         res.status(200).send(recipeDetails);
@@ -761,7 +791,7 @@ router.post('/create', async(req, res, next) => {
                 if (recipeFound[0].length===0) {
 
                     // Add the recipe details to the recipes table
-                    if(recRef == 'null' || recRef == null) db.promise().query(`INSERT INTO RECIPES (userID, name, recRef, scrambledRef, vegetarian, vegan, kosher, halal, serving, time, difficulty, reports, steps, summary) VALUES ('${userID}', '${name}', NULL, NULL, '${vegetarian}', '${vegan}', '${kosher}', '${halal}', '${serving}', '${time}', '${difficulty}', 0, '${steps}', '${summary}')`);
+                    if(recRef == 'null' || recRef == null) db.promise().query(`INSERT INTO RECIPES (userID, name, recRef, scrambledRef, vegetarian, vegan, kosher, halal, serving, time, difficulty, reports, steps, summary, upvotes) VALUES ('${userID}', '${name}', NULL, NULL, '${vegetarian}', '${vegan}', '${kosher}', '${halal}', '${serving}', '${time}', '${difficulty}', 0, '${steps}', '${summary}', 0)`);
                     else db.promise().query(`INSERT INTO RECIPES (userID, name, recRef, scrambledRef, vegetarian, vegan, kosher, halal, serving, time, difficulty, reports, steps, summary, upvotes) VALUES ('${userID}', '${name}', '<a href=${recRef}>${name} reference</a>', NULL, '${vegetarian}', '${vegan}', '${kosher}', '${halal}', '${serving}', '${time}', '${difficulty}', 0, '${steps}', '${summary}', 0)`);
 
                     console.log('Added recipe details');
