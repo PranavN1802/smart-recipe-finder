@@ -638,6 +638,16 @@ router.post('/create/:userID', async(req, res, next) => {
         // console.log('Not logged in');
         // res.status(401).send({msg: 'Not logged in'});
     }
-})
+});
+
+router.post('/details/:recID', async(req, res, next) => {
+    let recID = req.params.recID;
+
+    recipe = await db.promise().query(`SELECT * FROM RECIPES WHERE recID='${recID}'`);
+    recipe = recipe[0];
+
+    console.log(recipe);
+    res.status(201).send({ recipe: recipe })
+});
 
 module.exports = router;
