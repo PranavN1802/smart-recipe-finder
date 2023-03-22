@@ -14,10 +14,10 @@ createRecipe = function() {
 
     // Checks name against regular expression
     const name = document.getElementById('name').value;
-    const nameCheck = /^.{6,150}$/;
+    const nameCheck = /^(?!.*').{3,150}$/;
     if(nameCheck.test(name) == false) {
         valid = false;
-        $nameResult.text('Name must be between 6 to 150 characters!');
+        $nameResult.text('Name must be between 3 to 150 characters and cannot include (\')!');
         $nameResult.css('color', 'red');
     } else {
         $nameResult.text('Name is valid');
@@ -26,10 +26,10 @@ createRecipe = function() {
 
     // Checks summary against reqular expression
     const summary = document.getElementById('summary').value;
-    const summaryCheck = /^.{6,255}$/;
+    const summaryCheck = /^(?!.*').{6,255}$/;
     if(summaryCheck.test(summary) == false) {
         valid = false;
-        $summaryResult.text('Summary must be between 6 to 255 characters!');
+        $summaryResult.text('Summary must be between 6 to 255 characters and cannot include (\')!');
         $summaryResult.css('color', 'red');
     } else {
         $summaryResult.text('Summary is valid');
@@ -54,8 +54,8 @@ createRecipe = function() {
     var nullIndex = [];
     var ingredients = [];
     var quantities = [];
-    const ingredientCheck = /^.{1,50}$/;
-    const quantityCheck = /^.{0,20}$/;
+    const ingredientCheck = /^(?!.*').{1,50}$/;
+    const quantityCheck = /^(?!.*').{0,20}$/;
 
     // Iterates through the row indexes, checking the ingredients and quantities for each entry
     for(var i=0; i < ingredientRows.length; i++) {
@@ -68,12 +68,12 @@ createRecipe = function() {
         // Checks the values using regular expressions, if there is an error the loop breaks (no further checks needed)
         if(ingredientCheck.test(ingredient) == false) {
             valid = false;
-            $ingredientsResult.text('All ingredient names must be between 1-50 characters!');
+            $ingredientsResult.text('All ingredient names must be between 1-50 characters and cannot include (\')!');
             $ingredientsResult.css('color', 'red');
             break;
         } else if(quantityCheck.test(quantity) == false) {
             valid = false;
-            $ingredientsResult.text('All quantities must be between 0-20 characters!');
+            $ingredientsResult.text('All quantities must be between 0-20 characters and cannot include (\')!');
             $ingredientsResult.css('color', 'red');
             break;
         }
@@ -85,6 +85,15 @@ createRecipe = function() {
         } 
         // Otherwise the ingredient and quantity are added to the array
         else {
+            ingredient = ingredient.trim();
+            ingredient = ingredient.split(" ");
+            console.log(ingredient);
+            for(let i = 0; i<ingredient.length; i++) {
+                ingredient[i] = ingredient[i][0].toUpperCase() + ingredient[i].substring(1);
+            }
+            ingredient = ingredient.join(" ");
+            console.log(ingredient);
+
             ingredients.push(ingredient);
             quantities.push(quantity);
         }
@@ -102,6 +111,16 @@ createRecipe = function() {
             console.log(index);
 
             var ingredient = document.getElementById('ingredientName' + index).value;
+
+            ingredient = ingredient.trim();
+            ingredient = ingredient.split(" ");
+            console.log(ingredient);
+            for(let i = 0; i<ingredient.length; i++) {
+                ingredient[i] = ingredient[i][0].toUpperCase() + ingredient[i].substring(1);
+            }
+            ingredient = ingredient.join(" ");
+            console.log(ingredient);
+
             var quantity = document.getElementById('ingredientQuantity' + index).value;
 
             ingredients.push(ingredient);
@@ -111,10 +130,10 @@ createRecipe = function() {
 
     // Checks steps against reqular expression
     const steps = document.getElementById('steps').value;
-    const stepsCheck = /^.{50,16777215}$/;
+    const stepsCheck = /^(?!.*')(.|\s){50,16777215}$/;
     if(stepsCheck.test(steps) == false) {
         valid = false;
-        $stepsResult.text('Steps must be between 50 to 16,777,215 characters!');
+        $stepsResult.text('Steps must be between 50 to 16,777,215 characters and cannot include (\')!');
         $stepsResult.css('color', 'red');
     } else {
         $stepsResult.text('Summary is valid');
@@ -157,7 +176,7 @@ createRecipe = function() {
     // If the details are valid, make a request to the server create the recipe with the given details
     // NOTE - this currently uses a userID of 1 to create every recipe, this will be changed later when we have sorted out cookies
     if(valid == true) {
-        fetch("http://localhost:3000/recipes/create/1", {
+        fetch("http://localhost:3000/recipes/create", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

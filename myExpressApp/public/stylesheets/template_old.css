@@ -23,7 +23,7 @@ body {
   border: 20px;
 }
 .nav-link:hover {
-  font-weight: light;
+  font-weight: 900;
   color: black;
 }
 .dropdown-toggle::after {
@@ -53,6 +53,10 @@ body {
   padding-left: 5px;
   padding-right: 5px;
 }
+.container {
+  position: relative;
+  width: 50%;
+}
 .custom-toggler {
   border-color: black;
   background-color: black;
@@ -72,10 +76,6 @@ img {
   margin-bottom: 10px;
 }
 
-img.icon{
-  width:10%;
-  height: auto;
-}
 .middle {
   transition: 0.5s ease;
   opacity: 0;
@@ -84,6 +84,65 @@ img.icon{
   left: 50%;
   transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
+}
+
+.container:hover .image {
+  opacity: 0.3;
+}
+
+.container:hover .middle {
+  opacity: 1;
+}
+
+.text {
+  background-color: #4caf50;
+  color: #ffffff;
+  font-size: 16px;
+  padding: 16px 32px;
+}
+h1 {
+  color: #af0caf;
+  font-family: "freight-text-pro", "FreightText Pro", "Garamond", serif;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0;
+}
+.column {
+  float: left;
+  width: 33.33%;
+  padding: 15px;
+}
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+h2 {
+  font-family: "freight-text-pro", "FreightText Pro", "Garamond", serif;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0;
+}
+h3 {
+  font-size: 25px;
+  font-family: "freight-text-pro", "FreightText Pro", "Garamond", serif;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0;
+}
+p {
+  font-family: "freight-text-pro", "FreightText Pro", "Garamond", serif;
+  line-height: 1.6;
+  color: #373737;
+  font-size: 20px;
+  text-align: left;
+}
+
+img {
+  opacity: 1;
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
 button:not(.menu_button, .drop-down_list) {
@@ -104,6 +163,11 @@ button:not(.menu_button, .drop-down_list):hover {
   cursor: pointer;
   background: #ffffff;
 }
+
+.button1 {
+  transition: all 200ms ease-in-out;
+}
+
 .material-icons {
   font-size: 36px;
   color: white;
@@ -111,6 +175,36 @@ button:not(.menu_button, .drop-down_list):hover {
 }
 .material-icons:hover {
   color: #ec8e22;
+}
+.button1:hover {
+  cursor: pointer;
+  background: #ffffff;
+}
+
+.container1 {
+  margin-left: 120px;
+  margin-right: 120px;
+  margin-bottom: 30px;
+  margin-top: 10px;
+  padding: 0;
+}
+.pagination {
+  display: inline-block;
+  display: flex;
+  padding-left: 0px;
+  list-style: none;
+  justify-content: center;
+}
+.pagination a {
+  color: black;
+  float: left;
+  padding: 8px 16px;
+  margin-bottom: 20px;
+  text-decoration: none;
+}
+.pagination a:hover {
+  background-color: #ddd;
+  border-radius: 5px;
 }
 * {
   margin: 0;
@@ -122,6 +216,11 @@ button:not(.menu_button, .drop-down_list):hover {
   margin: auto;
 }
 
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+}
 ul {
   list-style: none;
 }
@@ -184,17 +283,6 @@ ul {
   color: #ec8e22;
   background-color: #ffffff;
 }
-
-a:link{
-  color: black;
-}
-
-#easyimg{
-  width: 50%;
-  height:auto;
-  padding-right:2.5%;
-
-}
 /*responsive*/
 @media (max-width: 767px) {
   .footer-col {
@@ -207,57 +295,27 @@ a:link{
     width: 100%;
   }
 }
-
-
-
-.textareas {
-  padding-top: 1%;
+.textareas{
+  padding-top: 2.5%;
   padding-bottom: 2.5%;
   padding-left: 5%;
-  padding-right: 5%;
+  padding-right: 5%;  
 }
 
-.section1{
-  border-top: 5px dotted black;
-  padding-top:2%;
-}
-
-.onTop{
-  position: absolute;
-  padding: 0.5%;
-  border-radius:5px;
-  border-color:#ec8e22;
-  border-style: dotted;
-  top:90%;
-  right:10%;
-}
-
-.info{
-  display: flex;
-  border-bottom: 5px dotted #ec8e22;
-}
-
-figcaption{
-  font-size:small;
-}
-
-
-
-
-/* #button1 {
+#button1{
   padding-top: 2.5%;
   padding-bottom: 2.5%;
   padding-left: 10%;
-  padding-right: 10%;
+  padding-right: 10%;  
   margin-left: 10%;
   margin-right: 10%;
 }
 
-#button2 {
+#button2{
   padding-top: 2.5%;
   padding-bottom: 2.5%;
   padding-left: 10%;
-  padding-right: 10%;
+  padding-right: 10%;  
   margin-left: 10%;
   margin-right: 10%;
-} */
+}

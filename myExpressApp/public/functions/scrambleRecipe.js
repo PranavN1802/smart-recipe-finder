@@ -1,4 +1,3 @@
-
 const $name = document.getElementById('name');
 const $summary = document.getElementById('summary');
 const $servingSize = document.getElementById('servingSize');
@@ -24,6 +23,7 @@ fetchDetails = function(){
             .then(response => response.json())
             .then(data => {
                 data = data[0];
+                console.log("fetching data");
                 
                 document.getElementById('ingredientName0').value = data.ingredients[0];
                 if (data.quantities[0] != 'null' && data.quantities[0] != undefined) document.getElementById('ingredientQuantity0').value = data.quantities[0];
@@ -248,7 +248,7 @@ createRecipe = function() {
     // If the details are valid, make a request to the server create the recipe with the given details
     // NOTE - this currently uses a userID of 1 to create every recipe, this will be changed later when we have sorted out cookies
     if(valid == true) {
-        fetch("http://localhost:3000/recipes/edit", {
+        fetch("http://localhost:3000/recipes/scramble", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

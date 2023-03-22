@@ -86,10 +86,15 @@
               <img src="/images/user_pic.png" alt="contact" style="width: 40px" />
             </a>
           </button>
-          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <div id="accountMenu" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <!-- Buttons inserted from 'accountDropdown.js' -->
+
+            <!--
             <a class="dropdown-item" href="/register">Register</a>
             <a class="dropdown-item" href="/login">Login</a>
+            -->
           </div>
+          <script src="/functions/accountDropdown.js"></script>
         </div>
       </div>
     </nav>
@@ -220,11 +225,6 @@
       <button class="openbtn1" style="margin-top: 5px" onclick="openNav()">
         ☰ Search
       </button>
-      <button class="create-btn" style="margin-top: 5px;" onclick="create()">
-        <span style="position: relative; bottom: 32.5px">
-          <img src="/images/pen.png" style="width: 25px">
-        </span>  
-      </button>
 
       <div id="icons">
         <!-- Recipe Icons inserted here -->
@@ -254,69 +254,78 @@
         </div>
         -->
       </div>
+
+      <button class="create-btn" onclick="create()"
+          style="
+            display: flex;
+            margin-right: 20px;
+            position: fixed;
+            bottom: 0px;
+            right: 0px;
+          ">
+        <span style="position: relative; bottom: 5px">
+            <img src="/images/pen.png" style="width: 25px"/>
+        </span>
+      </button>
     </div>
-  
-    
+
   </body>
   <script src="functions/recipeIcons.js"></script>
 
-    <script>
-      /* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
-      var dropdown = document.getElementsByClassName("dropdown-btn");
-      var i;
-      
-      for (i = 0; i < dropdown.length; i++) {
-        dropdown[i].addEventListener("click", function() {
-          this.classList.toggle("active");
-          var dropdownContent = this.nextElementSibling;
-          if (dropdownContent.style.display === "block") {
-            dropdownContent.style.display = "none";
-          } else {
-            dropdownContent.style.display = "block";
-          }
-        });
-      }
-      var options = [];
-      
-      $( '.dropdown-menu a' ).on( 'click', function( event ) {
-      
-         var $target = $( event.currentTarget ),
-             val = $target.attr( 'data-value' ),
-             $inp = $target.find( 'input' ),
-             idx;
-      
-         if ( ( idx = options.indexOf( val ) ) > -1 ) {
-            options.splice( idx, 1 );
-            setTimeout( function() { $inp.prop( 'checked', false ) }, 0);
-         } else {
-            options.push( val );
-            setTimeout( function() { $inp.prop( 'checked', true ) }, 0);
-         }
-      
-         $( event.target ).blur();
-      
-         console.log( options );
-         //return false;
+  <script>
+    /* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
+    var dropdown = document.getElementsByClassName("dropdown-btn");
+    var i;
+    
+    for (i = 0; i < dropdown.length; i++) {
+      dropdown[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        var dropdownContent = this.nextElementSibling;
+        if (dropdownContent.style.display === "block") {
+          dropdownContent.style.display = "none";
+        } else {
+          dropdownContent.style.display = "block";
+        }
       });
+    }
+    var options = [];
+    
+    $( '.dropdown-menu a' ).on( 'click', function( event ) {
+    
+        var $target = $( event.currentTarget ),
+            val = $target.attr( 'data-value' ),
+            $inp = $target.find( 'input' ),
+            idx;
+    
+        if ( ( idx = options.indexOf( val ) ) > -1 ) {
+          options.splice( idx, 1 );
+          setTimeout( function() { $inp.prop( 'checked', false ) }, 0);
+        } else {
+          options.push( val );
+          setTimeout( function() { $inp.prop( 'checked', true ) }, 0);
+        }
+    
+        $( event.target ).blur();
+    
+        console.log( options );
+        //return false;
+    });
 
-      $('input[type="submit"]').click(function(){
-        $('input[type="checkbox"]').each(function(){
-          $(this).prop('checked', false);
-        });
+    $('input[type="submit"]').click(function(){
+      $('input[type="checkbox"]').each(function(){
+        $(this).prop('checked', false);
       });
+    });
 
-      var height = $('.main_content').height()
-      $('.sidenav').height(height)
+    function openNav() {
+      document.getElementById("mySidebar").style.width = "250px";
+      document.getElementById("main").style.marginLeft = "250px";
+    }
 
-      function openNav() {
-        document.getElementById("mySidebar").style.width = "250px";
-        document.getElementById("main").style.marginLeft = "250px";
-      }
-
-      function closeNav() {
-        document.getElementById("mySidebar").style.width = "0";
-        document.getElementById("main").style.marginLeft = "0";
-      }
-    </script>
+    function closeNav() {
+      document.getElementById("mySidebar").style.width = "0";
+      document.getElementById("main").style.marginLeft = "0";
+    }
+  </script>
   </body>
 </html>

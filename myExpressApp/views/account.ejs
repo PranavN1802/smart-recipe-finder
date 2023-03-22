@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -35,9 +34,29 @@
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet"
     />
-    <link rel="stylesheet" type="text/css" href="/stylesheets/recipeView.css" />
+    <link rel="stylesheet" type="text/css" href="/stylesheets/account_page.css" />
+    <style>
+      input[type="submit"] {
+        padding: 15 30 15 30;
+        margin-left: 65px;
+        margin-top: 20px;
+        color: #ffffff;
+        background: #ec8e22;
+        border: 1px solid #ec8e22;
+        transition: all 200ms ease-in-out;
+        border-radius: 50px;
+        box-shadow: 0px 3px 3px #c6c3cd;
+      }
+
+      input[type="submit"].btn:hover {
+        cursor: pointer;
+        background: #ffffff;
+        color: #ec8e22;
+        border: 1px solid #ec8e22;
+      }
+    </style>
   </head>
-  <body data-internalid="1">
+  <body>
     <nav class="navbar navbar-expand-lg navbar-custom">
       <!-- Brand/logo -->
       <a class="navbar-brand" href="/">
@@ -99,96 +118,103 @@
       </div>
     </nav>
 
-    <script src="/functions/recipeDetails.js"></script>
-    <div data-internalid="1"></div>
-
-
-    <div class="jumbotron bg-transparent" style="margin-bottom: 0">
-      <div class="content_container">
-        <!--
-        <img
-          class="recipe_image"
-          src="/images/img1.png"
-          alt="Recipe image"
-          style="width: 400px; display: block; margin-left: auto; float: right"
-        />
-        -->
-        <div class="icons" id="dietary">
-          
+    <div class="content">
+      <div id="main" class="main_content">
+        <div
+          class="container"
+          style="margin-left: 0; margin-right: 0; padding-left: 0"
+        >
+          <p style="margin-top: 30px">Email:</p>
+          <a
+            href="#"
+            class="btn btn-info btn-lg"
+            style="height: 60px; margin-top: 10px; margin-bottom: 20px"
+          >
+            <span class="glyphicon glyphicon-log-out"></span> Change password
+          </a>
+          <br />
+          <a
+            href="#"
+            class="btn btn-info btn-lg"
+            style="
+              height: 60px;
+              margin-bottom: 20px;
+              padding-left: 60px;
+              padding-right: 60px;
+            "
+          >
+            <span class="glyphicon glyphicon-log-out"></span> Log out
+          </a>
         </div>
 
-        <h3 id="recipeName"></h3>
-        <p id="summary"></p>
+        <!------------Recipe 1------------>
 
-        <div class="icons">
-          <p>
-            <span class="rcorners2" id="serving">
-              <img class="detail_icon"src="/images/icons/serving-dish.png" alt="serving dish">
+        <div class="flex-container">
+          <img class="recipe_picture" src="/images/random_food.png" alt="plate" />
+          <p id="rcorners1">
+            <a style="color: black" href="http://localhost:3000/recipes/view/' + article.recID + '" target="_blank"><b>article.name</b></a> - Creamy and nutritious, vegan mushroom stroganoff made with blended cashews.
+            <br>
+
+            <span id="rcorners2" style="display: inline-block">
+              <img class="detail_icon" src="/images/icons/serving-dish.png" alt="serving dish"/>
+              <b>4</b>
             </span>
-            <span class="rcorners2" id="time">
-              <img class="detail_icon"src="/images/icons/clock.png" alt="clock"></img>
+
+            <span id="rcorners2" style="display: inline-block">
+              <img class="detail_icon" src="/images/icons/clock.png" alt="clock" />
+              <b>40-50min</b>
             </span>
           </p>
+          <div class="chosen_options_from_sidebar" style="margin-left: auto;" >
+            <img class="recipe_icon" src="/images/icons/easy.png" alt="easy" >
+            <img class="recipe_icon" src="/images/icons/vegetarian.png" alt="vegetarian" />
+            <img class="recipe_icon" src="/images/icons/vegan.png" alt="vegan" />
+            <img class="recipe_icon" src="/images/icons/kosher.png" alt="kosher" />
+
+            <div style="display: flex; margin-left: 5px">
+              <div class="recipe_edit_and_delete_btns">
+                <button class="edit-btn" title="Edit recipe">
+                  <span id="edit_and_delete_buttons_style" style="position: relative; bottom: 5px">
+                    <img src="/images/editing.png" style="width: 25px; margin-top: -9px"/>
+                  </span>
+                </button>
+                <button class="delete-btn" title="Delete recipe">
+                  <span style="position: relative; bottom: 5px">
+                    <img src="/images/delete.png" style="width: 25px; margin-top: -8px"/>
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <p id="author">Created by </p>
-        <br>
-
-        <h3>Ingredients:</h3>
-        <ul id="ingredients">
-            
-        </ul>
-        <br>
-
-        <h3>Steps:</h3>
-        <pre id="steps"></pre>
-        <br>
-
-        <p id="recRef"></p>
-        <p id="scrambledRef"></p>
-      </div>
-      <div class="container">
-        <div class="recipeViewPageButtons">
-          <button style="padding-top: 32px">
-            <span style="position: relative; bottom: 15px">Report</span>
-          </button>
-          <button style="padding-top: 32px">
-            <span style="position: relative; bottom: 15px">Upvote</span>
-          </button>
-          <button
-            title="Scramble!"
-            id="scramble_button"
-            style="border-radius: 50%"
-            onclick="scrambleRedirect(); return false"
+        <div
+          class="container-fluid"
+          style="margin-left: 0; padding-left: 0; margin-right: 0"
+        >
+          <div
+            class="btn-group"
+            style="display: flex; justify-content: flex-end"
           >
-            <span style="position: relative; bottom: 3px"
-              ><img src="/images/scramble.png" alt="Scramble!"
-            /></span>
-          </button>
-
-        <!--
-          <button title="Enter" id="Enter_Button" style="border-radius: 50%">
-            <span style="position: relative; bottom: 3px"
-              ><img src="/images/enter.png" alt="Enter"
-            /></span>
-          </button>
-        -->
-
-        <!--
-          <button
-            id="back_button"
-            style="border-radius: 50%; padding-top: 5px"
-            title="Back"
-          >
-            <span style="position: relative; bottom: 5px"
-              ><img src="/images/left_arrow.png" alt="back" title="Back"
-            /></span>
-          </button>
-        -->
-
+            <button class="delete_account_btn" style="margin-left: 0">
+              <span style="position: relative; bottom: 5px">
+                <img src="/images/delete.png" style="width: 25px" /></span
+              >Delete account
+            </button>
+            <button
+              title="Create recipe"
+              class="create-btn"
+              style="padding: 0 17 0 17; margin-left: 0"
+            >
+              <span style="position: relative; bottom: 5px">
+                <img src="/images/pen.png" style="width: 25px"
+              /></span>
+            </button>
+          </div>
         </div>
       </div>
     </div>
+
     <footer class="footer">
       <div class="container-fluid">
         <div class="row" style="justify-content: space-around">
@@ -203,6 +229,9 @@
               </li>
               <li>
                 <a href="/suggest">Any suggestions?</a>
+              </li>
+              <li>
+                <a href="/references">References</a>
               </li>
             </ul>
           </div>
@@ -220,13 +249,22 @@
             <h4>Connect with us</h4>
             <div class="social-links">
               <a href="https://www.facebook.com/computersciencemcr/"
-                ><i class="fab fa-facebook-f"></i
+                ><i
+                  class="fab fa-facebook-f"
+                  style="position: relative; bottom: -10px"
+                ></i
               ></a>
               <a href="https://twitter.com/csmcr/"
-                ><i class="fab fa-twitter"></i
+                ><i
+                  class="fab fa-twitter"
+                  style="position: relative; bottom: -10px"
+                ></i
               ></a>
               <a href="https://www.instagram.com/uomcompsci/"
-                ><i class="fab fa-instagram"></i
+                ><i
+                  class="fab fa-instagram"
+                  style="position: relative; bottom: -10px"
+                ></i
               ></a>
             </div>
           </div>

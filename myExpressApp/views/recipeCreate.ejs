@@ -95,10 +95,15 @@
                     </a>
 
                     </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <div id="accountMenu" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <!-- Buttons inserted from 'accountDropdown.js' -->
+            
+                        <!--
                         <a class="dropdown-item" href="/register">Register</a>
                         <a class="dropdown-item" href="/login">Login</a>
+                        -->
                     </div>
+                    <script src="/functions/accountDropdown.js"></script>
                 </div>
 
             </div>
@@ -207,7 +212,7 @@
 
                 <!-- Instructions-->
                 <div class="form-group">
-                    <label for="recipeInstructions">Recipe Instructions</label>
+                    <label for="recipeInstructions">Recipe Instructions:</label>
                     <textarea class="form-control" rows="5" placeholder="Write your recipe here" id="steps"></textarea>
                     <label for="steps" id="stepsResult"></label>
                 </div>

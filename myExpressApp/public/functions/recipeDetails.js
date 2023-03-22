@@ -70,3 +70,7 @@ fetch(window.location.href, { method: "POST" })
                 fetchDetails();
             })
             .catch(err => console.log(err));
+
+function scrambleRedirect(){
+    window.location.replace("http://localhost:3000/recipes/scramble/" + recID);
+}
