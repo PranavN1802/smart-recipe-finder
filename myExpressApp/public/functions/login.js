@@ -45,7 +45,7 @@ loginCheck = function() {
             // Show alert with database response
             alert(data.text);
             if (data.valid) {
-                window.location.replace("http://localhost:3000/");
+                window.location.replace("http://localhost:3000/account");
             }
         })
         .catch(err => console.log(err));

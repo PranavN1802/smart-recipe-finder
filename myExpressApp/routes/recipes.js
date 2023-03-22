@@ -308,6 +308,11 @@ router.get('/find/:recID', async(req, res, next) => {
         // Extract recipe details as an array - each recipe value can be separately extracted as with userID
         recipeDetails=recipeDetails[0];
 
+        if(typeof recipeDetails[0] == 'undefined') {
+            console.log('Deleted recipe');
+            return res.status(500).send({name: 'Deleted Recipe'});
+        }
+
         let username = await db.promise().query(`SELECT username FROM USERS WHERE userID=${recipeDetails[0].userID}`);
         recipeDetails[0].username = username[0].map( elm => elm.username )[0];
 
@@ -338,8 +343,8 @@ router.get('/find/:recID', async(req, res, next) => {
         // Add quantities to recipe details
         recipeDetails[0].quantities=quantities;
         
-        console.log(recipeDetails);
-        res.status(200).send(recipeDetails);
+        console.log(recipeDetails[0]);
+        res.status(200).send(recipeDetails[0]);
     }
     catch (err) {
         console.log(err);
@@ -708,11 +713,6 @@ router.post('/create', async(req, res, next) => {
 
     if (req.user) {
 
-        // TODO: THEO!!! ATTEND
-        // You can replace fetching userID from params with:
-        // let userID = req.user.userID;
-        // :)
-
         // Find email, username and password from queries - won't be needed once userID is saved from log in
         let userID = req.user.userID;
         let { name, recRef, vegetarian, vegan, kosher, halal, serving, time, difficulty, ingredients, quantities, steps, summary } = req.body;
@@ -872,6 +872,44 @@ router.post('/details/:recID', async(req, res, next) => {
 
     console.log(recipe);
     res.status(201).send({ recipe: recipe })
+});
+
+router.post('/delete/:recID', async (req, res) => {
+    let recID = req.params.recID;
+
+    if (req.user) {
+        let userID = req.user.userID;
+        console.log(userID);
+
+        actualUser = await db.promise().query(`SELECT userID FROM recipes WHERE recID=${recID}`);
+        actualUser = actualUser[0].map( elm => elm.userID )[0];
+        console.log(actualUser);
+
+        if(userID != actualUser) {
+            console.log('Unauthorised access');
+            res.status(500).send({ text: 'You cannot delete a recipe you did not create!'});
+        } else {
+            try {
+                // Change scrambledRefs
+                console.log("change scrambledRef");
+                db.promise().query(`UPDATE RECIPES SET scrambledRef=0 WHERE scrambledRef=${recID}`);
+
+                console.log("delete recipe");
+                // Delete the record in recicpes with that recID
+                db.promise().query(`DELETE FROM RECIPE_INGREDIENT_QUANTITY WHERE recID=${recID}`);
+                db.promise().query(`DELETE FROM RECIPES WHERE recID=${recID}`);
+
+                res.status(200).send({text:'Recipe deleted'});
+            }
+            catch (err) {
+                console.log(err);
+            }
+        }
+    } else {
+        return res.redirect('/login');
+        // console.log('Not logged in');
+        // res.status(401).send({msg: 'Not logged in'});
+    }
 });
 
 

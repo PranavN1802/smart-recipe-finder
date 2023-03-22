@@ -17,40 +17,43 @@ fetchDetails = function() {
     fetch('http://localhost:3000/recipes/find/' + recID)
             .then(response => response.json())
             .then(data => {
-                data = data[0];
+                console.log(data);
 
                 $recipeName.text(data.name);
-                $summary.text(data.summary);
-                author.insertAdjacentHTML("beforeend", data.username)
-                if (data.recRef != null && data.recRef != 'null') recRef.insertAdjacentHTML("beforebegin", data.recRef);
-                if (data.scrambledRef != "" && data.scrambledRef != null && data.scrambledRef != 'null') scrambledRef.insertAdjacentHTML("beforebegin", data.scrambledRef);
 
-                var dietary = '<img class="recipe_icon"src="/images/icons/' + difficulties[data.difficulty] + '.png" alt="' + difficulties[data.difficulty] + '">';
+                if(typeof data.summary !== 'undefined') {
+                    $summary.text(data.summary);
+                    author.insertAdjacentHTML("beforeend", data.username)
+                    if (data.recRef != null && data.recRef != 'null') recRef.insertAdjacentHTML("beforebegin", data.recRef);
+                    if (data.scrambledRef != "" && data.scrambledRef != null && data.scrambledRef != 'null') scrambledRef.insertAdjacentHTML("beforebegin", data.scrambledRef);
 
-                if (data.vegetarian == 1) dietary += '<img class="recipe_icon"src="/images/icons/vegetarian.png" alt="vegetarian">';
-                if (data.vegan == 1) dietary += '<img class="recipe_icon"src="/images/icons/vegan.png" alt="vegan">';
-                if (data.kosher == 1) dietary += '<img class="recipe_icon"src="/images/icons/kosher.png" alt="kosher">';
-                icons.insertAdjacentHTML("beforeend", dietary);
+                    var dietary = '<img class="recipe_icon"src="/images/icons/' + difficulties[data.difficulty] + '.png" alt="' + difficulties[data.difficulty] + '">';
 
-                serving.insertAdjacentHTML("beforebegin", '<b>' + servings[data.serving] + '</b>  ');
-                time.insertAdjacentHTML("beforebegin", '<b>' + times[data.time] + '</b>  ');
+                    if (data.vegetarian == 1) dietary += '<img class="recipe_icon"src="/images/icons/vegetarian.png" alt="vegetarian">';
+                    if (data.vegan == 1) dietary += '<img class="recipe_icon"src="/images/icons/vegan.png" alt="vegan">';
+                    if (data.kosher == 1) dietary += '<img class="recipe_icon"src="/images/icons/kosher.png" alt="kosher">';
+                    icons.insertAdjacentHTML("beforeend", dietary);
 
-                var ingredientEntry;
-                for(var i = 0; i < data.ingredients.length; i++) {
-                    ingredientEntry = '<li>' + data.ingredients[i];
-                    if (i < data.quantities.length && data.quantities[i] != 'null') ingredientEntry += ' - ' + data.quantities[i];
-                    ingredientEntry += '</li>';
+                    serving.insertAdjacentHTML("beforebegin", '<b>' + servings[data.serving] + '</b>  ');
+                    time.insertAdjacentHTML("beforebegin", '<b>' + times[data.time] + '</b>  ');
 
-                    ingredients.insertAdjacentHTML("beforeend", ingredientEntry);
+                    var ingredientEntry;
+                    for(var i = 0; i < data.ingredients.length; i++) {
+                        ingredientEntry = '<li>' + data.ingredients[i];
+                        if (i < data.quantities.length && data.quantities[i] != 'null') ingredientEntry += ' - ' + data.quantities[i];
+                        ingredientEntry += '</li>';
+
+                        ingredients.insertAdjacentHTML("beforeend", ingredientEntry);
+                    }
+
+                    console.log(data.steps);
+                    steps = data.steps.split('\n');
+                    console.log(data.steps);
+
+                    stepText = '';
+
+                    $steps.text(data.steps);
                 }
-
-                console.log(data.steps);
-                steps = data.steps.split('\n');
-                console.log(data.steps);
-
-                stepText = '';
-
-                $steps.text(data.steps);
             })
             .catch(err => console.log(err));
 

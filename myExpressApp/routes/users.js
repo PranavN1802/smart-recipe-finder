@@ -1,9 +1,5 @@
 var express = require('express');
 var router = express.Router();
-const bcrypt = require('bcrypt');
-const mysql = require('mysql');
-
-
 
 const db = require('./database');
 
@@ -46,18 +42,6 @@ router.post('/login', passport.authenticate('local'), (req, res) => {
 });
 
 // END OF NEW VERSION
-
-
-//hashing
-//const saltRounds = 10; // Number of rounds of hashing 
-//const password = const {password}; 
-//const password = await bcrypt.hash(password, saltRounds);
-
-//db.connect();
-//const email = const {email} // replace with user’s email
-
-
-
 
 
 // OLD VERSION OF LOGIN
@@ -127,47 +111,6 @@ router.post('/register', async(req, res, next) => {
             res.status(500).send({ text: "Error validating username, email or password." });
         } else {
             try {
-
-
-                //hashing
-                /// Check entered email is in db
-       //if (emails.includes(email)) {
-        // Find password for email
-        //const sql = `SELECT password FROM users WHERE email = '${email}'`;
-        //db.query(sql, async (err, results) => {
-            //if (err) throw err;
-            //if (results.length > 0) {
-
-
-
-
-        //const hashedPassword = results[0].password;
-        //const plainPassword = const { password }
-        //const passwordMatches = await bcrypt.compare(plainPassword, hashedPassword);
-   
-        // Check if the password is correct
-        //if (passwordMatches) {
-            //console.log('Login Successful');
-            //redirect to user's account page
-        //} else {
-            //console.log('Incorrect Password')
-            //display error on login page
-        //}
-    //} else {
-       // console.log('User Not Found')
-        //display error on login page
-    }
-});
-
-
-db.end()
-
-       
-    
-
-
-db.end()
-
                 // Extract all usernames and email already in the dbss
                 let details = await db.promise().query(`SELECT email, username FROM USERS`);
                 let usernames = details[0].map( elm => elm.username );
