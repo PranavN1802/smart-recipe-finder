@@ -36,6 +36,9 @@ initialSearch = function() {
                     iconDisplay.insertAdjacentHTML("beforeend", summary);
                 }
             });
+
+            var height = $('.main_content').height();
+            $('.sidenav').height(height);
         })
         .catch(err => console.log(err));
 }

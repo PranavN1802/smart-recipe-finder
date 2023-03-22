@@ -118,7 +118,7 @@ img {
   margin-bottom: 10px;
 }
 
-button:not(.menu_button, .drop-down_list) {
+button:not(.menu_button, .drop-down_list, .create-btn) {
   display: inline;
   color: #ffffff;
   background: #ec8e22;
@@ -173,8 +173,8 @@ body {
   padding-top: 20px;
   padding-bottom: 20px;
   min-height: 750px;
-  display:block;
-  height:100vh;
+  display: block;
+  height: 100vh;
   flex-direction: column;
   transition: 0.3s;
   align-items: stretch;
@@ -247,7 +247,7 @@ body {
 }
 
 input[type="submit"] {
-  padding: 15 30 15 30;
+  padding: 15px 35px;
   margin-left: 65px;
   margin-top: 20px;
   color: #ffffff;
@@ -335,16 +335,6 @@ input[type="text"] {
   margin-left: 0;
 }
 
-/*
-.main_content {
-  overflow: hidden;
-  margin-left: 250px;
-  margin-top: 20px;
-  min-height: 465px;
-}
-*/
-
-
 #rcorners1 {
   padding-top: 20px;
   padding-left: 20px;
@@ -409,16 +399,34 @@ img.recipe_picture {
   font-size: 30px;
 }
 
-.create-btn {
-  font-size: 20px;
+button.create-btn {
+  display: inline;
+  color: #ffffff;
+  background: #ec8e22;
+  border: 1px solid #000;
+  margin: 20px auto;
+  padding: 0px 15px;
+  transition: all 200ms ease-in-out;
+  border-radius: 50px;
+  box-shadow: 0px 3px 3px #c6c3cd;
+  font-size: 16px;
+}
+button.create-btn:hover {
+  color: #ec8e22;
   cursor: pointer;
-  background-color: #ec8e22;
-  color: white;
-  padding: 10px 15px;
-  border: none;
-  margin-top: -15px;
+  background: #ffffff;
+  border: 1px solid #000;
+}
+
+.content {
+  height: fit-content;
   display: flex;
-  margin-right: 20px;
-  float: right;
-  height: 30px;
+  align-items: stretch;
+  justify-content: space-around;
+}
+
+#mySidebar {
+  height: 100%
+  /*margin-bottom: 0;
+  height: fit-content;*/
 }

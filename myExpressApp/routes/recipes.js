@@ -88,9 +88,6 @@ router.post('/search', async(req, res, next) => {
 
         console.log("Request reformatted to:", search, ingredients, allergies, vegetarian, vegan, kosher, halal, serving, time, difficulty, sortBy);
 
-        // For allergies
-        console.log(search, ingredients, allergies, vegetarian, vegan, kosher, halal, serving, time, difficulty, sortBy);
-
         // Use ingredients to find an array of recIDs
         let recIDs=[];
 
