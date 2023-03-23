@@ -895,6 +895,14 @@ router.post('/delete/:recID', async (req, res) => {
             res.status(500).send({ text: 'You cannot delete a recipe you did not create!'});
         } else {
             try {
+                // Remove from upvotes table
+                console.log("remove upvotes");
+                db.promise().query(`DELETE FROM UPVOTES WHERE recID=${recID}`);
+
+                // Remove from reports table
+                console.log("remove reports");
+                db.promise().query(`DELETE FROM REPORTS WHERE recID=${recID}`);
+
                 // Change scrambledRefs
                 console.log("change scrambledRef");
                 db.promise().query(`UPDATE RECIPES SET scrambledRef=0 WHERE scrambledRef=${recID}`);
