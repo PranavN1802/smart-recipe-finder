@@ -177,4 +177,35 @@ router.get('/account/fetch', async (req, res) => {
     }
 });
 
+router.post('/changePassword', async (req,res) => {
+    if(req.user) {
+        let userID = req.user.userID;
+        let {email, password, newPassword} = req.body;
+
+        try{
+
+            // Find the email and password for this user
+            let details = await db.promise().query(`SELECT email, password FROM USERS WHERE userID=${userID}`);
+            let userEmail = details[0].map(elm => elm.email)[0];
+            let userPassword= details[0].map(elm => elm.password)[0];
+
+            // If the email and password entered are correct, change the password
+            if (email == userEmail && password == userPassword){
+                db.promise().query(`UPDATE USERS SET password='${newPassword}' WHERE userID=${userID}`);
+                console.log('password changed');
+                res.status(200).send({error: false, text: "Password changed"});
+            }
+            else{
+                res.status(500).send({error: true, text: 'Incorrect password or email'});
+            }
+
+        }
+        catch(err){
+            console.log(err);
+        }
+    } else {
+        return res.redirect('/login');
+    }
+});
+
 module.exports = router;

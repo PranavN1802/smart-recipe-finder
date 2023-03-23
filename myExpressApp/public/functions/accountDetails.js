@@ -3,6 +3,8 @@ const dietary = ['vegetarian', 'vegan', 'kosher'];
 const times = ['<5min', '5-10min', '10-20min', '20-30min', '30-40min', '40-50min', '50-60min', '60-90min', '90-120min', '120-180min', '>180min'];
 const servings = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '>10'];
 
+var userEmail;
+
 fetchDetails = function() { 
     const username = document.querySelector('#username');
     const email = document.querySelector('#email');
@@ -16,6 +18,7 @@ fetchDetails = function() {
 
                 username.insertAdjacentHTML("beforeend", data[0].username + "!");
                 email.insertAdjacentHTML("beforeend", data[0].email);
+                userEmail = data[0].email;
 
                 data[1].forEach(article => {
                     var icon = '<div class="flex-container"><img class="recipe_picture" src="/images/random_food.png" alt="plate" /><p id="rcorners1">';
@@ -108,6 +111,45 @@ deleteRecipe = function(recID) {
 
 create = function() {
     window.location.replace("http://localhost:3000/recipes/create");
+}
+
+changePassword = function() {
+    if(confirm("Are you sure you want to change your password?")) {
+        oldPassword = prompt("Please enter your old password:");
+
+        newPassword = prompt("Please enter your new password:");
+        const passwordCheck = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[A-Z])[a-zA-Z0-9!@#$%^&*]{8,50}$/;
+        if(passwordCheck.test(newPassword) == false) {
+            alert("Password must be between 8 to 50 characters include at least one capital, symbol (!@#$%^&*) and number!");
+        } else {
+
+            reEnter = prompt("Please reenter your new password:");
+            if(newPassword == reEnter) {
+
+                fetch('http://localhost:3000/users/changePassword', {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        email: userEmail,
+                        password: oldPassword,
+                        newPassword: newPassword
+                    })}
+                    )
+                    .then(response => response.json())
+                    .then(data => {
+                        message = data.text;
+                        alert(message);
+                        window.location.reload();
+                    })
+                    .catch(err => console.log(err));
+
+            } else {
+                alert("Your new passwords did not match!");
+            }
+        }
+    }
 }
 
 fetchDetails();
