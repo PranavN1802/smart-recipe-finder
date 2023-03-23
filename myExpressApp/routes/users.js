@@ -43,6 +43,26 @@ router.post('/login', passport.authenticate('local'), (req, res) => {
 
 // END OF NEW VERSION
 
+router.get('/logout', function (req, res, next) {
+    console.log('logout');
+    
+    if (req.user) {
+        req.logOut(function(err) {
+            if (err) {
+                return next(err);
+            }
+            res.status(200).clearCookie('connect.sid', {
+                path: '/'
+            });
+            req.session.destroy(function(err) {
+                return res.redirect('/');
+            });
+        });
+    } else {
+        return res.redirect('/login');
+    }
+});
+
 
 // OLD VERSION OF LOGIN
 // router.post('/login', async(req, res, next) => {
