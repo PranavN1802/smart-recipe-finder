@@ -91,11 +91,17 @@ filterRecipes = function() {
     difficulty = null;
     serving = null;
     time = null;
+    sortBy = null;
 
     for(var i = 0; i <= 10; i++) {
         if(i <= 2) {
             if(document.getElementById('difficulty'+i).checked) {
                 difficulty = i;
+            }
+        }
+        if(i <= 3) {
+            if(document.getElementById('sortBy'+i).checked) {
+                sortBy = i;
             }
         }
         if(document.getElementById('serving'+i).checked) {
@@ -135,7 +141,7 @@ filterRecipes = function() {
             serving: serving,
             time: time,
             difficulty: difficulty,
-            sortBy: null
+            sortBy: sortBy
         })
     })
     .then((response) => response.json())

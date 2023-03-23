@@ -164,19 +164,24 @@ router.post('/search', async(req, res, next) => {
             
             // Sort the recipes in ascending order by either serving, time or difficulty
             if (sortBy===0) {
-                recipes = recipes[0].sort((a, b) => a.serving - b.serving);
+                recipes = recipes[0].sort((a, b) => a.upvotes - b.upvotes);
             }
             else if (sortBy===1) {
-                recipes = recipes[0].sort((a, b) => a.time - b.time);
+                recipes = recipes[0].sort((a, b) => a.serving - b.serving);
             }
             else if (sortBy===2) {
+                recipes = recipes[0].sort((a, b) => a.time - b.time);
+            }
+            else if (sortBy===3) {
                 recipes = recipes[0].sort((a, b) => a.difficulty - b.difficulty);
+            } else {
+                recipes = recipes[0];
             }
 
             // Appends potential alert message to the response
-            if (alert) recipes[0].push(alertJSON);
-            console.log(recipes[0]);
-            res.status(200).send(recipes[0]);
+            if (alert) recipes.push(alertJSON);
+            console.log(recipes);
+            res.status(200).send(recipes);
         } else {
             let recipes = [alertJSON];
             console.log(recipes);
