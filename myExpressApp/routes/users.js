@@ -179,7 +179,21 @@ router.get('/account/fetch', async (req, res) => {
             // Find username for the userID
             let details = await db.promise().query(`SELECT email, username FROM USERS WHERE userID=${userID}`);
             console.log(details[0]);
-            
+
+            let upvotedRecIDs = await db.promise().query(`SELECT recID FROM UPVOTES WHERE userID=${userID}`);
+            upvotedRecIDs = upvotedRecIDs[0].map( elm => elm.recID );
+
+            let upvotedRecipes = [];
+            let upvotedRecipeDetails;
+
+            for (u=0; u<upvotedRecIDs.length; u++) {
+                upvotedRecipeDetails = await db.promise().query(`SELECT recID, name, vegetarian, vegan, kosher, halal, serving, time, difficulty, summary FROM RECIPES WHERE recID=${upvotedRecIDs[u]}`)
+                upvotedRecipeDetails = upvotedRecipeDetails[0][0];
+                upvotedRecipes = upvotedRecipes.concat(upvotedRecipeDetails);
+            }
+
+            details[0].push(upvotedRecipes);
+
             // Find summary recipe details with userID - included recID - wouldn't be displayed but can be used to fetch complete recipe details
             let recipes = await db.promise().query(`SELECT recID, name, vegetarian, vegan, kosher, halal, serving, time, difficulty, summary FROM RECIPES WHERE userID='${userID}'`);
             
