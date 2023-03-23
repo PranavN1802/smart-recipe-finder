@@ -228,4 +228,91 @@ router.post('/changePassword', async (req,res) => {
     }
 });
 
+router.get('/delete', async (req,res) => {
+    if (req.user) {
+        let userID = req.user.userID;
+
+        const {cookies} = req;
+        let confirmation = cookies.confirmation;
+
+        if (confirmation == "delete") {
+
+            console.log('logout');
+            req.logOut(function(err) {
+                if (err) {
+                    return next(err);
+                }
+                res.status(200).clearCookie('connect.sid', {
+                    path: '/'
+                });
+                req.session.destroy(function(err) {
+                    //res.redirect('/');
+                });
+            });
+
+            try {
+
+                deletedUserID = 1;
+                db.promise().query(`UPDATE RECIPES SET userID=${deletedUserID} WHERE userID=${userID}`);
+
+
+                // Check if the user has already upvoted this recipe
+                let upvotedRecipes = await db.promise().query(`SELECT recID FROM UPVOTES WHERE userID=${userID}`);
+                upvotedRecipes = upvotedRecipes[0].map( elm => elm.recID );
+                            
+                if (upvotedRecipes.length===0) {
+                    console.log('This user has not upvoted any recipes');
+                } else {
+                    for (u=0; u<upvotedRecipes.length; u++) {
+                        // Find current upvotes value for the recipe
+                        let upvotes = await db.promise().query(`SELECT upvotes FROM RECIPES WHERE recID=${upvotedRecipes[u]}`);
+                        
+                        // Extract upvotes value form array
+                        upvotes = upvotes[0].map( elm => elm.upvotes )[0];
+
+                        // Increment the number of upvotes by 1
+                        db.promise().query(`UPDATE RECIPES SET upvotes=${upvotes} - 1 WHERE recID= ${upvotedRecipes[u]}`);
+                        db.promise().query(`DELETE FROM UPVOTES WHERE userID=${userID} AND recID=${upvotedRecipes[u]}`);
+                        console.log('upvote removed');
+                    }
+                    console.log('upvotes all removed');
+                }
+
+                // Check if the user has already upvoted this recipe
+                let reportedRecipes = await db.promise().query(`SELECT recID FROM REPORTS WHERE userID=${userID}`);
+                reportedRecipes = reportedRecipes[0].map( elm => elm.recID );
+                            
+                if (reportedRecipes.length===0) {
+                    console.log('This user has not reported any recipes');
+                } else {
+                    for (r=0; r<reportedRecipes.length; r++) {
+                        // Find current upvotes value for the recipe
+                        let reports = await db.promise().query(`SELECT reports FROM RECIPES WHERE recID=${reportedRecipes[r]}`);
+                        
+                        // Extract upvotes value form array
+                        reports = reports[0].map( elm => elm.reports )[0];
+
+                        // Increment the number of upvotes by 1
+                        db.promise().query(`UPDATE RECIPES SET reports=${reports} - 1 WHERE recID= ${reportedRecipes[r]}`);
+                        db.promise().query(`DELETE FROM REPORTS WHERE userID=${userID} AND recID=${reportedRecipes[r]}`);
+                        console.log('report removed');
+                    }
+                    console.log('reports all removed');
+                }
+
+                // Delete the record in users with that userID
+                db.promise().query(`DELETE FROM USERS WHERE userID=${userID}`);
+
+                return res.redirect('/');
+                //res.status(200).send({url: 'http://localhost:3000'});
+            }
+            catch (err) {
+                console.log(err);
+            }
+        }
+    } else {
+        res.redirect('/login');
+    }
+});
+
 module.exports = router;

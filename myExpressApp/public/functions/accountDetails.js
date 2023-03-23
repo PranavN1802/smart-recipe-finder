@@ -152,4 +152,14 @@ changePassword = function() {
     }
 }
 
+deleteAccount = function() {
+    if(confirm("Are you sure you want to delete your account? WARNING:\nYour recipes will not be deleted, your username will be replaced with 'Deleted User'\nYour reports and upvotes will be removed\nYou will NOT be able to recover your account nor claim back your recipes!")) {
+        if(confirm("Are you ABSOLUTELY sure? (There is no going back)")) {
+
+            document.cookie = "confirmation=delete";
+            window.location.replace('http://localhost:3000/users/delete');
+        }
+    }
+}
+
 fetchDetails();
