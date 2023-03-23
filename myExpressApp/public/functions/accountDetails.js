@@ -8,6 +8,7 @@ var userEmail;
 fetchDetails = function() { 
     const username = document.querySelector('#username');
     const email = document.querySelector('#email');
+    const upvotesDisplay = document.querySelector('#upvoted');
     const iconDisplay = document.querySelector('#icons');
     //const $summary = $('#summary');
     //const author = document.querySelector('#author');
@@ -38,14 +39,9 @@ fetchDetails = function() {
                         icon += '<img class="recipe_icon"src="/images/icons/kosher.png" alt="kosher">';
                     }
 
-                    icon += '<div style="display: flex; margin-left: 5px"><div class="recipe_edit_and_delete_btns">';
-                    icon += '<button class="edit-btn" title="Edit recipe" onclick="editRecipe(' + article.recID + '); return false;">';
-                    icon += '<span id="edit_and_delete_buttons_style" style="position: relative; bottom: 5px"><img src="/images/editing.png" style="width: 25px; margin-top: -9px"/></span></button>';
-                    icon += '<button class="delete-btn" title="Delete recipe" onclick="deleteRecipe(' + article.recID + '); return false;">';
-                    icon += '<span style="position: relative; bottom: 5px"><img src="/images/delete.png" style="width: 25px; margin-top: -8px"/></span></button>';
-                    icon += '</div></div></div></div>';
+                    icon += '</div></div>';
 
-                    iconDisplay.insertAdjacentHTML("beforeend", icon);
+                    upvotesDisplay.insertAdjacentHTML("beforeend", icon);
 
                     /*
                     <div class="flex-container">
@@ -87,6 +83,34 @@ fetchDetails = function() {
                         </div>
                     </div>
                     */
+                });
+
+                data[2].forEach(article => {
+                    var icon = '<div class="flex-container"><img class="recipe_picture" src="/images/random_food.png" alt="plate" /><p id="rcorners1">';
+                    icon += '<a style="color: black" href="http://localhost:3000/recipes/view/' + article.recID + '" target="_blank"><b>' + article.name + '</b></a> - ' + article.summary;
+                    icon += '<br><span id="rcorners2" style="display: inline-block"><img class="detail_icon" src="/images/icons/serving-dish.png" alt="serving dish"/><b>' + servings[article.serving] + '</b></span>';
+                    icon += '<span id="rcorners2" style="display: inline-block"><img class="detail_icon" src="/images/icons/clock.png" alt="clock" /><b>' + times[article.time] + '</b></span></p>';
+                    icon += '<div class="chosen_options_from_sidebar" style="margin-left: auto;">';
+                    icon += '<img class="recipe_icon"src="/images/icons/' + difficulties[article.difficulty] + '.png" alt="' + difficulties[article.difficulty] + '">';
+
+                    if (article.vegetarian) {
+                        icon += '<img class="recipe_icon"src="/images/icons/vegetarian.png" alt="vegetarian">';
+                    }
+                    if (article.vegan) {
+                        icon += '<img class="recipe_icon"src="/images/icons/vegan.png" alt="vegan">';
+                    }
+                    if (article.kosher) {
+                        icon += '<img class="recipe_icon"src="/images/icons/kosher.png" alt="kosher">';
+                    }
+
+                    icon += '<div style="display: flex; margin-left: 5px"><div class="recipe_edit_and_delete_btns">';
+                    icon += '<button class="edit-btn" title="Edit recipe" onclick="editRecipe(' + article.recID + '); return false;">';
+                    icon += '<span id="edit_and_delete_buttons_style" style="position: relative; bottom: 5px"><img src="/images/editing.png" style="width: 25px; margin-top: -9px"/></span></button>';
+                    icon += '<button class="delete-btn" title="Delete recipe" onclick="deleteRecipe(' + article.recID + '); return false;">';
+                    icon += '<span style="position: relative; bottom: 5px"><img src="/images/delete.png" style="width: 25px; margin-top: -8px"/></span></button>';
+                    icon += '</div></div></div></div>';
+
+                    iconDisplay.insertAdjacentHTML("beforeend", icon);
                 });
             })
             .catch(err => console.log(err));
