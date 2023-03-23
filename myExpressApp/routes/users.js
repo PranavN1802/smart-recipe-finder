@@ -155,10 +155,23 @@ router.get('/account/fetch', async (req, res) => {
     if (req.user) {
         let userID = req.user.userID;
 
-        // Find username for the userID
-        let details = await db.promise().query(`SELECT email, username FROM USERS WHERE userID=${userID}`);
-        console.log(details[0]);
-        res.status(200).send(details[0]);
+        try {
+            // Find username for the userID
+            let details = await db.promise().query(`SELECT email, username FROM USERS WHERE userID=${userID}`);
+            console.log(details[0]);
+            
+            // Find summary recipe details with userID - included recID - wouldn't be displayed but can be used to fetch complete recipe details
+            let recipes = await db.promise().query(`SELECT recID, name, vegetarian, vegan, kosher, halal, serving, time, difficulty, summary FROM RECIPES WHERE userID='${userID}'`);
+            
+            // Extract recipe details as an array - each recipe record is a separate array item - each recipe value can be separately extracted as with userID
+            recipes=recipes[0];
+            console.log(recipes);
+            details[0].push(recipes);
+                
+            res.status(200).send(details[0]);
+        } catch (err) {
+            console.log(err);
+        }
     } else {
         return res.redirect('/login');
     }

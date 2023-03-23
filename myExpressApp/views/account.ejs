@@ -147,52 +147,57 @@
         <h3 style="display: inline-block">Your Recipes:</h3>
         <br>
         <!------------Recipe 1------------>
+        <div id="icons">
+          <!--
+          <div class="flex-container">
+            <img class="recipe_picture" src="/images/random_food.png" alt="plate" />
+            <p id="rcorners1">
+              <a style="color: black" href="http://localhost:3000/recipes/view/' + article.recID + '" target="_blank"><b>article.name</b></a> - Creamy and nutritious, vegan mushroom stroganoff made with blended cashews.
+              <br>
 
-        <div class="flex-container">
-          <img class="recipe_picture" src="/images/random_food.png" alt="plate" />
-          <p id="rcorners1">
-            <a style="color: black" href="http://localhost:3000/recipes/view/' + article.recID + '" target="_blank"><b>article.name</b></a> - Creamy and nutritious, vegan mushroom stroganoff made with blended cashews.
-            <br>
+              <span id="rcorners2" style="display: inline-block">
+                <img class="detail_icon" src="/images/icons/serving-dish.png" alt="serving dish"/>
+                <b>4</b>
+              </span>
 
-            <span id="rcorners2" style="display: inline-block">
-              <img class="detail_icon" src="/images/icons/serving-dish.png" alt="serving dish"/>
-              <b>4</b>
-            </span>
+              <span id="rcorners2" style="display: inline-block">
+                <img class="detail_icon" src="/images/icons/clock.png" alt="clock" />
+                <b>40-50min</b>
+              </span>
+            </p>
+            <div class="chosen_options_from_sidebar" style="margin-left: auto;" >
+              <img class="recipe_icon" src="/images/icons/easy.png" alt="easy" >
+              <img class="recipe_icon" src="/images/icons/vegetarian.png" alt="vegetarian" />
+              <img class="recipe_icon" src="/images/icons/vegan.png" alt="vegan" />
+              <img class="recipe_icon" src="/images/icons/kosher.png" alt="kosher" />
 
-            <span id="rcorners2" style="display: inline-block">
-              <img class="detail_icon" src="/images/icons/clock.png" alt="clock" />
-              <b>40-50min</b>
-            </span>
-          </p>
-          <div class="chosen_options_from_sidebar" style="margin-left: auto;" >
-            <img class="recipe_icon" src="/images/icons/easy.png" alt="easy" >
-            <img class="recipe_icon" src="/images/icons/vegetarian.png" alt="vegetarian" />
-            <img class="recipe_icon" src="/images/icons/vegan.png" alt="vegan" />
-            <img class="recipe_icon" src="/images/icons/kosher.png" alt="kosher" />
-
-            <div style="display: flex; margin-left: 5px">
-              <div class="recipe_edit_and_delete_btns">
-                  <button class="edit-btn" title="Edit recipe" onclick="editRecipe(71); return false;">
-                    <span id="edit_and_delete_buttons_style" style="position: relative; bottom: 5px">
-                      <img src="/images/editing.png" style="width: 25px; margin-top: -9px"/>
+              <div style="display: flex; margin-left: 5px">
+                <div class="recipe_edit_and_delete_btns">
+                    <button class="edit-btn" title="Edit recipe" onclick="editRecipe(71); return false;">
+                      <span id="edit_and_delete_buttons_style" style="position: relative; bottom: 5px">
+                        <img src="/images/editing.png" style="width: 25px; margin-top: -9px"/>
+                      </span>
+                    </button>
+                  <button class="delete-btn" title="Delete recipe" onclick="deleteRecipe(72); return false;">
+                    <span style="position: relative; bottom: 5px">
+                      <img src="/images/delete.png" style="width: 25px; margin-top: -8px"/>
                     </span>
                   </button>
-                <button class="delete-btn" title="Delete recipe" onclick="deleteRecipe(72); return false;">
-                  <span style="position: relative; bottom: 5px">
-                    <img src="/images/delete.png" style="width: 25px; margin-top: -8px"/>
-                  </span>
-                </button>
+                </div>
               </div>
             </div>
           </div>
+          -->
         </div>
 
+        <!-- Create Recipe -->
         <button title="Create recipe" class="create-btn" style="padding: 0 17 0 17; margin-left: 0" onclick="create()">
           <span style="position: relative; bottom: 5px">
             <img src="/images/pen.png" style="width: 25px"/>
           </span>
         </button>
 
+        <!-- Delete Account -->
         <button class="delete_account_btn" style="margin-top: 100; margin-left: 0;">
           <span style="position: relative; bottom: 5px">
             <img src="/images/delete.png" style="width: 25px" />
