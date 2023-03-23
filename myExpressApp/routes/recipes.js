@@ -164,19 +164,24 @@ router.post('/search', async(req, res, next) => {
             
             // Sort the recipes in ascending order by either serving, time or difficulty
             if (sortBy===0) {
-                recipes = recipes[0].sort((a, b) => a.serving - b.serving);
+                recipes = recipes[0].sort((a, b) => a.upvotes - b.upvotes);
             }
             else if (sortBy===1) {
-                recipes = recipes[0].sort((a, b) => a.time - b.time);
+                recipes = recipes[0].sort((a, b) => a.serving - b.serving);
             }
             else if (sortBy===2) {
+                recipes = recipes[0].sort((a, b) => a.time - b.time);
+            }
+            else if (sortBy===3) {
                 recipes = recipes[0].sort((a, b) => a.difficulty - b.difficulty);
+            } else {
+                recipes = recipes[0];
             }
 
             // Appends potential alert message to the response
-            if (alert) recipes[0].push(alertJSON);
-            console.log(recipes[0]);
-            res.status(200).send(recipes[0]);
+            if (alert) recipes.push(alertJSON);
+            console.log(recipes);
+            res.status(200).send(recipes);
         } else {
             let recipes = [alertJSON];
             console.log(recipes);
@@ -481,7 +486,7 @@ router.post('/scramble', async(req, res, next)=>{
                 if (recipeFound[0].length===0) {
 
                     // Add the recipe details to the recipes table - including recID for scrambledRef
-                    db.promise().query(`INSERT INTO RECIPES (userID, name, recRef, scrambledRef, vegetarian, vegan, kosher, halal, serving, time, difficulty, reports, steps, summary) VALUES ('${userID}', '${name}', '<a href=${recRef}>${name} reference</a>', '${recID}', '${vegetarian}', '${vegan}', '${kosher}', '${halal}', '${serving}', '${time}', '${difficulty}', 0, '${steps}', '${summary}')`);
+                    db.promise().query(`INSERT INTO RECIPES (userID, name, recRef, scrambledRef, vegetarian, vegan, kosher, halal, serving, time, difficulty, reports, steps, summary, upvotes) VALUES ('${userID}', '${name}', '<a href=${recRef}>${name} reference</a>', '${recID}', '${vegetarian}', '${vegan}', '${kosher}', '${halal}', '${serving}', '${time}', '${difficulty}', 0, '${steps}', '${summary}', 0)`);
                     console.log('Added recipe details');
 
                     // Add to recipe_ingredient_quantity
@@ -890,6 +895,14 @@ router.post('/delete/:recID', async (req, res) => {
             res.status(500).send({ text: 'You cannot delete a recipe you did not create!'});
         } else {
             try {
+                // Remove from upvotes table
+                console.log("remove upvotes");
+                db.promise().query(`DELETE FROM UPVOTES WHERE recID=${recID}`);
+
+                // Remove from reports table
+                console.log("remove reports");
+                db.promise().query(`DELETE FROM REPORTS WHERE recID=${recID}`);
+
                 // Change scrambledRefs
                 console.log("change scrambledRef");
                 db.promise().query(`UPDATE RECIPES SET scrambledRef=0 WHERE scrambledRef=${recID}`);

@@ -130,7 +130,7 @@
           </button>
 
           <br />
-          <a href="#" class="btn btn-info btn-lg"
+          <a href="/users/logout" class="btn btn-info btn-lg"
             style="
               height: 60px;
               margin-bottom: 20px;
@@ -140,6 +140,16 @@
           >
             <span class="glyphicon glyphicon-log-out"></span> Log out
           </a>
+
+        </div>
+        <br>
+
+        <h3 style="display: inline-block">Your Upvoted Recipes:</h3>
+        <br>
+
+        <div id="upvoted">
+
+          <!-- Upvoted recipes here -->
 
         </div>
         <br>
@@ -198,7 +208,7 @@
         </button>
 
         <!-- Delete Account -->
-        <button class="delete_account_btn" style="margin-top: 100; margin-left: 0;">
+        <button class="delete_account_btn" style="margin-top: 100; margin-left: 0;" onclick="deleteAccount()">
           <span style="position: relative; bottom: 5px">
             <img src="/images/delete.png" style="width: 25px" />
           </span>Delete account
@@ -242,22 +252,13 @@
             <h4>Connect with us</h4>
             <div class="social-links">
               <a href="https://www.facebook.com/computersciencemcr/"
-                ><i
-                  class="fab fa-facebook-f"
-                  style="position: relative; bottom: -10px"
-                ></i
+                ><i class="fab fa-facebook-f" style="margin-top: 10px;"></i
               ></a>
               <a href="https://twitter.com/csmcr/"
-                ><i
-                  class="fab fa-twitter"
-                  style="position: relative; bottom: -10px"
-                ></i
+                ><i class="fab fa-twitter" style="margin-top: 10px;"></i
               ></a>
               <a href="https://www.instagram.com/uomcompsci/"
-                ><i
-                  class="fab fa-instagram"
-                  style="position: relative; bottom: -10px"
-                ></i
+                ><i class="fab fa-instagram" style="margin-top: 10px;"></i
               ></a>
             </div>
           </div>
