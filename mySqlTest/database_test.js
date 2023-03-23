@@ -846,27 +846,80 @@ app.post('/:recID/deleteRecipe', async (req, res) => {
 // TODO: SORT OUT A USER'S RECIPES WHEN ACCOUNT IS DELETED
 app.post('/:userID/deleteUser', async (req, res) => {
 
-    // Find userID from query - would be saved somewhere
-    let userID = req.params.userID;
+    // if (req.user) {
+        // Find userID from query - would be saved somewhere
+        let userID = req.params.userID;
+        // let userID = req.user.userID;
 
-    try {
+        try {
 
-        // Delete the record in users with that userID
-        db.promise().query(`DELETE FROM USERS WHERE userID=${userID}`);
-        
-        // ONE POSSIBILITY: DELETE ALL OF THE USER'S RECIPES
-        // db.promise().query(`DELETE FROM RECIPE_INGREDIENT_QUANTITY WHERE userID=${userID}`);
-        // db.promise().query(`DELETE FROM RECIPES WHERE userID=${userID}`);
+            deletedUserID = 1;
+            db.promise().query(`UPDATE RECIPES SET userID=${deletedUserID} WHERE userID=${userID}`);
 
-        // ALTERNATIVE: REPLACE userID IN ALL OF THE USER'S RECIPES WITH AN ORPHAN ACCOUNT
-        orphanUserID = 0; //TODO: CREATE AN ORPHAN ACCOUNT? - 0 AS PLACEHOLDER
-        db.promise().query(`UPDATE RECIPES SET userID=${orphanUserID} WHERE userID=${userID}`);
 
-        res.status(200).send({msg: 'User deleted'});
-    }
-    catch (err) {
-        console.log(err);
-    }
+            // Check if the user has already upvoted this recipe
+            let upvotedRecipes = await db.promise().query(`SELECT recID FROM UPVOTES WHERE userID=${userID}`);
+            upvotedRecipes = upvotedRecipes[0].map( elm => elm.recID );
+                        
+            if (upvotedRecipes.length===0) {
+                console.log('This user has not upvoted any recipes');
+            } else {
+                for (u=0; u<upvotedRecipes.length; u++) {
+                    // Find current upvotes value for the recipe
+                    let upvotes = await db.promise().query(`SELECT upvotes FROM RECIPES WHERE recID=${upvotedRecipes[u]}`);
+                    
+                    // Extract upvotes value form array
+                    upvotes = upvotes[0].map( elm => elm.upvotes )[0];
+
+                    // Increment the number of upvotes by 1
+                    db.promise().query(`UPDATE RECIPES SET upvotes=${upvotes} - 1 WHERE recID= ${upvotedRecipes[u]}`);
+                    db.promise().query(`DELETE FROM UPVOTES WHERE userID=${userID} AND recID=${upvotedRecipes[u]}`);
+                    console.log('upvote removed');
+                }
+                console.log('upvotes all removed');
+            }
+
+            // Check if the user has already upvoted this recipe
+            let reportedRecipes = await db.promise().query(`SELECT recID FROM REPORTS WHERE userID=${userID}`);
+            reportedRecipes = reportedRecipes[0].map( elm => elm.recID );
+                        
+            if (reportedRecipes.length===0) {
+                console.log('This user has not reported any recipes');
+            } else {
+                for (r=0; r<reportedRecipes.length; r++) {
+                    // Find current upvotes value for the recipe
+                    let reports = await db.promise().query(`SELECT reports FROM RECIPES WHERE recID=${reportedRecipes[r]}`);
+                    
+                    // Extract upvotes value form array
+                    reports = reports[0].map( elm => elm.reports )[0];
+
+                    // Increment the number of upvotes by 1
+                    db.promise().query(`UPDATE RECIPES SET reports=${reports} - 1 WHERE recID= ${reportedRecipes[r]}`);
+                    db.promise().query(`DELETE FROM REPORTS WHERE userID=${userID} AND recID=${reportedRecipes[r]}`);
+                    console.log('report removed');
+                }
+                console.log('reports all removed');
+            }
+
+            // Delete the record in users with that userID
+            db.promise().query(`DELETE FROM USERS WHERE userID=${userID}`);
+            
+            // ONE POSSIBILITY: DELETE ALL OF THE USER'S RECIPES
+            // db.promise().query(`DELETE FROM RECIPE_INGREDIENT_QUANTITY WHERE userID=${userID}`);
+            // db.promise().query(`DELETE FROM RECIPES WHERE userID=${userID}`);
+
+            // ALTERNATIVE: REPLACE userID IN ALL OF THE USER'S RECIPES WITH AN ORPHAN ACCOUNT
+            // deletedUserID = 1; //TODO: CREATE AN ORPHAN ACCOUNT? - 0 AS PLACEHOLDER
+            // db.promise().query(`UPDATE RECIPES SET userID=${orphanUserID} WHERE userID=${userID}`);
+
+            res.status(200).send({msg: 'User deleted'});
+        }
+        catch (err) {
+            console.log(err);
+        }
+    // } else {
+    //     res.redirect('/login');
+    // }
 });
 
 // FETCH RECIPE SUMMARIES FROM FILTERS
@@ -1253,7 +1306,7 @@ app.post('/addRecipes', async (req, res) => {
         quantities:["1","2","6","5","500g",null,null,"3 tbsp",null],
         steps:"1: Chop and grill peppers\n2: Chop the other veg\n3: Blend peppers with 100g passata; combine with remaining passata; place in dish; season with salt and thyme.\n4: Place chopped veg in layers in dish\n5: Chop some basil; stir in to 2tbsp olive oil; coat vegetables in mix; season with salt\n6: Cook at 180° for 25 mins\n7: Sprinkle fresh basil on top and serve.",
         summary:"Healthy and easy vegan ratatouille!",
-        userID:1
+        userID:2
         },
         {
         name: "Vegan Mushroom Stroganoff",
@@ -1269,7 +1322,7 @@ app.post('/addRecipes', async (req, res) => {
         quantities:["500g","150g","500g", null, "1", "2-3", "1", "1 tbsp", "1 tbsp", "1 tsp"],
         steps:"1: Soak cashews for an hour before cooking. Chop the mushrooms, aubergine and onions into small to medium-sized pieces\n2: Brown the mushrooms and aubergine in a pan on a high heat, with the oil\n3: Reduce the heat and add the onions and fresh thyme. Continue to fry gently for another 5 minutes. Add the pasta to salted water\n4: When the pasta is nearly ready, drain it and reserve the pasta water for the sauce\n5: Blend the soaked cashews, soy sauce, garlic granules, veggie stock cube and a few ladles of pasta water to make the creamy cashew sauce\n6: Combine the mushroom mix with the pasta, sauce, and 200ml of pasta water. Stir the mix on a low heat until the pasta is al dente. Keep adding pasta water if the sauce seems too thick\n7: Serve with lots of black pepper and a pinch of salt.",
         summary:"Creamy and nutritious, vegan mushroom stroganoff made with blended cashews.",
-        userID:1
+        userID:2
         },
         {
         name: "Purple Porridge",
@@ -1285,7 +1338,7 @@ app.post('/addRecipes', async (req, res) => {
         quantities:["A handful","250g","1 tbsp"],
         steps:"1: Add a handful of berries into a medium saucepan with around 200ml of water. Cook on a medium heat for 5 minutes\n2: Stir and smash the berries a bit into a berry sauce\n3: Add the honey and oats to the sauce with around 50-200ml of water depending on how thick you like your porridge\n4: Stirring continuously, heat the porridge for 3 minutes\n5: Serve up with any additional toppings you want.",
         summary:"Sweet and sour, deliciously creamy, purple berry porridge.",
-        userID:1
+        userID:3
         },
         { 
         name: "Butter Chicken", 
@@ -1301,7 +1354,7 @@ app.post('/addRecipes', async (req, res) => {
         quantities:["2","1 tsp","1 tsp","Half Stick","4 tbsp","2","2","1","Half Tin","2","1 bunch"], 
         steps:"1. Cube chicken and mix with garlic, ginger, and salt. Leave to marinate\n2. In a pan, melt the butter and add the cinnamon, cardamom and clove.\n3. Add the chopped tomatoes and cook until the tomatoes have softened.\n4. Add in the bombay masala, green chillies, and coriander.\n5. Turn the heat on high and add in the chicken.\n6. After 5 minutes, lower the heat and leave to simmer.\n7. Add fresh coriander and serve.", 
         summary:"delicious and hearty version of butter chicken",
-        userID:1
+        userID:3
         },
         { 
         name: "Lamb Skewers", 
@@ -1317,7 +1370,7 @@ app.post('/addRecipes', async (req, res) => {
         quantities:["2 cloves","1 tsp","4","2","8","2","2 Sprigs",null,null], 
         steps:"1. Preheat wood-fired oven to 200°C\n2.Peel and bash garlic with sea salt and oregano, add olive oil\n3.Cut lamb into chunks, season with pepper, add marinade and toss to coat\n4.Thread lamb, peppers, bay leaves and lemon wedges onto skewers\n5.Roast skewers in oven for 10-15 minutes, turning occasionally\n6.Keep an eye on skewers to prevent burning\n7.Chop parsley and scatter over skewers\n8.Serve with flatbreads, Greek yoghurt and sliced cucumber.", 
         summary:"Quick Lamb Kebabs",
-        userID:1
+        userID:3
         }, 
         { 
         name: "Lemon Pepper Salmon", 
@@ -1333,7 +1386,7 @@ app.post('/addRecipes', async (req, res) => {
         quantities:["4","2 tbsp","2 tsp","2 tbsp","3 tbsp","1 tsp","1/4 cup", "2 tsp"], 
         steps:"1.Marinate fish in lemon juice and coconut aminos for 15 minutes\n2.Place fillets on oiled baking sheet, season and drizzle with creamy dressing\n3.Broil for 8-10 minutes until crispy and cooked through\n4.Remove fish from pan with spatula or fork\n5.Serve warm, cold or at room temperature.", 
         summary:"Delectable salmon recipe",
-        userID:1
+        userID:4
         },
         { 
         name: "Potato Blintzes", 
@@ -1349,7 +1402,7 @@ app.post('/addRecipes', async (req, res) => {
         quantities:["6","1/2 cup","1/2 cup",null,"4 tbsp","1 cup","700 g","1",null], 
         steps:"1.Combine batter ingredients, let sit for 10 minutes\n2.Heat skillet, spray with non-stick spray, pour in batter, cook 1-2 minutes\n3.Dice and fry onion, boil and mash potatoes, mix with fried onions, salt\n4.pepper and beaten egg\n5.Place filling on crepes and roll up\n6.Fry blintzes until golden and filling is warm\n7.Serve plain or with sauce of choice, such as mushroom sauce.", 
         summary:"Traditional Russian Potato Blintzes",
-        userID:1
+        userID:4
         },
         {
         name:"Pufferfish Ragu4",
@@ -1365,7 +1418,7 @@ app.post('/addRecipes', async (req, res) => {
         quantities:["1"],
         steps:"1: chop\n2: cook\n3: try not to die!",
         summary:"Cook AT YOUR OWN RISK!!!",
-        userID:1
+        userID:4
         }];
 
     var name;
@@ -1471,7 +1524,7 @@ app.post('/addRecipes', async (req, res) => {
             if (recipeFound[0].length===0) {
 
                 // Add the recipe details to the recipes table
-                db.promise().query(`INSERT INTO RECIPES (userID, name, recRef, scrambledRef, vegetarian, vegan, kosher, halal, serving, time, difficulty, reports, steps, summary) VALUES (${userID}, '${name}', '<a href=${recRef}>${name} reference</a>', NULL, '${vegetarian}', '${vegan}', '${kosher}', '${halal}', '${serving}', '${time}', '${difficulty}', 0, '${steps}', '${summary}')`);
+                db.promise().query(`INSERT INTO RECIPES (userID, name, recRef, scrambledRef, vegetarian, vegan, kosher, halal, serving, time, difficulty, reports, steps, summary, upvotes) VALUES (${userID}, '${name}', '<a href=${recRef}>${name} reference</a>', NULL, '${vegetarian}', '${vegan}', '${kosher}', '${halal}', '${serving}', '${time}', '${difficulty}', 0, '${steps}', '${summary}', 0)`);
                 console.log('Added recipe details');
 
                 // Add to recipe_ingredient_quantity
