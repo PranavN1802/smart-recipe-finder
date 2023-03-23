@@ -10,6 +10,7 @@ fetchDetails = function() {
     const time = document.querySelector('#time');
     const ingredients = document.querySelector('#ingredients');
     const $steps = $('#steps');
+    const upvotes = document.querySelector('#upvotes');
     
 
     console.log(recID);
@@ -17,40 +18,44 @@ fetchDetails = function() {
     fetch('http://localhost:3000/recipes/find/' + recID)
             .then(response => response.json())
             .then(data => {
-                data = data[0];
+                console.log(data);
 
                 $recipeName.text(data.name);
-                $summary.text(data.summary);
-                author.insertAdjacentHTML("beforeend", data.username)
-                if (data.recRef != null && data.recRef != 'null') recRef.insertAdjacentHTML("beforebegin", data.recRef);
-                if (data.scrambledRef != "") scrambledRef.insertAdjacentHTML("beforebegin", data.scrambledRef);
 
-                var dietary = '<img class="recipe_icon"src="/images/icons/' + difficulties[data.difficulty] + '.png" alt="' + difficulties[data.difficulty] + '">';
+                if(typeof data.summary !== 'undefined') {
+                    $summary.text(data.summary);
+                    author.insertAdjacentHTML("beforeend", data.username)
+                    if (data.recRef != null && data.recRef != 'null') recRef.insertAdjacentHTML("beforebegin", data.recRef);
+                    if (data.scrambledRef != "" && data.scrambledRef != null && data.scrambledRef != 'null') scrambledRef.insertAdjacentHTML("beforebegin", data.scrambledRef);
 
-                if (data.vegetarian == 1) dietary += '<img class="recipe_icon"src="/images/icons/vegetarian.png" alt="vegetarian">';
-                if (data.vegan == 1) dietary += '<img class="recipe_icon"src="/images/icons/vegan.png" alt="vegan">';
-                if (data.kosher == 1) dietary += '<img class="recipe_icon"src="/images/icons/kosher.png" alt="kosher">';
-                icons.insertAdjacentHTML("beforeend", dietary);
+                    var dietary = '<img class="recipe_icon"src="/images/icons/' + difficulties[data.difficulty] + '.png" alt="' + difficulties[data.difficulty] + '">';
 
-                serving.insertAdjacentHTML("beforebegin", '<b>' + servings[data.serving] + '</b>  ');
-                time.insertAdjacentHTML("beforebegin", '<b>' + times[data.time] + '</b>  ');
+                    if (data.vegetarian == 1) dietary += '<img class="recipe_icon"src="/images/icons/vegetarian.png" alt="vegetarian">';
+                    if (data.vegan == 1) dietary += '<img class="recipe_icon"src="/images/icons/vegan.png" alt="vegan">';
+                    if (data.kosher == 1) dietary += '<img class="recipe_icon"src="/images/icons/kosher.png" alt="kosher">';
+                    icons.insertAdjacentHTML("beforeend", dietary);
 
-                var ingredientEntry;
-                for(var i = 0; i < data.ingredients.length; i++) {
-                    ingredientEntry = '<li>' + data.ingredients[i];
-                    if (i < data.quantities.length && data.quantities[i] != 'null') ingredientEntry += ' - ' + data.quantities[i];
-                    ingredientEntry += '</li>';
+                    serving.insertAdjacentHTML("beforebegin", '<b>' + servings[data.serving] + '</b>  ');
+                    time.insertAdjacentHTML("beforebegin", '<b>' + times[data.time] + '</b>  ');
 
-                    ingredients.insertAdjacentHTML("beforeend", ingredientEntry);
+                    var ingredientEntry;
+                    for(var i = 0; i < data.ingredients.length; i++) {
+                        ingredientEntry = '<li>' + data.ingredients[i];
+                        if (i < data.quantities.length && data.quantities[i] != 'null') ingredientEntry += ' - ' + data.quantities[i];
+                        ingredientEntry += '</li>';
+
+                        ingredients.insertAdjacentHTML("beforeend", ingredientEntry);
+                    }
+
+                    console.log(data.steps);
+                    steps = data.steps.split('\n');
+                    console.log(data.steps);
+
+                    stepText = '';
+
+                    $steps.text(data.steps);
+                    upvotes.insertAdjacentHTML("beforeend", data.upvotes);
                 }
-
-                console.log(data.steps);
-                steps = data.steps.split('\n');
-                console.log(data.steps);
-
-                stepText = '';
-
-                $steps.text(data.steps);
             })
             .catch(err => console.log(err));
 
@@ -70,3 +75,35 @@ fetch(window.location.href, { method: "POST" })
                 fetchDetails();
             })
             .catch(err => console.log(err));
+
+function scrambleRedirect(){
+    window.location.replace("http://localhost:3000/recipes/scramble/" + recID);
+}
+
+report = function(){
+    console.log('report function');
+
+    fetch('http://localhost:3000/recipes/' + recID + '/report', { method: "POST" })
+            .then(response => response.json())
+            .then(data => {
+                message = data.msg;
+                alert(message);
+            })
+            .catch(err => console.log(err));
+}
+
+upvote = function(){
+    console.log('upvote function');
+
+    fetch('http://localhost:3000/recipes/' + recID + '/upvote', { method: "POST" })
+            .then(response => response.json())
+            .then(data => {
+                message = data.msg;
+                alert(message);
+                window.location.reload();
+            })
+            .catch(err => console.log(err));
+}
+
+
+

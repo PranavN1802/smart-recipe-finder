@@ -9,24 +9,24 @@ const db = require('../routes/database');
 // how user session is maintained
 // makes passport very powerful
 passport.serializeUser((user, done) => {
-    console.log('Serialising user');
+    //console.log('Serialising user');
 
     if (user.userID===undefined) {
         done(null, user);
     } else {
-        console.log(user);
-        console.log(user.userID);
+        //console.log(user);
+        //console.log(user.userID);
         done(null, user.userID); // Could be user.id??
     }
 });
 
 // here username being treated as unique identifier - will be userID
 passport.deserializeUser(async (userID, done) => {
-    console.log('Deserialising user');
-    console.log(typeof(userID));
+    //console.log('Deserialising user');
+    //console.log(typeof(userID));
 
     if (typeof(userID)==='number') {
-        console.log(userID);
+        //console.log(userID);
         try {
             const result = await db.promise().query(`SELECT userID, username FROM USERS WHERE userID=${userID}`);
             if (result[0][0]) {

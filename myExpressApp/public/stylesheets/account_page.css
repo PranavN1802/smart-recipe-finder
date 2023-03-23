@@ -179,12 +179,12 @@ ul {
   div.recipe_edit_and_delete_btns {
     flex-direction: column;
     padding: 0;
-    margin-left: 30px;
+    margin-left: 0px;
   }
 
   .recipe_icon,
   .recipe_icon_square {
-    margin-left: 45px;
+    margin-left: 25px;
   }
 }
 
@@ -213,7 +213,7 @@ input[type="text"] {
   background: orange;
   padding: 20px;
   width: 50%;
-  height: 200px;
+  height: 150px;
   position: relative;
   text-overflow: ellipsis;
 }
@@ -270,8 +270,7 @@ img.recipe_picture {
   border-radius: 50%;
   width: 80px;
   height: 80px;
-  margin-right: 10px;
-  margin-left: 10px;
+  margin-left: 20px;
 }
 img.recipe_icon_square {
   width: 50px;
@@ -448,14 +447,6 @@ div.chosen_options_from_sidebar {
   color: #ec8e22;
   background-color: #ffffff;
 }
-
-.textareas {
-  padding-top: 2.5%;
-  padding-bottom: 2.5%;
-  padding-left: 5%;
-  padding-right: 5%;
-}
-
 /*responsive screen view*/
 @media (max-width: 767px) {
   .footer-col {

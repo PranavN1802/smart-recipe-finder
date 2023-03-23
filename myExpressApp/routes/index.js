@@ -18,4 +18,12 @@ router.get('/login', function(req, res, next) {
   res.render('login', { title: 'Login | Bubble\'N\'Sqeak' });
 });
 
+router.get('/account', function(req, res, next) {
+  return res.redirect('/users/account');
+});
+
+router.get('/references', function(req, res, next) {
+  res.render('references', { title: 'References | Bubble\'N\'Sqeak' })
+})
+
 module.exports = router;

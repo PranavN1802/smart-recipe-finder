@@ -155,7 +155,7 @@ button:not(.menu_button, .drop-down_list, .delete-account-btn):hover {
 ul {
   list-style: none;
 }
-*/ body {
+body {
   /* font-family: "Lato", sans-serif; */
   background-color: navajowhite;
   height: auto;
@@ -211,9 +211,10 @@ input[type="text"] {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
   background: orange;
-  padding: 20px;
-  width: 50%;
-  height: 200px;
+  padding-top: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+  width: 98%;
   position: relative;
   text-overflow: ellipsis;
 }
@@ -240,7 +241,7 @@ button.create-btn:hover {
 .flex-container {
   display: flex;
   background-color: orange;
-  margin-right: 0;
+  margin-right: 5px;
   border-radius: 25px;
   margin-bottom: 20px;
 }
@@ -255,11 +256,6 @@ button.create-btn:hover {
   font-size: 30px;
 }
 
-.recipe_edit_and_delete_btns {
-  display: flex;
-  margin-right: 0px;
-}
-
 img.recipe_icon {
   border-radius: 50%;
   width: 50px;
@@ -270,8 +266,7 @@ img.recipe_picture {
   border-radius: 50%;
   width: 80px;
   height: 80px;
-  margin-right: 10px;
-  margin-left: 10px;
+  margin-left: 20px;
 }
 img.recipe_icon_square {
   width: 50px;
@@ -315,12 +310,12 @@ button.edit-btn {
   color: #ffffff;
   background: rgb(238, 191, 121);
   border: 1px solid rgb(238, 191, 121);
-  margin: 20px auto;
-  padding: 18px 25px;
+  padding: 10px 20px;
   transition: all 200ms ease-in-out;
   border-radius: 50px;
   box-shadow: 0px 3px 3px #c6c3cd;
   font-size: 16px;
+  float: right;
 }
 
 button.edit-btn:hover {
@@ -331,16 +326,14 @@ button.edit-btn:hover {
 button.delete-btn {
   display: inline;
   color: #ffffff;
+  background: rgb(245, 125, 78);
   border: 1px solid rgb(245, 125, 78);
-  margin: 20px auto;
-  padding: 18px 25px;
+  padding: 10px 20px;
   transition: all 200ms ease-in-out;
   border-radius: 50px;
   box-shadow: 0px 3px 3px #c6c3cd;
   font-size: 16px;
-  margin-right: 0px;
-  margin-left: 5px;
-  background: rgb(245, 125, 78);
+  float: right;
 }
 
 button.delete-btn:hover {
@@ -363,6 +356,7 @@ button.delete-btn:hover {
   background: #ffffff;
 }
 
+/*
 @media screen and (max-width: 858px) {
   div.chosen_options_from_sidebar {
     flex-direction: column-reverse;
@@ -371,15 +365,15 @@ button.delete-btn:hover {
     height: 100%;
   }
 }
-.content {
-  display: flex;
-}
 
 div.chosen_options_from_sidebar {
   display: flex;
   flex-direction: right;
-  margin-left: 300px;
-  padding-left: 0;
+}
+*/
+
+.content {
+  display: flex;
 }
 
 .wrap_items {

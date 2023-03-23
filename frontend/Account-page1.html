@@ -34,7 +34,7 @@
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet"
     />
-    <link rel="stylesheet" type="text/css" href="account_page.css" />
+    <link rel="stylesheet" type="text/css" href="account_page2.css" />
     <style>
       input[type="submit"] {
         padding: 15 30 15 30;
@@ -169,8 +169,8 @@
               <img class="detail_icon" src="clock.png" alt="clock" />
             </span>
           </p>
-          <div class="chosen_options_from_sidebar">
-            <img class="recipe_icon" src="easy.png" alt="easy" />
+          <div class="chosen_options_from_sidebar" style="margin-left: auto;" >
+            <img class="recipe_icon" src="easy.png" alt="easy" >
             <img class="recipe_icon" src="vegetarian.png" alt="vegetarian" />
             <img class="recipe_icon" src="vegan.png" alt="vegan" />
             <img class="recipe_icon" src="kosher.png" alt="kosher" />
@@ -199,7 +199,61 @@
             </div>
           </div>
         </div>
-
+        <div class="flex-container">
+            <img class="recipe_picture" src="random_food.png" alt="cake" />
+            <p id="rcorners1">
+              <a
+                style="color: black"
+                href="http://localhost:3000/recipes/view/' + article.recID + '"
+                target="_blank"
+                ><b>article.name</b></a
+              >
+              - Creamy and nutritious, <br />vegan mushroom stroganoff<br />
+              made with blended cashews. <br />
+              <span id="rcorners2" style="display: inline-block">
+                <b>4</b>
+                <img
+                  class="detail_icon"
+                  src="serving-dish.png"
+                  alt="serving dish"
+                />
+              </span>
+  
+              <span id="rcorners2" style="display: inline-block">
+                <b>40-50min</b>
+                <img class="detail_icon" src="clock.png" alt="clock" />
+              </span>
+            </p>
+            <div class="chosen_options_from_sidebar" style="margin-left: auto;">
+              <img class="recipe_icon" src="easy.png" alt="easy" >
+              <img class="recipe_icon" src="vegetarian.png" alt="vegetarian" />
+              <img class="recipe_icon" src="vegan.png" alt="vegan" />
+  
+              <div style="display: flex; margin-left: 5px">
+                <div class="recipe_edit_and_delete_btns">
+                  <button class="edit-btn" title="Edit recipe">
+                    <span
+                      id="edit_and_delete_buttons_style"
+                      style="position: relative; bottom: 5px"
+                    >
+                      <img
+                        src="editing.png"
+                        style="width: 25px; margin-top: -9px"
+                    /></span>
+                  </button>
+                  <button class="delete-btn" title="Delete recipe">
+                    <span style="position: relative; bottom: 5px">
+                      <img
+                        src="delete.png"
+                        style="width: 25px; margin-top: -8px"
+                      />
+                    </span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+  
         <div
           class="container-fluid"
           style="margin-left: 0; padding-left: 0; margin-right: 0"

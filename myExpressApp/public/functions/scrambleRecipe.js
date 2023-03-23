@@ -1,3 +1,96 @@
+const $name = document.getElementById('name');
+const $summary = document.getElementById('summary');
+const $servingSize = document.getElementById('servingSize');
+const $time = document.getElementById('time');
+const $difficulty = document.getElementById('difficulty');
+const $vegetarian = document.getElementById('vegetarian');
+const $vegan = document.getElementById('vegan');
+const $kosher = document.getElementById('kosher');
+const $steps = document.getElementById('steps');
+const $recipeRef = document.getElementById('recipeRef');
+const $ingredientTable = document.getElementById('ingredientTable');
+
+var ingredientRows = [0];
+
+fetchDetails = function(){
+
+    //alert("http request made");
+
+    //console.log(recID)
+    //console.log(req.recID);
+
+    fetch('http://localhost:3000/recipes/find')
+            .then(response => response.json())
+            .then(data => {
+                data = data[0];
+                console.log("fetching data");
+                
+                document.getElementById('ingredientName0').value = data.ingredients[0];
+                if (data.quantities[0] != 'null' && data.quantities[0] != undefined) document.getElementById('ingredientQuantity0').value = data.quantities[0];
+                
+
+                for (var i = 1; i < data.ingredients.length; i++){
+                    var entry = '';
+                    var index = (i-1);
+                    ingredientRows.push(i);
+                    entry += '<tr id="entry' + i + '">';
+                    entry += '<td><input type="text" class="recipeIngredient" id="ingredientName' + i + '" placeholder="e.g Oat/Salt/Pasta"></td>';
+                    entry += '<td><input type="text" class="recipeIngredient" id="ingredientQuantity' + i + '" placeholder="e.g 500g/3tbsp"></td>';
+                    entry += '<td><button title="Add Ingredient" class ="editRow" id="addIngredient' + i + '" onclick="addIngredient(' + i + ')"><span style="position: relative; bottom: 3px">';
+                    entry += '<img src="/images/plus.png" style="height: 10px; width: 10px;" alt="add"/></span></button></td>';
+                    entry += '<td id="removeIngredient' + i + '"</td></tr>';
+
+                    // Add the row to the end of the table
+                    $ingredientTable.insertAdjacentHTML("beforeend", entry);
+
+                    // Add a delete button to the previous row
+                    // (This is to prevent the user deleting the only row with an add button)
+                    const deleteButton = document.getElementById("removeIngredient" + index);
+                    deleteButton.innerHTML = '<td><button title="Remove Ingredient" class ="editRow" onclick="removeIngredient(' + index + ')"><span style="position: relative; bottom: 3px"><img src="/images/delete.png" style="height: 10px; width: 10px;" alt="add"/></span></button></td>';
+
+                    // Remove the previous add button
+                    // (This is to reduce clutter and make it clear that rows can only be added to the END of the table)
+                    const addButton = document.getElementById("addIngredient" + index);
+                    addButton.remove();
+
+                    document.getElementById('ingredientName'+i).value = data.ingredients[i];
+
+                    if (data.quantities[i] != 'null' && data.quantities[i] != undefined) document.getElementById('ingredientQuantity'+ i).value = data.quantities[i];
+
+                }
+
+                $name.value = (data.name);
+                $summary.value =(data.summary);
+                $servingSize.value =(data.serving);
+                $time.value =(data.time);
+                $difficulty.value =(data.difficulty);
+                if (data.kosher == true) $kosher.checked = true;
+                if (data.vegetarian == true) $vegetarian.checked = true;
+                if (data.vegan == true) $vegan.checked = true;
+                $steps.value = (data.steps);
+
+                if(data.recRef == 'null'){
+                    $recipeRef.value = "";
+                }else{
+                    //console.log(data.recRef);
+                    //console.log(data.name);
+                    const linkSearch = new RegExp(`http.*>${data.name[0]}`);
+                    recRef = data.recRef.match(linkSearch);
+                    //console.log(recRef);
+
+                    recRef = recRef[0];
+                    recRef = recRef.substring(0, recRef.length - 2);
+                    
+                    $recipeRef.value = recRef;
+                }
+
+            })
+            .catch(err => console.log(err));
+
+
+}
+
+
 // Keeps a list of the current indexes of the table rows
 var ingredientRows = [0];
 const ingredientTable = document.querySelector('#ingredientTable');
@@ -85,15 +178,6 @@ createRecipe = function() {
         } 
         // Otherwise the ingredient and quantity are added to the array
         else {
-            ingredient = ingredient.trim();
-            ingredient = ingredient.split(" ");
-            console.log(ingredient);
-            for(let i = 0; i<ingredient.length; i++) {
-                ingredient[i] = ingredient[i][0].toUpperCase() + ingredient[i].substring(1);
-            }
-            ingredient = ingredient.join(" ");
-            console.log(ingredient);
-
             ingredients.push(ingredient);
             quantities.push(quantity);
         }
@@ -111,16 +195,6 @@ createRecipe = function() {
             console.log(index);
 
             var ingredient = document.getElementById('ingredientName' + index).value;
-
-            ingredient = ingredient.trim();
-            ingredient = ingredient.split(" ");
-            console.log(ingredient);
-            for(let i = 0; i<ingredient.length; i++) {
-                ingredient[i] = ingredient[i][0].toUpperCase() + ingredient[i].substring(1);
-            }
-            ingredient = ingredient.join(" ");
-            console.log(ingredient);
-
             var quantity = document.getElementById('ingredientQuantity' + index).value;
 
             ingredients.push(ingredient);
@@ -176,12 +250,13 @@ createRecipe = function() {
     // If the details are valid, make a request to the server create the recipe with the given details
     // NOTE - this currently uses a userID of 1 to create every recipe, this will be changed later when we have sorted out cookies
     if(valid == true) {
-        fetch("http://localhost:3000/recipes/create", {
+        fetch("http://localhost:3000/recipes/scramble", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
+                scrambledRef : null,
                 name: name,
                 recRef: reference,
                 vegetarian: vegetarian,
@@ -205,7 +280,7 @@ createRecipe = function() {
                     alert(article.text);
                 } else {
                     alert(article.text);
-                    window.location.replace("http://localhost:3000/recipes/view/" + article.recID.recID);
+                    window.location.replace("http://localhost:3000/recipes/view/" + article.recID);
                 }
             }
         })
@@ -259,6 +334,9 @@ removeIngredient = function(index) {
     console.log(ingredientRows);
 }
 
+
 validate = function() {
-    alert("Filter submitted");
+    alert("Source link worked!");
 }
+
+fetchDetails();

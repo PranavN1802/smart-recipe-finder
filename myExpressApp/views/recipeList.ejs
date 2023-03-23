@@ -86,10 +86,15 @@
               <img src="/images/user_pic.png" alt="contact" style="width: 40px" />
             </a>
           </button>
-          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <div id="accountMenu" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <!-- Buttons inserted from 'accountDropdown.js' -->
+
+            <!--
             <a class="dropdown-item" href="/register">Register</a>
             <a class="dropdown-item" href="/login">Login</a>
+            -->
           </div>
+          <script src="/functions/accountDropdown.js"></script>
         </div>
       </div>
     </nav>
@@ -144,6 +149,8 @@
               <i class="fa fa-caret-down"></i>
             </button>
             <div class="dropdown-container" id="difficulty">
+              <input type="radio" id="difficulty-1" name="Difficulty" value="-1">
+              <label for="difficulty">None</label><br>
               <input type="radio" id="difficulty0" name="Difficulty" value="0">
               <label for="difficulty">Easy</label><br>
               <input type="radio" id="difficulty1" name="Difficulty" value="1">
@@ -157,6 +164,8 @@
               <i class="fa fa-caret-down"></i>
             </button>
             <div class="dropdown-container" id="time">
+              <input type="radio" id="time-1" name="time" value="-1">
+              <label for="time">None</label><br>
               <input type="radio" id="time0" name="time" value="0">
               <label for="time">Less than 5 minutes</label><br>
               <input type="radio" id="time1" name="time" value="1">
@@ -181,10 +190,12 @@
               <label for="time">More than 180 minutes</label>
             </div>
             <!-- Serving size dropdown -->
-            <button class="dropdown-btn">Serving size 
+            <button class="dropdown-btn">Serving Size 
               <i class="fa fa-caret-down"></i>
             </button>
             <div class="dropdown-container" id="serving">
+              <input type="radio" id="serving-1" name="Serving size" value="-1">
+              <label for="serving">None</label><br>
               <input type="radio" id="serving0" name="Serving size" value="0">
               <label for="serving">serves 1</label><br>
               <input type="radio" id="serving1" name="Serving size" value="1">
@@ -209,6 +220,23 @@
               <label for="serving">serves more than 10</label>
             </div>
 
+            <!-- Sort By dropdown -->
+            <button class="dropdown-btn">Sort By 
+              <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dropdown-container" id="sortBy">
+              <input type="radio" id="sortBy-1" name="sortBy" value="-1">
+              <label for="sortBy">None</label><br>
+              <input type="radio" id="sortBy0" name="sortBy" value="0">
+              <label for="sortBy">Upvotes</label><br>
+              <input type="radio" id="sortBy1" name="sortBy" value="1">
+              <label for="sortBy">Serving Size</label><br>
+              <input type="radio" id="sortBy2" name="sortBy" value="2">
+              <label for="sortBy">Time</label><br>
+              <input type="radio" id="sortBy3" name="sortBy" value="3">
+              <label for="sortBy">Difficulty</label><br>
+            </div>
+
             <!-- Filter submit button -->
             <input class="btn" type="submit" name="filter" value="Filter" onclick="filterRecipes()">
           </form>
@@ -219,11 +247,6 @@
     <div id="main" class="main_content">
       <button class="openbtn1" style="margin-top: 5px" onclick="openNav()">
         ☰ Search
-      </button>
-      <button class="create-btn" style="margin-top: 5px;" onclick="create()">
-        <span style="position: relative; bottom: 32.5px">
-          <img src="/images/pen.png" style="width: 25px">
-        </span>  
       </button>
 
       <div id="icons">
@@ -254,69 +277,78 @@
         </div>
         -->
       </div>
+
+      <button class="create-btn" onclick="create()"
+          style="
+            display: flex;
+            margin-right: 20px;
+            position: fixed;
+            bottom: 0px;
+            right: 0px;
+          ">
+        <span style="position: relative; bottom: 5px">
+            <img src="/images/pen.png" style="width: 25px"/>
+        </span>
+      </button>
     </div>
-  
-    
+
   </body>
   <script src="functions/recipeIcons.js"></script>
 
-    <script>
-      /* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
-      var dropdown = document.getElementsByClassName("dropdown-btn");
-      var i;
-      
-      for (i = 0; i < dropdown.length; i++) {
-        dropdown[i].addEventListener("click", function() {
-          this.classList.toggle("active");
-          var dropdownContent = this.nextElementSibling;
-          if (dropdownContent.style.display === "block") {
-            dropdownContent.style.display = "none";
-          } else {
-            dropdownContent.style.display = "block";
-          }
-        });
-      }
-      var options = [];
-      
-      $( '.dropdown-menu a' ).on( 'click', function( event ) {
-      
-         var $target = $( event.currentTarget ),
-             val = $target.attr( 'data-value' ),
-             $inp = $target.find( 'input' ),
-             idx;
-      
-         if ( ( idx = options.indexOf( val ) ) > -1 ) {
-            options.splice( idx, 1 );
-            setTimeout( function() { $inp.prop( 'checked', false ) }, 0);
-         } else {
-            options.push( val );
-            setTimeout( function() { $inp.prop( 'checked', true ) }, 0);
-         }
-      
-         $( event.target ).blur();
-      
-         console.log( options );
-         //return false;
+  <script>
+    /* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
+    var dropdown = document.getElementsByClassName("dropdown-btn");
+    var i;
+    
+    for (i = 0; i < dropdown.length; i++) {
+      dropdown[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        var dropdownContent = this.nextElementSibling;
+        if (dropdownContent.style.display === "block") {
+          dropdownContent.style.display = "none";
+        } else {
+          dropdownContent.style.display = "block";
+        }
       });
+    }
+    var options = [];
+    
+    $( '.dropdown-menu a' ).on( 'click', function( event ) {
+    
+        var $target = $( event.currentTarget ),
+            val = $target.attr( 'data-value' ),
+            $inp = $target.find( 'input' ),
+            idx;
+    
+        if ( ( idx = options.indexOf( val ) ) > -1 ) {
+          options.splice( idx, 1 );
+          setTimeout( function() { $inp.prop( 'checked', false ) }, 0);
+        } else {
+          options.push( val );
+          setTimeout( function() { $inp.prop( 'checked', true ) }, 0);
+        }
+    
+        $( event.target ).blur();
+    
+        console.log( options );
+        //return false;
+    });
 
-      $('input[type="submit"]').click(function(){
-        $('input[type="checkbox"]').each(function(){
-          $(this).prop('checked', false);
-        });
+    $('input[type="submit"]').click(function(){
+      $('input[type="checkbox"]').each(function(){
+        $(this).prop('checked', false);
       });
+    });
 
-      var height = $('.main_content').height()
-      $('.sidenav').height(height)
+    function openNav() {
+      document.getElementById("mySidebar").style.width = "250px";
+      document.getElementById("main").style.marginLeft = "250px";
+    }
 
-      function openNav() {
-        document.getElementById("mySidebar").style.width = "250px";
-        document.getElementById("main").style.marginLeft = "250px";
-      }
-
-      function closeNav() {
-        document.getElementById("mySidebar").style.width = "0";
-        document.getElementById("main").style.marginLeft = "0";
-      }
-    </script>
+    function closeNav() {
+      document.getElementById("mySidebar").style.width = "0";
+      document.getElementById("main").style.marginLeft = "0";
+    }
+  </script>
   </body>
 </html>

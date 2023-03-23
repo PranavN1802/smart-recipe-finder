@@ -260,7 +260,7 @@ app.post('/:userID/createRecipe', async (req, res) => {
             if (recipeFound[0].length===0) {
 
                 // Add the recipe details to the recipes table
-                db.promise().query(`INSERT INTO RECIPES (userID, name, recRef, scrambledRef, vegetarian, vegan, kosher, halal, serving, time, difficulty, reports, steps, summary) VALUES ('${userID}', '${name}', '<a href=${recRef}>${name} reference</a>', NULL, '${vegetarian}', '${vegan}', '${kosher}', '${halal}', '${serving}', '${time}', '${difficulty}', 0, '${steps}', '${summary}')`);
+                db.promise().query(`INSERT INTO RECIPES (userID, name, recRef, scrambledRef, vegetarian, vegan, kosher, halal, serving, time, difficulty, reports, steps, summary, upvotes) VALUES ('${userID}', '${name}', '<a href=${recRef}>${name} reference</a>', NULL, '${vegetarian}', '${vegan}', '${kosher}', '${halal}', '${serving}', '${time}', '${difficulty}', 0, '${steps}', '${summary}', 0)`);
                 console.log('Added recipe details');
 
                 // Add to recipe_ingredient_quantity
@@ -609,7 +609,13 @@ app.post('/:userID/:recID/edit', async (req, res) => {
 app.post("/:userID/recipes/:recID/report", async (req,res) => {
 
     // THEO - CHANGE RECID AND USERID TO BE RETRIEVED FROM REQ.USER AND COOKIE
-    let recID = req.params.recID; // Would come from complete recipe details
+    // let recID = req.params.recID; // Would come from complete recipe details
+    // let userID = req.params.userID;
+
+    const {cookies} = req;
+
+    let recID = cookies.reportedRecID;
+    let userID = req.user.userID;
 
     // Check if user is logged in
     if (req.user) {
@@ -626,8 +632,9 @@ app.post("/:userID/recipes/:recID/report", async (req,res) => {
 
                 // Increment the number of reports by 1
                 db.promise().query(`UPDATE RECIPES SET reports=${reports} + 1 WHERE recID= ${recID}`);
-                console.log('reported');
-                res.status(200).send({msg: "reported"});
+                db.promise().query(`INSERT INTO REPORTS (recID, userID) VALUES (${recID}, ${userID})`);
+                console.log('Reported');
+                res.status(200).send({msg: "Thank you for your report"});
             } else {
                 res.send({msg: 'You may only report a recipe once'});
             }
@@ -644,13 +651,19 @@ app.post("/:userID/recipes/:recID/report", async (req,res) => {
 app.post("/:userID/recipes/:recID/upvote", async (req,res) => {
 
     // THEO - CHANGE RECID AND USERID TO BE RETRIEVED FROM REQ.USER AND COOKIE
-    let recID = req.params.recID;
+    // let recID = req.params.recID;
+    // let userID = req.params.userID;
+
+    const {cookies} = req;
+
+    let recID = cookies.upvotedRecID;
+    let userID = req.user.userID;
 
     // Check if user is logged in
     if (req.user) {
         try{
             // Check if the user has already reported this recipe
-            let result = await db.promise().query(`SELECT recID FROM UPVOTES WHERE userID=${req.user.userID}`);
+            let result = await db.promise().query(`SELECT recID FROM UPVOTES WHERE userID=${userID}`);
             
             if (result[0].length===0) {
                 // Find current upvotes value for the recipe
@@ -661,8 +674,9 @@ app.post("/:userID/recipes/:recID/upvote", async (req,res) => {
 
                 // Increment the number of upvotes by 1
                 db.promise().query(`UPDATE RECIPES SET upvotes=${upvotes} + 1 WHERE recID= ${recID}`);
-                console.log('reported');
-                res.status(200).send({msg: "reported"});
+                db.promise().query(`INSERT INTO UPVOTES (recID, userID) VALUES (${recID}, ${userID})`);
+                console.log('upvoted');
+                res.status(200).send({msg: "Upvoted!"});
             } else {
                 res.send({msg: 'You may only upvote a recipe once'});
             }
@@ -1029,9 +1043,26 @@ app.get('/:userID/recipes/:recID', async (req, res) => {
         
         // Find recipe ingredients
         let ingredients = await db.promise().query(`SELECT name FROM INGREDIENTS WHERE ingID IN (SELECT ingID FROM RECIPE_INGREDIENT_QUANTITY WHERE recID=${recID})`);
+
+        let quantityIDs = await db.promise().query(`SELECT quantityID, ingID FROM RECIPE_INGREDIENT_QUANTITY WHERE recID=${recID}`);
+        quantityIDs = quantityIDs[0].map( elm => elm.quantityID );
+        console.log(quantityIDs);
         
+        let quantities =[];
+        let quantity = "";
+
+        for (z=0; z<quantityIDs.length; z++) {
+            console.log(quantityIDs[z])
+            quantity = await db.promise().query(`SELECT name FROM QUANTITIES WHERE quantityID=${quantityIDs[z]}`);
+            console.log(quantity[0].map( elm => elm.name )[0]);
+            quantities = quantities.concat(quantity[0].map( elm => elm.name )[0]);
+            console.log(quantities);
+        }
+
         // Find recipe quantities
-        let quantities = await db.promise().query(`SELECT name FROM QUANTITIES WHERE quantityID IN (SELECT quantityID FROM RECIPE_INGREDIENT_QUANTITY WHERE recID=${recID})`);
+        // let quantities = await db.promise().query(`SELECT name FROM QUANTITIES WHERE quantityID IN ${quantityIDs}`);
+
+        console.log(quantities);
 
         // Extract recipe details as an array - each recipe value can be separately extracted as with userID
         recipeDetails=recipeDetails[0];
@@ -1064,7 +1095,8 @@ app.get('/:userID/recipes/:recID', async (req, res) => {
         recipeDetails[0].ingredients=ingredients[0].map( elm => elm.name );
         
         // Add quantities to recipe details
-        recipeDetails[0].quantities=quantities[0].map( elm => elm.name );
+        // recipeDetails[0].quantities=quantities[0].map( elm => elm.name );
+        recipeDetails[0].quantities=quantities;
         
         console.log(recipeDetails);
         res.status(200).send(recipeDetails);
@@ -1203,7 +1235,7 @@ app.post('/logIn', async (req, res) => {
 
 
 // ADD DUMMY DATA (RECIPES) TO DATABASE (UNTESTED)
-app.get('/addRecipes', async (req, res) => {
+app.post('/addRecipes', async (req, res) => {
 
     // List of recipes - changed userID to match local db
     // Code will cycle through each recipe and add it to the db
@@ -1433,7 +1465,7 @@ app.get('/addRecipes', async (req, res) => {
             
             // Find recID for recipe (empty array if recipe not present in db)
             recipeFound = await db.promise().query(`SELECT recID FROM RECIPES WHERE name='${name}' AND userID='${userID}'`);
-            console.log(recipeFound);
+            console.log(recipeFound[0]);
 
             // Check if recipe is already in db - prevents users from creating two recipes of the same name
             if (recipeFound[0].length===0) {

@@ -15,7 +15,7 @@ var ingredientRows = [0];
 
 fetchDetails = function(){
 
-    alert("http request made");
+    //alert("http request made");
 
     //console.log(recID)
     //console.log(req.recID);
@@ -26,7 +26,7 @@ fetchDetails = function(){
                 data = data[0];
                 
                 document.getElementById('ingredientName0').value = data.ingredients[0];
-                document.getElementById('ingredientQuantity0').value = data.quantities[0];
+                if (data.quantities[0] != 'null' && data.quantities[0] != undefined) document.getElementById('ingredientQuantity0').value = data.quantities[0];
                 
 
                 for (var i = 1; i < data.ingredients.length; i++){
@@ -46,7 +46,7 @@ fetchDetails = function(){
                     // Add a delete button to the previous row
                     // (This is to prevent the user deleting the only row with an add button)
                     const deleteButton = document.getElementById("removeIngredient" + index);
-                    deleteButton.innerHTML = '<td><button title="Remove Ingredient" class ="editRow" onclick="removeIngredient(' + index + ')"><span style="position: relative; bottom: 3px"><img src="/images/pot.png" style="height: 10px; width: 10px;" alt="add"/></span></button></td>';
+                    deleteButton.innerHTML = '<td><button title="Remove Ingredient" class ="editRow" onclick="removeIngredient(' + index + ')"><span style="position: relative; bottom: 3px"><img src="/images/delete.png" style="height: 10px; width: 10px;" alt="add"/></span></button></td>';
 
                     // Remove the previous add button
                     // (This is to reduce clutter and make it clear that rows can only be added to the END of the table)
@@ -55,8 +55,7 @@ fetchDetails = function(){
 
                     document.getElementById('ingredientName'+i).value = data.ingredients[i];
 
-                    if (data.quantities == 'null'){document.getElementById('ingredientQuantity'+ i).value = "";
-                    }else{document.getElementById('ingredientQuantity'+ i).value = data.quantities[i];}
+                    if (data.quantities[i] != 'null' && data.quantities[i] != undefined) document.getElementById('ingredientQuantity'+ i).value = data.quantities[i];
 
                 }
 
@@ -69,7 +68,21 @@ fetchDetails = function(){
                 if (data.vegetarian == true) $vegetarian.checked = true;
                 if (data.vegan == true) $vegan.checked = true;
                 $steps.value = (data.steps);
-                if(data.recRef == 'null'){$recipeRef.value = "";}else{$recipeRef.value = data.recRef;}
+
+                if(data.recRef == 'null'){
+                    $recipeRef.value = "";
+                }else{
+                    //console.log(data.recRef);
+                    //console.log(data.name);
+                    const linkSearch = new RegExp(`http.*>${data.name[0]}`);
+                    recRef = data.recRef.match(linkSearch);
+                    //console.log(recRef);
+
+                    recRef = recRef[0];
+                    recRef = recRef.substring(0, recRef.length - 2);
+                    
+                    $recipeRef.value = recRef;
+                }
 
             })
             .catch(err => console.log(err));
@@ -94,10 +107,10 @@ createRecipe = function() {
 
     // Checks name against regular expression
     const name = document.getElementById('name').value;
-    const nameCheck = /^.{6,150}$/;
+    const nameCheck = /^(?!.*').{3,150}$/;
     if(nameCheck.test(name) == false) {
         valid = false;
-        $nameResult.text('Name must be between 6 to 150 characters!');
+        $nameResult.text('Name must be between 3 to 150 characters and cannot include (\')!');
         $nameResult.css('color', 'red');
     } else {
         $nameResult.text('Name is valid');
@@ -106,10 +119,10 @@ createRecipe = function() {
 
     // Checks summary against reqular expression
     const summary = document.getElementById('summary').value;
-    const summaryCheck = /^.{6,255}$/;
+    const summaryCheck = /^(?!.*').{6,255}$/;
     if(summaryCheck.test(summary) == false) {
         valid = false;
-        $summaryResult.text('Summary must be between 6 to 255 characters!');
+        $summaryResult.text('Summary must be between 6 to 255 characters and cannot include (\')!');
         $summaryResult.css('color', 'red');
     } else {
         $summaryResult.text('Summary is valid');
@@ -134,8 +147,8 @@ createRecipe = function() {
     var nullIndex = [];
     var ingredients = [];
     var quantities = [];
-    const ingredientCheck = /^.{1,50}$/;
-    const quantityCheck = /^.{0,20}$/;
+    const ingredientCheck = /^(?!.*').{1,50}$/;
+    const quantityCheck = /^(?!.*').{0,20}$/;
 
     // Iterates through the row indexes, checking the ingredients and quantities for each entry
     for(var i=0; i < ingredientRows.length; i++) {
@@ -148,12 +161,12 @@ createRecipe = function() {
         // Checks the values using regular expressions, if there is an error the loop breaks (no further checks needed)
         if(ingredientCheck.test(ingredient) == false) {
             valid = false;
-            $ingredientsResult.text('All ingredient names must be between 1-50 characters!');
+            $ingredientsResult.text('All ingredient names must be between 1-50 characters and cannot include (\')!');
             $ingredientsResult.css('color', 'red');
             break;
         } else if(quantityCheck.test(quantity) == false) {
             valid = false;
-            $ingredientsResult.text('All quantities must be between 0-20 characters!');
+            $ingredientsResult.text('All quantities must be between 0-20 characters and cannot include (\')!');
             $ingredientsResult.css('color', 'red');
             break;
         }
@@ -191,10 +204,10 @@ createRecipe = function() {
 
     // Checks steps against reqular expression
     const steps = document.getElementById('steps').value;
-    const stepsCheck = /^.{50,16777215}$/;
+    const stepsCheck = /^(?!.*')(.|\s){50,16777215}$/;
     if(stepsCheck.test(steps) == false) {
         valid = false;
-        $stepsResult.text('Steps must be between 50 to 16,777,215 characters!');
+        $stepsResult.text('Steps must be between 50 to 16,777,215 characters and cannot include (\')!');
         $stepsResult.css('color', 'red');
     } else {
         $stepsResult.text('Summary is valid');
@@ -267,7 +280,7 @@ createRecipe = function() {
                     alert(article.text);
                 } else {
                     alert(article.text);
-                    window.location.replace("http://localhost:3000/recipes/view/" + article.recID.recID);
+                    window.location.replace("http://localhost:3000/recipes/view/" + article.recID);
                 }
             }
         })
@@ -296,7 +309,7 @@ addIngredient = function(index) {
     // Add a delete button to the previous row
     // (This is to prevent the user deleting the only row with an add button)
     const deleteButton = document.getElementById("removeIngredient" + index);
-    deleteButton.innerHTML = '<td><button title="Remove Ingredient" class ="editRow" onclick="removeIngredient(' + index + ')"><span style="position: relative; bottom: 3px"><img src="/images/pot.png" style="height: 10px; width: 10px;" alt="add"/></span></button></td>';
+    deleteButton.innerHTML = '<td><button title="Remove Ingredient" class ="editRow" onclick="removeIngredient(' + index + ')"><span style="position: relative; bottom: 3px"><img src="/images/delete.png" style="height: 10px; width: 10px;" alt="add"/></span></button></td>';
 
     // Remove the previous add button
     // (This is to reduce clutter and make it clear that rows can only be added to the END of the table)
@@ -325,7 +338,5 @@ removeIngredient = function(index) {
 validate = function() {
     alert("Source link worked!");
 }
-
-validate();
 
 fetchDetails();

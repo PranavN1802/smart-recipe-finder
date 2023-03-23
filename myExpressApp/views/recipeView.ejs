@@ -86,16 +86,22 @@
               <img src="/images/user_pic.png" alt="contact" style="width: 40px" />
             </a>
           </button>
-          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <div id="accountMenu" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <!-- Buttons inserted from 'accountDropdown.js' -->
+
+            <!--
             <a class="dropdown-item" href="/register">Register</a>
             <a class="dropdown-item" href="/login">Login</a>
+            -->
           </div>
+          <script src="/functions/accountDropdown.js"></script>
         </div>
       </div>
     </nav>
 
     <script src="/functions/recipeDetails.js"></script>
     <div data-internalid="1"></div>
+
 
     <div class="jumbotron bg-transparent" style="margin-bottom: 0">
       <div class="content_container">
@@ -138,21 +144,25 @@
         <pre id="steps"></pre>
         <br>
 
+        <p id="upvotes"><b>Upvotes: </b></p>
+        <br>
+
         <p id="recRef"></p>
         <p id="scrambledRef"></p>
       </div>
       <div class="container">
         <div class="recipeViewPageButtons">
           <button style="padding-top: 32px">
-            <span style="position: relative; bottom: 15px">Report</span>
+            <span style="position: relative; bottom: 15px" onclick="report()">Report</span>
           </button>
           <button style="padding-top: 32px">
-            <span style="position: relative; bottom: 15px">Upvote</span>
+            <span style="position: relative; bottom: 15px" onclick="upvote()">Upvote</span>
           </button>
           <button
             title="Scramble!"
             id="scramble_button"
             style="border-radius: 50%"
+            onclick="scrambleRedirect(); return false"
           >
             <span style="position: relative; bottom: 3px"
               ><img src="/images/scramble.png" alt="Scramble!"
@@ -182,6 +192,7 @@
         </div>
       </div>
     </div>
+
     <footer class="footer">
       <div class="container-fluid">
         <div class="row" style="justify-content: space-around">
@@ -196,6 +207,9 @@
               </li>
               <li>
                 <a href="/suggest">Any suggestions?</a>
+              </li>
+              <li>
+                <a href="/references">References</a>
               </li>
             </ul>
           </div>

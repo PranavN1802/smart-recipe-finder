@@ -1,236 +1,255 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=devide-width, initial-scale=1.0" />
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=devide-width, initial-scale=1" />
-        <meta name="description" content="" />
-        <link rel="shortcut icon" href="pot.ico.png" type="image/x-icon" />
-        <title>Create Recipe | BUBBLE & SQUEAK</title>
-        <link
-            rel="stylesheet"
-            href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
-        />
-        <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
-        <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css.font-awesome.min.css"
-        /> 
-        <link
-            rel="stylesheet"
-            type="text/css"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
-        />
-        <link rel="preconnect" href="https://font.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=devide-width, initial-scale=1.0" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=devide-width, initial-scale=1" />
+    <meta name="description" content="" />
+    <link rel="shortcut icon" href="pot.ico.png" type="image/x-icon" />
+    <title>Create Recipe | BUBBLE & SQUEAK</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css.font-awesome.min.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+    />
+    <link rel="preconnect" href="https://font.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-        <link
-            href="https://fonts.googleapis.com/css2?family=Slabo+27px%26display=swap"
-            rel="stylesheet"
+    <link
+      href="https://fonts.googleapis.com/css2?family=Slabo+27px%26display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Slabo+27px%26display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" type="text/css" href="recipeView.css" />
+  </head>
+
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-custom">
+      <!-- Brand/logo -->
+      <a class="navbar-brand" href="index.html">
+        <img
+          class="img-fluid"
+          src="logo.png"
+          alt="B&S logo"
+          style="width: 200px; margin-left: -20px"
         />
+      </a>
+      <button
+        class="menu_button navbar-toggler ms-auto custom-toggler button1"
+        type="button"
+        data-toggle="collapse"
+        data-target="#collapsibleNavbar"
+      >
+        <span class="navbar-toggler-icon"
+          ><i class="material-icons">menu</i></span
+        >
+      </button>
 
-        <link
-            href="https://fonts.googleapis.com/css2?family=Slabo+27px%26display=swap"
-            rel="stylesheet"
-        />
-        
-        <link rel="stylesheet" type="text/css" href="recipeView.css" />
+      <div class="collapse navbar-collapse" id="collapsibleNavbar">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="About_page">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="Recipes_page">Recipes</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="Ethics_page">Ethics</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="Suggestion_page">Suggest</a>
+          </li>
+        </ul>
 
-    </head>
-
-    <body>
-        <nav class="navbar navbar-expand-lg navbar-custom">
-            <!-- Brand/logo -->
+        <div class="dropdown">
+          <button
+            class="btn dropdown-toggle drop-down_list"
+            type="button"
+            id="dropdownMenuButton"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
             <a class="navbar-brand" href="index.html">
-                <img
-                    class="img-fluid"
-                    src="logo.png"
-                    alt="B&S logo"
-                    style="width: 200px; margin-left: -20px;"
-                />
+              <img src="user_pic.png" alt="contact" style="width: 40px" />
             </a>
-            <button 
-                class="menu_button navbar-toggler ms-auto custom-toggler button1"
-                type="button"
-                data-toggle="collapse"
-                data-target="#collapsibleNavbar"
-            >
-                <span class="navbar-toggler-icon"
-                ><i class="material-icons">menu</i></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="collapsibleNavbar">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="About_page">About</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="Recipes_page">Recipes</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="Ethics_page">Ethics</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="Suggestion_page">Suggest</a>
-                    </li>
-                </ul>
-
-                <div class="dropdown">
-                    <button 
-                        class="btn dropdown-toggle drop-down_list"
-                        type="button"
-                        id="dropdownMenuButton"
-                        data-toggle="dropdown"
-                        aria-haspopup="true"
-                        aria-expanded="false"
-                    >
-                    
-                        <a class="navbar-brand" href="index.html">
-                            <img src="user_pic.png" alt="contact" style="width: 40px" />
-                        </a>
-
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="Register_page">Sign in</a>
-                        <a class="dropdown-item" href="Register_page">Sign Up</a>
-                        <a class="dropdown-item" href="Register_page">Log out</a>
-                        
-                    </div>
-                </div>
-
-            </div>
-        </nav>
-
-        <div class="textareas">
-            <div class="form-group">
-                <label for="recipeName">Recipe Name:</label>
-                <br>
-                <input type="text" class="form-control" id="userEmail" placeholder="We don't like mystery">
-            </div>
-
-            <div class="form-group">
-                <label for="recipeInstructions">Recipe Instructions</label>
-                <br>
-                <textarea class="form-control" rows="5" placeholder="Write your recipe here"></textarea>
-            </div>
-
-            
-
-            <div class="form-group">
-                <label for="servingSize">Serving size:</label>
-                <select name="Serving Size" id="servingSize">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6+">6+</option>
-
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="time">Time:</label>
-                <select name="time" id="time">
-                    <option value="-10">Less than 10 mins</option>
-                    <option value="20">10-20 mins</option>
-                    <option value="30">20-30 mins</option>
-                    <option value="40">30-40 mins</option>
-                    <option value="50">40-50mins</option>
-                    <option value="60+">More than 60 mins</option>
-
-                </select>
-            </div>
-
-            <div class="form-group">
-                <table class="table" id="IngredientTable">
-                    <tr>
-                        <th>Ingredient</th>
-                        <th>Quantity</th>
-                    
-                    </tr>
-                </table>
-                <br>
-
-                <br>
-
-                <form>
-                    <div class="input-group">
-                        <label for="ingredientName" id="ingredientNameLabel">Ingredient:</label>
-                        <label for="ingredientQuantity" id="ingredientQuantityLabel">Quantity:</label>
-
-                    </div>
-                    <div class="input-group">
-                        <input type="text" class="form-control" id="ingredientQuantity" placeholder="Name of Ingredients">
-                        <input type="text" class="form-control" id="ingredientName" placeholder="Quantity of Ingredients">
-                        <div class="recipeViewPageButtons">
-                            <button title="Add Ingredient" id="addIngredient" style="border-radius: 50%">
-                                <span style="position: relative; bottom: 3px" 
-                                    ><img src="plus.png" alt="addIngredient"/>
-                                </span>
-                            </button>
-                        </div>
-
-                    </div>
-                </form>
-            </div>
-
-            <div class="recipeViewPageButtons">
-                <button title="Enter" id="Enter_button" style="border-radius: 50%">
-                    <span style="position: relative; bottom: 3px" 
-                        ><img src="enter.png" alt="Enter"/>
-                    </span>
-                </button>
-            </div>
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" href="Register_page">Sign in</a>
+            <a class="dropdown-item" href="Register_page">Sign Up</a>
+            <a class="dropdown-item" href="Register_page">Log out</a>
+          </div>
         </div>
-        
-        <footer class="footer">
-            <div class="container-fluid">
-                <div class="row" style="justify-content: space-around">
-                    <div class="footer-col">
-                        <h4>Get help</h4>
-                        <ul>
-                            <li>
-                                <a href="aboutPage">How your data is handled?</a>
-                            </li>
-                            <li>
-                                <a href="aboutPage">Wondering what's on our website</a>
-                            </li>
-                            <li>
-                                <a href="aboutPage">Any suggestions?</a>
-                            </li>
-                        </ul>
+      </div>
+    </nav>
 
-                    </div>
-                    <div class="footer-col">
-                        <h4>Contact Us</h4>
-                        <ul>
-                            <li>
-                                <a href="mailto:ug-compsci@manchester.ac.uk"
-                                >bubble_and_squeak@hotmail.com</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="footer-col">
-                        <h4>Connect with us</h4>
-                        <div class="social-links">
-                            <a href="https://www.facebook.com/computersciencemcr/">
-                                <i class="fab fa-facebook-f"></i>
-                            </a>
-                            <a href="https://twitter.com/.csmcr">
-                                <i class="fab fa-twitter-f"></i>
-                            </a>
-                            <a href="https://www.instagram.com/uomcompsci/">
-                                <i class="fab fa-instagram"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
+    <div class="textareas">
+      <div class="form-group">
+        <label for="recipeName">Recipe Name:</label>
+        <br />
+        <input
+          type="text"
+          class="form-control"
+          id="userEmail"
+          placeholder="We don't like mystery"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="recipeInstructions">Recipe Instructions</label>
+        <br />
+        <textarea
+          class="form-control"
+          rows="5"
+          placeholder="Write your recipe here"
+        ></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="servingSize">Serving size:</label>
+        <select name="Serving Size" id="servingSize">
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6+">6+</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="time">Time:</label>
+        <select name="time" id="time">
+          <option value="-10">Less than 10 mins</option>
+          <option value="20">10-20 mins</option>
+          <option value="30">20-30 mins</option>
+          <option value="40">30-40 mins</option>
+          <option value="50">40-50mins</option>
+          <option value="60+">More than 60 mins</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <table class="table" id="IngredientTable">
+          <tr>
+            <th>Ingredient</th>
+            <th>Quantity</th>
+          </tr>
+        </table>
+        <br />
+
+        <br />
+
+        <form>
+          <div class="input-group">
+            <label for="ingredientName" id="ingredientNameLabel"
+              >Ingredient:</label
+            >
+            <label for="ingredientQuantity" id="ingredientQuantityLabel"
+              >Quantity:</label
+            >
+          </div>
+          <div class="input-group">
+            <input
+              type="text"
+              class="form-control"
+              id="ingredientQuantity"
+              placeholder="Name of Ingredients"
+            />
+            <input
+              type="text"
+              class="form-control"
+              id="ingredientName"
+              placeholder="Quantity of Ingredients"
+            />
+            <div class="recipeViewPageButtons">
+              <button
+                title="Add Ingredient"
+                id="addIngredient"
+                style="border-radius: 50%"
+              >
+                <span style="position: relative; bottom: 3px"
+                  ><img src="plus.png" alt="addIngredient" />
+                </span>
+              </button>
             </div>
-        </footer>
-    </body>
+          </div>
+        </form>
+      </div>
+
+      <div class="recipeViewPageButtons">
+        <button title="Enter" id="Enter_button" style="border-radius: 50%">
+          <span style="position: relative; bottom: 3px"
+            ><img src="enter.png" alt="Enter" />
+          </span>
+        </button>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <div class="container-fluid">
+        <div class="row" style="justify-content: space-around">
+          <div class="footer-col">
+            <h4>Get help</h4>
+            <ul>
+              <li>
+                <a href="aboutPage">How your data is handled?</a>
+              </li>
+              <li>
+                <a href="aboutPage">Wondering what's on our website</a>
+              </li>
+              <li>
+                <a href="aboutPage">Any suggestions?</a>
+              </li>
+              <li>
+                <a href="ReferencesPage">References</a>
+              </li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Contact Us</h4>
+            <ul>
+              <li>
+                <a href="mailto:ug-compsci@manchester.ac.uk"
+                  >bubble_and_squeak@hotmail.com</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Connect with us</h4>
+            <div class="social-links">
+              <a href="https://www.facebook.com/computersciencemcr/">
+                <i class="fab fa-facebook-f"></i>
+              </a>
+              <a href="https://twitter.com/.csmcr">
+                <i class="fab fa-twitter-f"></i>
+              </a>
+              <a href="https://www.instagram.com/uomcompsci/">
+                <i class="fab fa-instagram"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
 </html>

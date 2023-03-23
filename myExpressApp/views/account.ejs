@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -35,7 +34,27 @@
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet"
     />
-    <link rel="stylesheet" type="text/css" href="/stylesheets/template.css" />
+    <link rel="stylesheet" type="text/css" href="/stylesheets/account_page.css" />
+    <style>
+      input[type="submit"] {
+        padding: 15 30 15 30;
+        margin-left: 65px;
+        margin-top: 20px;
+        color: #ffffff;
+        background: #ec8e22;
+        border: 1px solid #ec8e22;
+        transition: all 200ms ease-in-out;
+        border-radius: 50px;
+        box-shadow: 0px 3px 3px #c6c3cd;
+      }
+
+      input[type="submit"].btn:hover {
+        cursor: pointer;
+        background: #ffffff;
+        color: #ec8e22;
+        border: 1px solid #ec8e22;
+      }
+    </style>
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-custom">
@@ -67,7 +86,7 @@
             <a class="nav-link" href="/recipes">Recipes</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="ETHICS">Ethics</a>
+            <a class="nav-link" href="Ethics_page">Ethics</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/suggest">Suggest</a>
@@ -98,32 +117,96 @@
         </div>
       </div>
     </nav>
-    <!-- <button>Report</button>
-    <button>Upvote</button>
-    <button>Report</button>
-    <button>Report</button> -->
-    <div class="textareas">
-      <br>
-      <h3 class="font-weight-normal">Report any of your concerns on this page</h3>
-      <br>
-      <form>
-        <!--The class form group splits the different sections up-->
-        <div class="form-group">
-          <label for="userEmail">Email</label>
-          <br>
-          <input type="text" class="form-control" id="userEmail" placeholder="Enter your email">
+
+    <div class="content" style="padding-left: 20px; padding-top: 20px; padding-right: 20px;">
+      <div id="main" class="main_content">
+        <div class="container" style="margin-left: 0; margin-right: 0; padding-left: 0">
+          <h3 id="username">Welcome, </h3>
+
+          <p id="email"></p>
+
+          <button class="btn btn-info btn-lg" style="height: 60px; margin-top: 10px; margin-bottom: 20px" onclick="changePassword();">
+            <span class="glyphicon glyphicon-log-out"></span> Change password
+          </button>
+
+          <br />
+          <a href="/users/logout" class="btn btn-info btn-lg"
+            style="
+              height: 60px;
+              margin-bottom: 20px;
+              padding-left: 60px;
+              padding-right: 60px;
+            "
+          >
+            <span class="glyphicon glyphicon-log-out"></span> Log out
+          </a>
+
         </div>
-        
-        <div class="form-group">
-            <label for="suggestion">Suggestion:</label>
-            <br>
-            <textarea class="form-control" rows="3" id="suggestion" placeholder="Enter your suggestion"></textarea>
+        <br>
+
+        <h3 style="display: inline-block">Your Recipes:</h3>
+        <br>
+        <!------------Recipe 1------------>
+        <div id="icons">
+          <!--
+          <div class="flex-container">
+            <img class="recipe_picture" src="/images/random_food.png" alt="plate" />
+            <p id="rcorners1">
+              <a style="color: black" href="http://localhost:3000/recipes/view/' + article.recID + '" target="_blank"><b>article.name</b></a> - Creamy and nutritious, vegan mushroom stroganoff made with blended cashews.
+              <br>
+
+              <span id="rcorners2" style="display: inline-block">
+                <img class="detail_icon" src="/images/icons/serving-dish.png" alt="serving dish"/>
+                <b>4</b>
+              </span>
+
+              <span id="rcorners2" style="display: inline-block">
+                <img class="detail_icon" src="/images/icons/clock.png" alt="clock" />
+                <b>40-50min</b>
+              </span>
+            </p>
+            <div class="chosen_options_from_sidebar" style="margin-left: auto;" >
+              <img class="recipe_icon" src="/images/icons/easy.png" alt="easy" >
+              <img class="recipe_icon" src="/images/icons/vegetarian.png" alt="vegetarian" />
+              <img class="recipe_icon" src="/images/icons/vegan.png" alt="vegan" />
+              <img class="recipe_icon" src="/images/icons/kosher.png" alt="kosher" />
+
+              <div style="display: flex; margin-left: 5px">
+                <div class="recipe_edit_and_delete_btns">
+                    <button class="edit-btn" title="Edit recipe" onclick="editRecipe(71); return false;">
+                      <span id="edit_and_delete_buttons_style" style="position: relative; bottom: 5px">
+                        <img src="/images/editing.png" style="width: 25px; margin-top: -9px"/>
+                      </span>
+                    </button>
+                  <button class="delete-btn" title="Delete recipe" onclick="deleteRecipe(72); return false;">
+                    <span style="position: relative; bottom: 5px">
+                      <img src="/images/delete.png" style="width: 25px; margin-top: -8px"/>
+                    </span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          -->
         </div>
-        
-        <button type="submit" class="btn btn-primary">Submit</button>
-      </form>
+
+        <!-- Create Recipe -->
+        <button title="Create recipe" class="create-btn" style="padding: 0 17 0 17; margin-left: 0" onclick="create()">
+          <span style="position: relative; bottom: 5px">
+            <img src="/images/pen.png" style="width: 25px"/>
+          </span>
+        </button>
+
+        <!-- Delete Account -->
+        <button class="delete_account_btn" style="margin-top: 100; margin-left: 0;">
+          <span style="position: relative; bottom: 5px">
+            <img src="/images/delete.png" style="width: 25px" />
+          </span>Delete account
+        </button>
+      </div>
     </div>
-    
+
+    <script src="/functions/accountDetails.js"></script>
 
     <footer class="footer">
       <div class="container-fluid">
@@ -159,13 +242,13 @@
             <h4>Connect with us</h4>
             <div class="social-links">
               <a href="https://www.facebook.com/computersciencemcr/"
-                ><i class="fab fa-facebook-f"></i
+                ><i class="fab fa-facebook-f" style="margin-top: 10px;"></i
               ></a>
               <a href="https://twitter.com/csmcr/"
-                ><i class="fab fa-twitter"></i
+                ><i class="fab fa-twitter" style="margin-top: 10px;"></i
               ></a>
               <a href="https://www.instagram.com/uomcompsci/"
-                ><i class="fab fa-instagram"></i
+                ><i class="fab fa-instagram" style="margin-top: 10px;"></i
               ></a>
             </div>
           </div>

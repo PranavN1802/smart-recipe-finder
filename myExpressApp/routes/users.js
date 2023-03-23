@@ -12,6 +12,14 @@ router.get('/', async(req, res, next) => {
     return res.redirect('/register');
 });
 
+router.get('/checklogin', async(req, res, next) => {
+    if(req.user) {
+        res.status(200).send({login: true});
+    } else {
+        res.status(200).send({login: false});
+    }
+})
+
 
 // NEW VERSION OF LOGIN FOR SESSIONS AND PASSPORT
 
@@ -34,6 +42,26 @@ router.post('/login', passport.authenticate('local'), (req, res) => {
 });
 
 // END OF NEW VERSION
+
+router.get('/logout', function (req, res, next) {
+    console.log('logout');
+    
+    if (req.user) {
+        req.logOut(function(err) {
+            if (err) {
+                return next(err);
+            }
+            res.status(200).clearCookie('connect.sid', {
+                path: '/'
+            });
+            req.session.destroy(function(err) {
+                return res.redirect('/');
+            });
+        });
+    } else {
+        return res.redirect('/login');
+    }
+});
 
 
 // OLD VERSION OF LOGIN
@@ -132,6 +160,71 @@ router.post('/register', async(req, res, next) => {
                 console.log(err);
             }
         }
+    }
+});
+
+router.get('/account', async(req, res, next) => {
+    if (req.user) {
+        res.render('account', { title: 'Account | Bubble\'N\'Sqeak' });
+    } else {
+        return res.redirect('/login');
+    }
+});
+
+router.get('/account/fetch', async (req, res) => {
+    if (req.user) {
+        let userID = req.user.userID;
+
+        try {
+            // Find username for the userID
+            let details = await db.promise().query(`SELECT email, username FROM USERS WHERE userID=${userID}`);
+            console.log(details[0]);
+            
+            // Find summary recipe details with userID - included recID - wouldn't be displayed but can be used to fetch complete recipe details
+            let recipes = await db.promise().query(`SELECT recID, name, vegetarian, vegan, kosher, halal, serving, time, difficulty, summary FROM RECIPES WHERE userID='${userID}'`);
+            
+            // Extract recipe details as an array - each recipe record is a separate array item - each recipe value can be separately extracted as with userID
+            recipes=recipes[0];
+            console.log(recipes);
+            details[0].push(recipes);
+                
+            res.status(200).send(details[0]);
+        } catch (err) {
+            console.log(err);
+        }
+    } else {
+        return res.redirect('/login');
+    }
+});
+
+router.post('/changePassword', async (req,res) => {
+    if(req.user) {
+        let userID = req.user.userID;
+        let {email, password, newPassword} = req.body;
+
+        try{
+
+            // Find the email and password for this user
+            let details = await db.promise().query(`SELECT email, password FROM USERS WHERE userID=${userID}`);
+            let userEmail = details[0].map(elm => elm.email)[0];
+            let userPassword= details[0].map(elm => elm.password)[0];
+
+            // If the email and password entered are correct, change the password
+            if (email == userEmail && password == userPassword){
+                db.promise().query(`UPDATE USERS SET password='${newPassword}' WHERE userID=${userID}`);
+                console.log('password changed');
+                res.status(200).send({error: false, text: "Password changed"});
+            }
+            else{
+                res.status(500).send({error: true, text: 'Incorrect password or email'});
+            }
+
+        }
+        catch(err){
+            console.log(err);
+        }
+    } else {
+        return res.redirect('/login');
     }
 });
 
