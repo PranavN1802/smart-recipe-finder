@@ -22,4 +22,8 @@ router.get('/account', function(req, res, next) {
   return res.redirect('/users/account');
 });
 
+router.get('/references', function(req, res, next) {
+  res.render('references', { title: 'References | Bubble\'N\'Sqeak' })
+})
+
 module.exports = router;

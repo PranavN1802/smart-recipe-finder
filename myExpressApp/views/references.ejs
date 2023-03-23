@@ -35,7 +35,7 @@
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet"
     />
-    <link rel="stylesheet" type="text/css" href="/stylesheets/template.css" />
+    <link rel="stylesheet" type="text/css" href="/stylesheets/recipeView.css" />
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-custom">
@@ -55,7 +55,8 @@
         data-target="#collapsibleNavbar"
       >
         <span class="navbar-toggler-icon"
-          ><i class="material-icons">menu</i></span>
+          ><i class="material-icons">menu</i></span
+        >
       </button>
       <div class="collapse navbar-collapse" id="collapsibleNavbar">
         <ul class="navbar-nav">
@@ -66,7 +67,7 @@
             <a class="nav-link" href="/recipes">Recipes</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="ETHICS">Ethics</a>
+            <a class="nav-link" href="/ethics">Ethics</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/suggest">Suggest</a>
@@ -81,7 +82,7 @@
             aria-haspopup="true"
             aria-expanded="false"
           >
-            <a class="navbar-brand" href="index.html">
+            <a class="navbar-brand" href="/">
               <img src="/images/user_pic.png" alt="contact" style="width: 40px" />
             </a>
           </button>
@@ -97,44 +98,83 @@
         </div>
       </div>
     </nav>
-    <div class="textareas">
-      <form>
-        <!--username max 20 characters-->
-        <!--The class form group splits the different sections up-->
-        <div class="form-group">
-          <label for="userName">Username:</label>
-          <br>
-          <input type="text" class="form-control" id="userName" placeholder="Enter your name">
-          <label for="userName" id="nameResult"><small>Between 6 to 20 characters</small></label>
-        </div>
 
-        <div class="form-group">
-          <label for="userEmail">Email:</label>
-          <br>
-          <input type="text" class="form-control" id="userEmail" placeholder="Enter your email">
-          <label id="emailResult"></label>
-        </div>
+    <div class="jumbotron bg-transparent" style="margin-bottom: 0">
+      <h1>References</h1>
 
-        <!-- password should be at least 8 characters, include capital, symbol and number -->
-        <div class="form-group">
-          <label for="userPassword">Password:</label>
-          <br>
-          <input type="password" class="form-control" id="userPassword" placeholder="Enter your password"></textarea>
-          <label for="userEmail" id="passwordResult"><small>Make sure you include at least 8 characters, including a capital, a symbol and a number</small></label>
-        </div>
-        <!-- passwords must match -->
-        <div class="form-group">
-          <label for="userRepeatPassword">Repeat Password:</label>
-          <br>
-          <input type="password" class="form-control" id="userRepeatPassword" placeholder="Enter your password again"></textarea>
-          <label id="passwordRepeatResult"></label>
-        </div>
+      <br />
 
-        <button type="submit" class="btn btn-primary" id="registerButton" onclick="registerCheck();return false">Sign Up</button>
-      </form>
+      <a
+        href="https://www.flaticon.com/free-icons/backward"
+        title="backward icons"
+        >Backward icons created by Syahrul Hidayatullah - Flaticon</a
+      >
+
+      <br />
+
+      <a href="https://www.flaticon.com/free-icons/edit" title="edit icons"
+        >Edit icons created by Kiranshastry - Flaticon</a
+      >
+
+      <br />
+
+      <a
+        href="https://www.flaticon.com/free-icons/contact"
+        title="contact icons"
+        >Contact icons created by raanpooo - Flaticon</a
+      >
+
+      <br />
+
+      <a href="https://www.flaticon.com/free-icons/cook" title="cook icons"
+        >Cook icons created by Freepik - Flaticon</a
+      >
+
+      <br />
+
+      <a href="https://www.flaticon.com/free-icons/delete" title="delete icons"
+        >Delete icons created by Freepik - Flaticon</a
+      >
+
+      <br />
+      <a
+        href="https://www.flaticon.com/free-icons/hamburger"
+        title="hamburger icons"
+        >Hamburger icons created by feen - Flaticon</a
+      >
+
+      <br />
+
+      <a
+        href="[https://www.flaticon.com/free-icons/plate](https://www.flaticon.com/free-icons/plate)"
+        title="plate icons"
+        >Plate icons created by AmethystDesign - Flaticon</a
+      >
+
+      <br />
+
+      <a href="https://www.flaticon.com/free-icons/clock" title="clock icons"
+        >Clock icons created by CreativeCons - Flaticon</a
+      >
+
+      <br />
+
+      <a
+        href="[https://www.flaticon.com/free-icons/pencil](https://www.flaticon.com/free-icons/pencil)"
+        title="pencil icons"
+        >Pencil icons created by Icongeek26 - Flaticon</a
+      >
+
+      <br />
+
+      <a
+        href="[https://www.flaticon.com/free-icons/miscellaneous](https://www.flaticon.com/free-icons/miscellaneous)"
+        title="miscellaneous icons"
+        >Miscellaneous icons created by Designing Hub - Flaticon</a
+      >
+
+      <br />
     </div>
-
-    <script src="functions/register.js"></script>
 
     <footer class="footer">
       <div class="container-fluid">

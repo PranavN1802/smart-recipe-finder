@@ -246,6 +246,19 @@ ul {
   color: #ec8e22;
   background-color: #ffffff;
 }
+/*responsive screen view*/
+@media (max-width: 767px) {
+  .footer-col {
+    width: 50%;
+    margin-bottom: 30px;
+  }
+}
+
+@media (max-width: 574px) {
+  .footer-col {
+    width: 100%;
+  }
+}
 
 .textareas{
   padding-top: 2.5%;
@@ -279,20 +292,6 @@ table {
   left: 0px;
   border-radius: 50%;
   vertical-align: middle;
-}
-
-/*responsive screen view*/
-@media (max-width: 767px) {
-  .footer-col {
-    width: 50%;
-    margin-bottom: 30px;
-  }
-}
-
-@media (max-width: 574px) {
-  .footer-col {
-    width: 100%;
-  }
 }
 
 @media screen and (max-width: 574px) {

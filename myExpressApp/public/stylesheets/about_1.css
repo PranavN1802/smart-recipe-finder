@@ -222,7 +222,7 @@ ul {
 .footer {
   background-color: #ec8e22;
   padding: 70px 0;
-  margin-top: 266.5px;
+  margin: 0 auto;
 }
 .footer-col {
   width: 25%;
@@ -279,13 +279,14 @@ ul {
   color: #ec8e22;
   background-color: #ffffff;
 }
-/*responsive*/
+/*responsive screen view*/
 @media (max-width: 767px) {
   .footer-col {
     width: 50%;
     margin-bottom: 30px;
   }
 }
+
 @media (max-width: 574px) {
   .footer-col {
     width: 100%;
