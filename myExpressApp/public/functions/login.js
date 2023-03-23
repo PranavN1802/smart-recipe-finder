@@ -42,10 +42,11 @@ loginCheck = function() {
         })
         .then((response) => response.json())
         .then(data => {
-            // Show alert with database response
-            alert(data.text);
             if (data.valid) {
                 window.location.replace("http://localhost:3000/account");
+            } else {
+                // Show alert with database response
+                alert(data.text);
             }
         })
         .catch(err => console.log(err));
