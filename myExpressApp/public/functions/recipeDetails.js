@@ -10,6 +10,7 @@ fetchDetails = function() {
     const time = document.querySelector('#time');
     const ingredients = document.querySelector('#ingredients');
     const $steps = $('#steps');
+    const upvotes = document.querySelector('#upvotes');
     
 
     console.log(recID);
@@ -53,6 +54,7 @@ fetchDetails = function() {
                     stepText = '';
 
                     $steps.text(data.steps);
+                    upvotes.insertAdjacentHTML("beforeend", data.upvotes);
                 }
             })
             .catch(err => console.log(err));
@@ -79,7 +81,7 @@ function scrambleRedirect(){
 }
 
 report = function(){
-    console.log('upvote function');
+    console.log('report function');
 
     fetch('http://localhost:3000/recipes/' + recID + '/report', { method: "POST" })
             .then(response => response.json())
@@ -98,6 +100,7 @@ upvote = function(){
             .then(data => {
                 message = data.msg;
                 alert(message);
+                window.location.reload();
             })
             .catch(err => console.log(err));
 }
