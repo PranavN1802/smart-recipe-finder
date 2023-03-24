@@ -3,12 +3,12 @@ var router = express.Router();
 
 const db = require('./database');
 
+// FOR HASHING
+const bcrypt = require('bcryptjs');
+
 
 // FOR SESSIONS AND PASSPORT
 const passport = require('passport');
-
-// FOR HASHING
-const bcrypt = require('bcryptjs');
 
 
 router.get('/', async(req, res, next) => {
@@ -148,14 +148,11 @@ router.post('/register', async(req, res, next) => {
                     res.status(500).send({text: "Username taken"});
                     console.log("Username taken");
                 }
-                else {
-                    // FOR HASHING
-                    const passwordHash = bcrypt.hash(password, 10);
-                    // Only create user if the email and username are unique
-                    // db.promise().query(`INSERT INTO USERS (email, username, password) VALUES ('${email}','${username}', '${password}')`);
-                    
+                else {   
                     // FOR HASHING: Version insert using passwordHash
-                    db.promise().query(`INSERT INTO USERS (email, username, password) VALUES ('${email}','${username}', '${passwordHash}')`);
+                    const hashedPassword = await bcrypt.hash(password, 10);
+                    console.log(hashedPassword)
+                    db.promise().query(`INSERT INTO USERS (email, username, password) VALUES ('${email}','${username}', '${hashedPassword}')`);
 
                     // // For password recovery
                     // db.promise().query(`INSERT INTO USERS (email, username, password, question, answer) VALUES ('${email}','${username}', '${password}', ${question}, '${answer}')`);
@@ -225,25 +222,24 @@ router.post('/changePassword', async (req,res) => {
         let {email, password, newPassword} = req.body;
 
         try{
-            // FOR HASHING: hash old password for authentication comparison
-            const oldPasswordHash = bcrypt.hash(password, 10);
-
-            // FOR HASHING: hash new password for secure storage
-            const newPasswordHash = bcrypt.hash(password, 10);
-
             // Find the email and password for this user
             let details = await db.promise().query(`SELECT email, password FROM USERS WHERE userID=${userID}`);
             let userEmail = details[0].map(elm => elm.email)[0];
             let userPassword= details[0].map(elm => elm.password)[0];
 
+            // FOR HASHING: compare old password to db
+            const isValid = await bcrypt.compare(password, userPassword);
+
             // If the email and password entered are correct, change the password
             // if (email == userEmail && password == userPassword){
-            // FOR HASHING: new authentication
-            if (email == userEmail && oldPasswordHash == userPassword){
-                // db.promise().query(`UPDATE USERS SET password='${newPassword}' WHERE userID=${userID}`);
+            // FOR HASHING
+            if (email == userEmail && isValid){
+                db.promise().query(`UPDATE USERS SET password='${newPassword}' WHERE userID=${userID}`);
                 
-                // FOR HASHING: new insert statement with hashed password
+                // FOR HASHING: hash new password and insert it
+                const newPasswordHash = await bcrypt.hash(newPassword, 10);
                 db.promise().query(`UPDATE USERS SET password='${newPasswordHash}' WHERE userID=${userID}`);
+                
                 console.log('password changed');
                 res.status(200).send({error: false, text: "Password changed"});
             }

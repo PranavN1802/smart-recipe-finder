@@ -3,7 +3,7 @@ const passport = require('passport');
 const db = require('../routes/database');
 
 // FOR HASHING
-// const bcrypt = require('bcryptjs');
+const bcrypt = require('bcryptjs');
 
 // Two functions responsible for serialising and deserialising the user into a session
 // when request made, there is no info but the cookie
@@ -78,18 +78,18 @@ passport.use(new LocalStrategy({
                 if (emails.includes(email)) {
                     console.log('Email exists');
 
-                    
-                    // FOR HASHING: hash old password for authentication comparison
-                    // passwordHash = bcrypt.hash(password, 10);
-                    // console.log(passwordHash);
-
-
-
                     // Find password for email
                     var dbPassword = await db.promise().query(`SELECT password FROM USERS WHERE email='${email}'`);
-                
+                    dbPassword = dbPassword[0].map( elm => elm.password )[0];
+                    console.log(dbPassword);
+
+                    // FOR HASHING
+                    const isValid = await bcrypt.compare(password, dbPassword);
+                    console.log(isValid);
+
                     // Check if the password is correct
-                    if (dbPassword[0].map( elm => elm.password )[0] === password) {
+                    // if (dbPassword[0].map( elm => elm.password )[0] === password) {
+                    if (isValid) {
                         console.log('Passwords match');
 
                         var result = await db.promise().query(`SELECT userID, username FROM USERS WHERE email='${email}'`);
@@ -112,6 +112,7 @@ passport.use(new LocalStrategy({
                 }  
             }
         } catch(err) {
+            console.log('Error');
             done(err, false); // Pass in error; user not authenticated
         }
     }
