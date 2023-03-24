@@ -10,6 +10,10 @@ router.get('/register', function(req, res, next) {
   res.render('register', { title: 'Register | Bubble\'N\'Sqeak' });
 });
 
+router.get('/ethics', function(req, res, next) {
+  res.render('ethics', { title: 'Ethics | Bubble\'N\'Sqeak' })
+})
+
 router.get('/suggest', function(req, res, next) {
   res.render('suggestPage', { title: 'Suggest | Bubble\'N\'Sqeak' });
 });

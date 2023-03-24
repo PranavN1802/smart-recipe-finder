@@ -86,7 +86,7 @@
             <a class="nav-link" href="/recipes">Recipes</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="Ethics_page">Ethics</a>
+            <a class="nav-link" href="/ethics">Ethics</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/suggest">Suggest</a>
@@ -125,9 +125,45 @@
 
           <p id="email"></p>
 
-          <button class="btn btn-info btn-lg" style="height: 60px; margin-top: 10px; margin-bottom: 20px" onclick="changePassword();">
-            <span class="glyphicon glyphicon-log-out"></span> Change password
-          </button>
+          <div class="btn-group">
+            <button
+              style="
+                height: 60px;
+                padding-left: 20px;
+                padding-right: 20px;
+                text-align: center;
+              "
+              id="Change_Password"
+              class="btn dropdown-toggle"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              <span style="position: relative; bottom: 20px">
+                Change password
+              </span>
+            </button>
+
+            <div class="dropdown-menu" style="width: 380px !important; border-radius: 5%">
+              <form class="px-4 py-3" id="changePasswordForm">
+                <div class="form-group">
+                  <label for="Old_pw">Old Password</label>
+                  <input id="oldPassword" type="password" class="form-control" placeholder="Type here..."/>
+                </div>
+                <div class="form-group">
+                  <label for="New_pw">New Password</label>
+                  <input id="newPassword" type="password" class="form-control" placeholder="Type here..."/>
+                  <label for="New_pw" id="passwordResult"></label>
+                </div>
+                <div class="form-group">
+                  <label for="Confirm_pw">Confirm Password</label>
+                  <input id="reEnter" type="password" class="form-control" placeholder="Type here..."/>
+                  <label for="Confirm_pw" id="passwordRepeatResult"></label>
+                </div>
+                <button class="Confirm-btn" onclick="changePassword(); return false;" onsubmit="return false;">Submit</button>
+              </form>
+            </div>
+          </div>
 
           <br />
           <a href="/users/logout" class="btn btn-info btn-lg"

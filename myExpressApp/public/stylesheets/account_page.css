@@ -447,6 +447,14 @@ div.chosen_options_from_sidebar {
   color: #ec8e22;
   background-color: #ffffff;
 }
+
+.textareas {
+  padding-top: 2.5%;
+  padding-bottom: 2.5%;
+  padding-left: 5%;
+  padding-right: 5%;
+}
+
 /*responsive screen view*/
 @media (max-width: 767px) {
   .footer-col {
