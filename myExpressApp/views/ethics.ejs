@@ -1,3 +1,4 @@
+<!-- ethics page-->
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -35,9 +36,9 @@
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet"
     />
-    <link rel="stylesheet" type="text/css" href="/stylesheets/recipeView.css" />
+    <link rel="stylesheet" type="text/css" href="/stylesheets/template.css" />
   </head>
-  <body data-internalid="1">
+  <body>
     <nav class="navbar navbar-expand-lg navbar-custom">
       <!-- Brand/logo -->
       <a class="navbar-brand" href="/">
@@ -99,98 +100,42 @@
       </div>
     </nav>
 
-    <script src="/functions/recipeDetails.js"></script>
-    <div data-internalid="1"></div>
+    <div class="textareas" style="border: 5px dotted #ec8e22">
+      <h5 style="padding-top: 2%">
+        <u>Ethical guidelines of 'Bubble 'n' Squeak'</u>
+      </h5>
+      <h5 style="padding-top: 1%">Our Responsibilities</h5>
+      <ul>
+        <li>
+          - You can report each recipe to send an alert to the moderator for
+          review
+        </li>
+      </ul>
 
+      <h5>Your Responsibilities</h5>
+      <ul>
+        <li>
+          - Remember your work will be in the <i>public domain</i> so you cannot
+          copyright it or claim ownership, like how Wikipedia works
+        </li>
+        <li>
+          - You are responsible for assuring your recipes are well-referenced or
+          your own property - it is not the website's responsibility. We have
+          attached a text box in which you can attach references.
+        </li>
+        <li>- Make sure you use an actual email</li>
+      </ul>
 
-    <div class="jumbotron bg-transparent" style="margin-bottom: 0">
-      <div class="content_container">
-        <!--
-        <img
-          class="recipe_image"
-          src="/images/img1.png"
-          alt="Recipe image"
-          style="width: 400px; display: block; margin-left: auto; float: right"
-        />
-        -->
-        <div class="icons" id="dietary">
-          
-        </div>
-
-        <h3 id="recipeName"></h3>
-        <p id="summary"></p>
-
-        <div class="icons">
-          <p>
-            <span class="rcorners2" id="serving">
-              <img class="detail_icon"src="/images/icons/serving-dish.png" alt="serving dish">
-            </span>
-            <span class="rcorners2" id="time">
-              <img class="detail_icon"src="/images/icons/clock.png" alt="clock"></img>
-            </span>
-          </p>
-        </div>
-
-        <p id="author">Created by </p>
-        <br>
-
-        <h3>Ingredients:</h3>
-        <ul id="ingredients">
-            
-        </ul>
-        <br>
-
-        <h3>Steps:</h3>
-        <pre id="steps"></pre>
-        <br>
-
-        <p id="upvotes"><b>Upvotes: </b></p>
-        <br>
-
-        <p id="recRef"></p>
-        <p id="scrambledRef"></p>
-      </div>
-      <div class="container">
-        <div class="recipeViewPageButtons">
-          <button style="padding-top: 32px">
-            <span style="position: relative; bottom: 15px" onclick="report()">Report</span>
-          </button>
-          <button style="padding-top: 32px">
-            <span style="position: relative; bottom: 15px" onclick="upvote()">Upvote</span>
-          </button>
-          <button
-            title="Scramble!"
-            id="scramble_button"
-            style="border-radius: 50%"
-            onclick="scrambleRedirect(); return false"
+      <p style="float: bottom; text-align: center">
+        <small
+          >We use BCS,
+          <a
+            href="https://www.bcs.org/membership-and-registrations/become-a-member/bcs-code-of-conduct"
+            >British Code of Conduct,</a
           >
-            <span style="position: relative; bottom: 3px"
-              ><img src="/images/scramble.png" alt="Scramble!"
-            /></span>
-          </button>
-
-        <!--
-          <button title="Enter" id="Enter_Button" style="border-radius: 50%">
-            <span style="position: relative; bottom: 3px"
-              ><img src="/images/enter.png" alt="Enter"
-            /></span>
-          </button>
-        -->
-
-        <!--
-          <button
-            id="back_button"
-            style="border-radius: 50%; padding-top: 5px"
-            title="Back"
-          >
-            <span style="position: relative; bottom: 5px"
-              ><img src="/images/left_arrow.png" alt="back" title="Back"
-            /></span>
-          </button>
-        -->
-
-        </div>
-      </div>
+          as our ethical framework.</small
+        >
+      </p>
     </div>
 
     <footer class="footer">
