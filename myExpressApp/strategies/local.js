@@ -2,6 +2,9 @@ const LocalStrategy = require('passport-local');
 const passport = require('passport');
 const db = require('../routes/database');
 
+// FOR HASHING
+// const bcrypt = require('bcryptjs');
+
 // Two functions responsible for serialising and deserialising the user into a session
 // when request made, there is no info but the cookie
 // takes cookie and checks to see which user cookie belongs to
@@ -74,6 +77,14 @@ passport.use(new LocalStrategy({
                 // Check entered email is in db
                 if (emails.includes(email)) {
                     console.log('Email exists');
+
+                    
+                    // FOR HASHING: hash old password for authentication comparison
+                    // passwordHash = bcrypt.hash(password, 10);
+                    // console.log(passwordHash);
+
+
+
                     // Find password for email
                     var dbPassword = await db.promise().query(`SELECT password FROM USERS WHERE email='${email}'`);
                 
