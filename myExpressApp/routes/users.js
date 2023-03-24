@@ -3,7 +3,7 @@ var router = express.Router();
 
 const db = require('./database');
 
-// FOR HASHING
+// FOR HASHING 
 const bcrypt = require('bcryptjs');
 
 
@@ -149,7 +149,7 @@ router.post('/register', async(req, res, next) => {
                     console.log("Username taken");
                 }
                 else {   
-                    // FOR HASHING: Version insert using passwordHash
+                    // FOR HASHING: Version insert using passwordHash 
                     const hashedPassword = await bcrypt.hash(password, 10);
                     console.log(hashedPassword)
                     db.promise().query(`INSERT INTO USERS (email, username, password) VALUES ('${email}','${username}', '${hashedPassword}')`);
@@ -234,7 +234,7 @@ router.post('/changePassword', async (req,res) => {
             // if (email == userEmail && password == userPassword){
             // FOR HASHING
             if (email == userEmail && isValid){
-                db.promise().query(`UPDATE USERS SET password='${newPassword}' WHERE userID=${userID}`);
+                // db.promise().query(`UPDATE USERS SET password='${newPassword}' WHERE userID=${userID}`);
                 
                 // FOR HASHING: hash new password and insert it
                 const newPasswordHash = await bcrypt.hash(newPassword, 10);

@@ -89,6 +89,7 @@ passport.use(new LocalStrategy({
 
                     // Check if the password is correct
                     // if (dbPassword[0].map( elm => elm.password )[0] === password) {
+                    // FOR HASHING
                     if (isValid) {
                         console.log('Passwords match');
 
