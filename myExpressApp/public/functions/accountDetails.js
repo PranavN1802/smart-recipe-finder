@@ -3,6 +3,21 @@ const dietary = ['vegetarian', 'vegan', 'kosher'];
 const times = ['<5min', '5-10min', '10-20min', '20-30min', '30-40min', '40-50min', '50-60min', '60-90min', '90-120min', '120-180min', '>180min'];
 const servings = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '>10'];
 
+const $passwordResult = $('#passwordResult');
+const $passwordRepeatResult = $('#passwordRepeatResult');
+
+// Stops automatic page refresh on password change submission
+var form = document.getElementById("changePasswordForm");
+function handleForm(event) { event.preventDefault(); } 
+form.addEventListener('submit', handleForm);
+
+
+$('div.dropdown-menu').on('click', function(event){
+    // The event won't be propagated up to the document NODE and 
+    // therefore delegated events won't be fired
+    event.stopPropagation();
+});
+
 var userEmail;
 
 fetchDetails = function() { 
@@ -138,41 +153,52 @@ create = function() {
 }
 
 changePassword = function() {
-    if(confirm("Are you sure you want to change your password?")) {
-        oldPassword = prompt("Please enter your old password:");
+    var valid = true;
 
-        newPassword = prompt("Please enter your new password:");
-        const passwordCheck = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[A-Z])[a-zA-Z0-9!@#$%^&*]{8,50}$/;
-        if(passwordCheck.test(newPassword) == false) {
-            alert("Password must be between 8 to 50 characters include at least one capital, symbol (!@#$%^&*) and number!");
-        } else {
+    var oldPassword = document.getElementById("oldPassword").value;
 
-            reEnter = prompt("Please reenter your new password:");
-            if(newPassword == reEnter) {
+    // Checks if password is of the required format
+    var newPassword = document.getElementById("newPassword").value;
+    const passwordCheck = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[A-Z])[a-zA-Z0-9!@#$%^&*]{8,50}$/;
+    if(passwordCheck.test(newPassword) == false) {
+        valid = false;
+        $passwordResult.text('Password must be between 8 to 50 characters include at least one capital, symbol (!@#$%^&*) and number!');
+        $passwordResult.css('color', 'red');
+    } else {
+        $passwordResult.text('Password is valid');
+        $passwordResult.css('color', 'green');
+    }
 
-                fetch('http://localhost:3000/users/changePassword', {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        email: userEmail,
-                        password: oldPassword,
-                        newPassword: newPassword
-                    })}
-                    )
-                    .then(response => response.json())
-                    .then(data => {
-                        message = data.text;
-                        alert(message);
-                        window.location.reload();
-                    })
-                    .catch(err => console.log(err));
+    // Checks if passwords match
+    var passwordRepeat = document.getElementById("reEnter").value;
+    if(newPassword != passwordRepeat) {
+        valid = false;
+        $passwordRepeatResult.text('Passwords must match!');
+        $passwordRepeatResult.css('color', 'red');
+    } else {
+        $passwordRepeatResult.text('Passwords match');
+        $passwordRepeatResult.css('color', 'green');
+    }
 
-            } else {
-                alert("Your new passwords did not match!");
-            }
-        }
+    if(valid == true) {
+        fetch('http://localhost:3000/users/changePassword', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                email: userEmail,
+                password: oldPassword,
+                newPassword: newPassword
+            })}
+            )
+            .then(response => response.json())
+            .then(data => {
+                message = data.text;
+                alert(message);
+                if(data.error == false) window.location.reload();
+            })
+            .catch(err => console.log(err));
     }
 }
 
