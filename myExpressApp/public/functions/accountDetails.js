@@ -193,7 +193,7 @@ changePassword = function() {
             })}
             )
             .then(response => response.json())
-            .then(data => {
+            .then(data => { 
                 message = data.text;
                 alert(message);
                 if(data.error == false) window.location.reload();

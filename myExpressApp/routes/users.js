@@ -244,7 +244,7 @@ router.post('/changePassword', async (req,res) => {
                 res.status(200).send({error: false, text: "Password changed"});
             }
             else{
-                res.status(500).send({error: true, text: 'Incorrect password or email'});
+                res.status(500).send({error: true, text: 'Incorrect password'});
             }
 
         }
