@@ -150,6 +150,11 @@ router.post('/search', async(req, res, next) => {
             //console.log(recIDs);
         }
 
+        if(recIDs.length<=0) {
+            alert = true;
+            alertText += "No recipes were found with the required ingredients and allergies!";
+        }
+
         // Creates potential alert 
         if (alert) {
             alertJSON = ({
