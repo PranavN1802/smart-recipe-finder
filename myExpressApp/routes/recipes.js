@@ -926,7 +926,7 @@ router.post('/delete/:recID', async (req, res) => {
 });
 
 
-// CHANGE UPVOTES
+// CHANGE REPORTS
 router.post("/:recID/report", async (req,res) => {
 
     // THEO - CHANGE RECID AND USERID TO BE RETRIEVED FROM REQ.USER AND COOKIE
@@ -994,11 +994,26 @@ router.post("/:recID/upvote", async (req,res) => {
 
                 // Increment the number of upvotes by 1
                 db.promise().query(`UPDATE RECIPES SET upvotes=${upvotes} + 1 WHERE recID= ${recID}`);
+
+                // Add to upvotes table
                 db.promise().query(`INSERT INTO UPVOTES (recID, userID) VALUES (${recID}, ${userID})`);
                 console.log('upvoted');
                 res.status(200).send({msg: "Upvoted!"});
             } else {
-                res.status(500).send({msg: 'You may only upvote a recipe once'});
+                // Find current upvotes value for the recipe
+                let upvotes = await db.promise().query(`SELECT upvotes FROM RECIPES WHERE recID=${recID}`);
+                
+                // Extract upvotes value form array
+                upvotes = upvotes[0].map( elm => elm.upvotes )[0];
+
+                // Decrement the number of upvotes by 1
+                db.promise().query(`UPDATE RECIPES SET upvotes=${upvotes} - 1 WHERE recID= ${recID}`);
+
+                // Remove from upvotes table
+                db.promise().query(`DELETE FROM UPVOTES WHERE recID=${recID} AND userID=${userID}`);
+
+                console.log('upvote removed');
+                res.status(200).send({msg: "Upvote removed!"});
             }
         }
         catch (err){
